@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head_title %}Login page{% endblock %}
+
+{% block load_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{% endblock %}
+
+{% block content %}
+<div class="main">
+  <p class="sign" align="center">Sign in</p>
+    <form class="form1" method="POST" id="add_form" action="{% url 'loginpage' %}">{% csrf_token %}
+      <input class="un " type="text" align="center" name="username" required="required">
+      <input class="pass" type="password" align="center" name="password" required="required">
+      <button type="submit" class="submit" align="center"> Sign in </button>
+      <p class="forgot" align="center"><a href="#">Forgot Password?</p>
+</div>
+
+ {% endblock %}

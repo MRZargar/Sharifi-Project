@@ -1,0 +1,42 @@
+{% load static %}<!doctype html>
+<html lang="en"> <!-- if you want to persain lang="fa" and add dir="rtl" -->
+
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css" integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block load_css %}
+    {% endblock %}
+
+  </head>
+  <body>
+    <ul class="topnav">
+      <li><a class="active" href="#home">Home</a></li>
+      <li><a href="#news">Test1</a></li>
+      <li><a href="#contact">Test2</a></li>
+      {% block login_logout %}
+      {% endblock %}
+    </ul>
+      <div class="container">
+          <div class="row">
+              <div class="col-3 mx-auto">
+                <h1>{{title}}</h1>
+                {% block content %}
+                {% endblock %}
+              </div>
+          </div>
+      </div>
+      {% block text %}
+      {% endblock %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js" integrity="sha384-a9xOd0rz8w0J8zqj1qJic7GPFfyMfoiuDjC9rqXlVOcGO/dmRqzMn34gZYDTel8k" crossorigin="anonymous"></script>
+  </body>
+</html>

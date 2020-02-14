@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head_title %}Home page{% endblock %}
+{% block load_css %}
+{% endblock %}
+
+{% block content %}
+
+{{title}}
+<p>1</p>
+{{request.user}}
+<p>2</p>
+{{request.path}}
+<p>3</p>
+{{user}}
+<p>4</p>
+{{user.is_authenticated}}
+<p>5</p>
+ {% endblock %}
