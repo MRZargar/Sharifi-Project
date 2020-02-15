@@ -23,23 +23,9 @@ def profile(request):
     if request.session.has_key('username'):
         posts = request.session['username']
         query = User.objects.filter(username=posts)
-        return render(request, 'homePage.html', {"query":query})
+        return render(request, 'profile.html', {"query":query})
     else:
         return render(request, 'login.html', {})
-
-
-def loginpage(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            return render(request, 'profile.html', {"username" : username})
-        else:
-            return render(request, 'login2.html', {})
-    else:
-        return render(request, 'login.html', {})
-
 
 def logout(request):
     try:
@@ -47,3 +33,16 @@ def logout(request):
     except:
         pass
     return render(request, 'logout.html', {})
+
+def loginpage(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            request.session['username'] = username
+            return redirect("profile")
+        else:
+            return render(request, 'login2.html', {})
+    else:
+        return render(request, 'login.html', {})
