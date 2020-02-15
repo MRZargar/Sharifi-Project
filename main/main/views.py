@@ -34,11 +34,12 @@ def loginpage(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            return render(request, 'homePage.html', {})
+            return render(request, 'profile.html', {"username" : username})
         else:
             return render(request, 'login2.html', {})
     else:
         return render(request, 'login.html', {})
+
 
 def logout(request):
     try:

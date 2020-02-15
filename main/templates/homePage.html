@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-
+{% csrf_token %}
 {{title}}
 <p>1</p>
 {{request.user}}

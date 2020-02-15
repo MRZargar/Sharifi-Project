@@ -12,8 +12,8 @@
 <div class="main">
   <p class="sign" align="center">Sign in</p>
     <form class="form1" method="POST" id="add_form" action="{% url 'loginpage' %}">{% csrf_token %}
-      <input class="un " type="text" align="center" name="username" required="required">
-      <input class="pass" type="password" align="center" name="password" required="required">
+      <input class="un" type="text" align="center" name="username" required="required" placeholder="Username" >
+      <input class="pass" type="password" align="center" name="password" required="required" placeholder="Password" >
         <p class="wrongsign" align="center">Wrong username or password</p>
       <button type="submit" class="submit" align="center"> Sign in </button>
       <p class="forgot" align="center"><a href="#">Forgot Password?</p>

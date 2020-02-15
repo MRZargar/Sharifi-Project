@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_title %}User Profile{% endblock %}
+
+{% block load_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+{% block text %}
+<div class='a'>
+<h1>Profile Page </h1><a href="{% url 'logout' %}">Logout</a>
+  {% for post in query %}
+          <h2>Welcome <span style="color: #F46404;">{{ post.username}} </h2>
+           <p>Email id: {{ user.email}} </p>
+           <p>First Name: {{ user.first_name}} </p>
+           <p>Last Name: {{ user.last_name}} </p>
+  {% endfor %}
+{% endblock %}
