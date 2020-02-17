@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+import os
 
 def home_page(request):
     homePage_title = ""
@@ -46,3 +47,13 @@ def loginpage(request):
             return render(request, 'login2.html', {})
     else:
         return render(request, 'login.html', {})
+
+def plot_page(request):
+    from .Functions import simplePlot
+    filename = 'plot_test.html'
+    cwd = os.getcwd()
+    script, div = simplePlot.plot_data(filename, cwd)
+    #print(script)
+    #print('-------------------------')
+    #print(div)
+    return render(request, 'base.html', dict(script=script, div=div))

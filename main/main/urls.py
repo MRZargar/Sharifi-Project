@@ -20,6 +20,7 @@ from .views import(
     loginpage,
     logout,
     profile,
+    plot_page,
 )
 urlpatterns = [
     path('', home_page),
@@ -27,4 +28,5 @@ urlpatterns = [
     path('signin/', loginpage, name='loginpage'),
     path('profile/', profile, name='profile'),
     path('logout/', logout, name='logout'),
+    path('plot/', plot_page, name='plot_page'),
 ]
