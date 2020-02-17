@@ -1,41 +1,4 @@
-# import enum
 import psycopg2
-
-# class ColumnType(enum.Enum):
-#     SERIAL = "SERIAL"
-#     INT = "INTEGER"
-#     DOUBLE = "DOUBLE PRECISION"
-#     VARCHAR50 = "VARCHAR(50)"
-#     VARCHAR100 = "VARCHAR(100)"
-
-#     def __str__(self):
-#         return self.value
-
-# class Property(enum.Enum):
-#     PRIMARY_KEY = "PRIMARY KEY"
-#     NOT_NULL = "NOT NULL"
-
-#     def __str__(self):
-#         return self.value
-
-# class Operator(enum.Enum):
-#     EQUAL = "="
-#     GREATER_THAN_OR_EQUAL = ">="
-#     GREATER_THAN = ">"
-#     LESS_THAN_OR_EQUAL = "<="
-#     LESS_THAN = "<"
-#     NOT_EQUAL = "<>"
-#     LIKE = "LIKE"
-#     AND = "AND"
-#     OR = "OR"
-#     BETWEEN = "BETWEEN"
-#     IS_NULL = "IS NULL"
-#     IS_NOT_NULL = "IS NOT NULL"
-#     IN = "IN"
-
-#     def __str__(self):
-#         return self.value
-
 
 class pgDB:
     def __init__(self, host, database, user, password):
@@ -99,44 +62,3 @@ class pgDB:
         finally:
             self.__disconnect()
             return rows
-
-    # def createTable(self, name, *columnsName):
-    #     sql = "CREATE TABLE " + name + "("
-    #     for column in columnsName:
-    #         for item in column:
-    #             sql = sql + str(item) + " "
-    #         sql = sql + ", "
-    #     sql = sql[:-2] + ")"
-
-    #     self.setQuery(sql)
-
-    # def insert(self, tableName, **columnsName_columnsValue):
-    #     sql = "INSERT INTO " + tableName + "("
-        
-    #     for name, value in columnsName_columnsValue.items():
-    #         sql = sql + str(name) + ", "
-
-    #     sql = sql[:-2] + ") VALUES ("
-        
-    #     for name, value in columnsName_columnsValue.items():
-    #         if type(value) == type(""):
-    #             sql = sql + '\'' + str(value) + "\', "
-    #         else:
-    #             sql = sql + str(value) + ", "
-        
-    #     sql = sql[:-2] + ")"
-
-    #     self.setQuery(sql)
-
-
-# ------------------------------------------------------------------------------------------------
-
-# DB = pgDB("localhost", "test", "zargar", "Z@rgar76")
-
-# DB.createTable("pythnTable", ("id", ColumnType.INT, Property.PRIMARY_KEY),
-#                              ("name", ColumnType.VARCHAR50, Property.NOT_NULL), 
-#                              ("alaki", ColumnType.DOUBLE))
-
-# DB.insert("pythnTable", id = 1, name = "zargar", alaki = 132543541.12435454)
-
-# print(DB.getQuery("select * from pythntable"))
