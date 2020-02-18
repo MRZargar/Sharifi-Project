@@ -3,7 +3,9 @@
 {% block head_title %}Home page{% endblock %}
 {% block load_css %}
 {% endblock %}
-
+{% block login_logout %}
+<li class="right"><a href="{% url 'signpage' %}">Sign in</a></li>
+{% endblock %}
 {% block content %}
 {% csrf_token %}
 {{title}}

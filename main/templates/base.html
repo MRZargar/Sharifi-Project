@@ -17,9 +17,7 @@
   </head>
   <body>
     <ul class="topnav">
-      <li><a class="active" href="#home">Home</a></li>
-      <li><a href="#news">Test1</a></li>
-      <li><a href="#contact">Test2</a></li>
+      <li><a class="active" href="{% url 'home_page' %}">Home</a></li>
       {% block login_logout %}
       {% endblock %}
     </ul>

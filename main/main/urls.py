@@ -17,16 +17,16 @@ from django.contrib import admin
 from django.urls import path
 from .views import(
     home_page,
-    loginpage,
-    logout,
+    signpage,
+    signout,
     profile,
     plot_page,
 )
 urlpatterns = [
-    path('', home_page),
+    path('', home_page, name='home_page'),
     path('admin/', admin.site.urls),
-    path('signin/', loginpage, name='loginpage'),
+    path('signin/', signpage, name='signpage'),
     path('profile/', profile, name='profile'),
-    path('logout/', logout, name='logout'),
+    path('signout/', signout, name='signout'),
     path('plot/', plot_page, name='plot_page'),
 ]

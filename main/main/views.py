@@ -26,16 +26,16 @@ def profile(request):
         query = User.objects.filter(username=posts)
         return render(request, 'profile.html', {"query":query})
     else:
-        return render(request, 'login.html', {})
+        return render(request, 'signin.html', {})
 
-def logout(request):
+def signout(request):
     try:
         del request.session['username']
     except:
         pass
-    return render(request, 'logout.html', {})
+    return render(request, 'signout.html', {})
 
-def loginpage(request):
+def signpage(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -44,9 +44,9 @@ def loginpage(request):
             request.session['username'] = username
             return redirect("profile")
         else:
-            return render(request, 'login2.html', {})
+            return render(request, 'signout.html', {})
     else:
-        return render(request, 'login.html', {})
+        return render(request, 'signin.html', {})
 
 def plot_page(request):
     from .Functions import simplePlot
