@@ -53,7 +53,4 @@ def plot_page(request):
     filename = 'plot_test.html'
     cwd = os.getcwd()
     script, div = simplePlot.plot_data(filename, cwd)
-    #print(script)
-    #print('-------------------------')
-    #print(div)
-    return render(request, 'base.html', dict(script=script, div=div))
+    return render(request, 'plot.html', dict(script=script, div=div))

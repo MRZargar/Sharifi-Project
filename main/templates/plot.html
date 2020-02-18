@@ -1,15 +1,23 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head_title %}Login page{% endblock %}
+{% block head_title %}Plot page{% endblock %}
 
 {% block load_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.css" rel="stylesheet" type="text/css">
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.0.4.min.css" rel="stylesheet" type="text/css">
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.js"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.0.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.4.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.4.0.min.js"></script>
+    <script type="text/javascript">
+        Bokeh.set_log_level("info");
+    </script>
+    {{ script | safe }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 {% endblock %}
 
 {% block content %}
-<iframe src="plot_test.html" width="600" height="600" align='center'>
-</iframe>
-
- {% endblock %}
+    {{div | safe}}
+{% endblock %}
