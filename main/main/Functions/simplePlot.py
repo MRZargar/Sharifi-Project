@@ -29,7 +29,7 @@ def plot_data(filename, cwd):
     text_start = TextInput(value="", title="Start:", width=100)
     text_end = TextInput(value="", title="End:", width=100)
 
-    p = figure(title="a_x", plot_width=width, plot_height=height)
+    p = figure(title="a_x", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
     l1 = p.line(x='x', y='y1', source=source, legend="a_x", line_color="red")
     l2 = p.line(x='x', y='y2', source=source, legend="a_y", line_color="blue")
     l3 = p.line(x='x', y='y3', source=source, legend="a_z", line_color="green")
