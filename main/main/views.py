@@ -5,7 +5,7 @@ import os
 
 def home_page(request):
     homePage_title = ""
-    return render(request, "homePage.html", {'title':homePage_title})
+    return render(request, "Home.html", {'title':homePage_title})
 
 '''
 def loginpage(request):
@@ -44,7 +44,7 @@ def signpage(request):
             request.session['username'] = username
             return redirect("profile")
         else:
-            return render(request, 'signout.html', {})
+            return render(request, 'signin2.html', {})
     else:
         return render(request, 'signin.html', {})
 
