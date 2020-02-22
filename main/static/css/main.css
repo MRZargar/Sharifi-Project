@@ -31,6 +31,7 @@ font-size: 23px;
 }
 
 .un {
+
 width: 76%;
 color: rgb(38, 50, 56);
 font-weight: 700;
@@ -47,6 +48,9 @@ margin-right: 50px;
 text-align: center;
 margin-bottom: 27px;
 font-family: 'Ubuntu', sans-serif;
+float: right;
+clear: both;
+
 }
 
 form.form1 {
@@ -70,6 +74,8 @@ margin-right: 50px;
 text-align: center;
 margin-bottom: 27px;
 font-family: 'Ubuntu', sans-serif;
+float: right;
+clear: both;
 }
 
 
@@ -92,15 +98,20 @@ font-family: 'Ubuntu', sans-serif;
 margin-right: 140px;
 font-size: 13px;
 box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+float: right;
+clear: both;
 }
 .wrongsign {
 color: #D82424;
+padding-top: 1px;
+clear: both;
 }
 
 .forgot {
 text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
 color: #038948;
 padding-top: 15px;
+clear: both;
 }
 .forgot2 {
 text-shadow: 0px 0px 1px rgba(117, 117, 117, 0.12);

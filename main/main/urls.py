@@ -28,5 +28,5 @@ urlpatterns = [
     path('signin/', signpage, name='signpage'),
     path('profile/', profile, name='profile'),
     path('signout/', signout, name='signout'),
-    path('plot/', plot_page, name='plot_page'),
+    path('plot/', plot_page, name='plot'),
 ]

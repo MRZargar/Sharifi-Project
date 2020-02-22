@@ -31,70 +31,18 @@ https://templatemo.com/tm-529-ramayana
   </head>
 
 <body class="is-preload">
+
     <!-- Wrapper -->
     <div id="wrapper">
 
       <!-- Main -->
         <div id="main">
           <div class="inner">
-
-            <!-- Header -->
-            <header id="header">
-              <div class="logo">
-                {% block login_logout %}
-                {% endblock %}
-              </div>
-            </header>
             {% block content %}
             {% endblock %}
           </div>
         </div>
-
-      <!-- Sidebar -->
-        <div id="sidebar">
-
-            <div class="inner">
-
-            <!-- Search Box -->
-            <section id="search" class="alt">
-              <form method="get" action="#">
-                <input type="text" name="search" id="search" placeholder="Search..." />
-              </form>
-            </section>
-            <!-- Featured Posts -->
-            <div class="featured-posts">
-              <div class="heading">
-                  <img src="{% static 'assets/images/uni.png' %}" alt="featured two" height="20%">
-              </div>
-            <!-- Menu -->
-            <nav id="menu">
-              <ul>
-                <li><a href="{% url 'home_page' %}">Homepage</a></li>
-                <li><a href="{% url 'profile' %}">Profile</a></li>
-                <li><a href="{% url 'plot' %}">Plots</a></li>
-                <li>
-                  <span class="opener">Dropdown Test</span>
-                  <ul>
-                    <li><a href="#">First Sub Menu</a></li>
-                    <li><a href="#">Second Sub Menu</a></li>
-                    <li><a href="#">Third Sub Menu</a></li>
-                  </ul>
-                </li>
-                <li><a href="https://www.google.com">External Link</a></li>
-              </ul>
-            </nav>
-
-            </div>
-            <!-- Footer -->
-            <footer id="footer">
-            <p class="copyright">Copyright &copy; 2020 Company Name
-            <br>Designed by <a rel="nofollow" href="https://ut.ac.ir">UT</a></p>
-            </footer>
-          </div>
-        </div>
-
     </div>
-
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
@@ -109,5 +57,6 @@ https://templatemo.com/tm-529-ramayana
 </body>
 
 
+  </body>
 
 </html>

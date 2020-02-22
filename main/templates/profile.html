@@ -8,21 +8,9 @@
 {% endblock %}
 
 {% block login_logout %}
-    <li class="right"><a href="{% url 'signout' %}">Sign out</a></li>
-    <li><a href="{% url 'plot_page' %}">Plot</a></li>
+    <a href="{% url 'signout' %}">Sign out</a>
 {% endblock %}
 
 
 {% block content %}
-{% endblock %}
-{% block text %}
-<div class='a'>
-    <h1>Profile Page </h1><a href="{% url 'signout' %}">signout</a>
-
-    {% for post in query %}
-          <h2>Welcome <span style="color: #F46404;">{{ post.username}} </h2>
-           <p>Email id: {{ user.email}} </p>
-           <p>First Name: {{ user.first_name}} </p>
-           <p>Last Name: {{ user.last_name}} </p>
-    {% endfor %}
 {% endblock %}
