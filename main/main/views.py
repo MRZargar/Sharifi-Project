@@ -50,7 +50,12 @@ def signpage(request):
 
 def plot_page(request):
     from .Functions import simplePlot
-    filename = 'plot_test.html'
     cwd = os.getcwd()
-    script, div = simplePlot.plot_data(filename, cwd)
+    script, div = simplePlot.plot_data(cwd)
+    return render(request, 'plot.html', dict(script=script, div=div))
+
+def plots_map_page(request):
+    from .Functions import simplePlot
+    cwd = os.getcwd()
+    script, div = simplePlot.plot_map(cwd)
     return render(request, 'plot.html', dict(script=script, div=div))
