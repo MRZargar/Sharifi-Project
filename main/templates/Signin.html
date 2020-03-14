@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/uni.png' %}">
+    <title>Sign in to ...</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <script src="{% static 'dist/js/jquery-3.4.1.js' %}"></script>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/main.css' %}">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <form class="login100-form validate-form" id="login_form" action="{% url 'signpage' %}" method="POST">
+                    {% csrf_token %} {{ form.as_p }}
+
+                    <span class="login100-form-logo">
+                        <img src="{% static 'assets/images/uni.png' %}" class="rounded-circle" width="100" />
+					</span>
+
+                    <span class="login100-form-title p-b-34 p-t-27">
+						Sign in
+					</span>
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter username">
+                        <input class="input100" type="text" name="username" placeholder="Username" required="required">
+                        <span class=" focus-input100" data-placeholder="&#xf207; "></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                        <input class="input100" type="password" name="password" placeholder="Password" required="required">
+                        <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                    </div>
+
+                    <div class="contact100-form-checkbox">
+                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                        <label class="label-checkbox100" for="ckb1">
+							Remember me
+						</label>
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" type="submit">
+							Sign in
+						</button>
+                    </div>
+
+                    <div class="text-center p-t-90">
+                        <a class="txt1" href="#">
+							Forgot Password?
+						</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="dropDownSelect1"></div>
+
+</body>
+<script src="{% static 'dist/js/main.js' %}"></script>
+
+</html>

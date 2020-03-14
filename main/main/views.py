@@ -2,31 +2,25 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 import os
+from django.contrib.auth import get_user_model
+from users.models import CustomUser
+
+User = get_user_model()
 
 def home_page(request):
     homePage_title = ""
-    return render(request, "Home.html", {'title':homePage_title})
+    return render(request, "Signin.html", {'title':homePage_title})
 
-'''
-def loginpage(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            return redirect("profile")
-        else:
-            return render(request, 'signin2.html', {})
-    return render(request, 'signin.html', {})
-'''
+
+
 
 def profile(request):
     if request.session.has_key('username'):
         posts = request.session['username']
         query = User.objects.filter(username=posts)
-        return render(request, 'profile.html', {"query":query})
+        return render(request, 'Home.html', {"query":query})
     else:
-        return render(request, 'signin.html', {})
+        return render(request, 'Signin.html', {})
 
 def signout(request):
     try:
@@ -39,14 +33,28 @@ def signpage(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(username=username, password=password)
         if user is not None:
             request.session['username'] = username
-            return redirect("profile")
+            if user.is_user:
+                if request.session.has_key('username'):
+                    posts = request.session['username']
+                    query = User.objects.filter(username=posts)
+                return render(request, 'UserHome.html', {"query":query[0]})
+            elif user.is_operator:
+                if request.session.has_key('username'):
+                    posts = request.session['username']
+                    query = User.objects.filter(username=posts)
+                    return render(request, 'OperatorHome.html', {"query":query[0]})
+            elif user.is_admin:
+                if request.session.has_key('username'):
+                    posts = request.session['username']
+                    query = User.objects.filter(username=posts)
+                    return render(request, 'AdminHome.html', {"query":query[0]})
         else:
-            return render(request, 'signin2.html', {})
+            return render(request, 'Signin2.html', {})
     else:
-        return render(request, 'signin.html', {})
+        return render(request, 'Signin.html', {})
 
 def plot_page(request):
     from .Functions import simplePlot

@@ -1,21 +1,16 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load static %}
+<!--  Title  -->
+{% block title %}Home Page{% endblock %}
+<!-- Load css if need -->
+{% block css %}
+<!-- -->
+{% endblock %}
 
-{% block head_title %}Home page{% endblock %}
-{% block load_css %}
+<!-- Page Name -->
+{% block pageName %} Home {% endblock %} {% block pageName2 %} {% endblock %} {% block content %}
+
+<h1 align-text="center">Wellcome </h1>
+<p>this is for test</p>
+
+
 {% endblock %}
-{% block login_logout %}
-<a href="{% url 'signpage' %}">Sign in</a>
-{% endblock %}
-{% block content %}
-{% csrf_token %}
-{{title}}
-<p>1</p>
-{{request.user}}
-<p>2</p>
-{{request.path}}
-<p>3</p>
-{{user}}
-<p>4</p>
-{{user.is_authenticated}}
-<p>5</p>
- {% endblock %}

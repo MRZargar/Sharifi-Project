@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% load static %}
+<!--  Title  -->
+{% block title %}Home Page{% endblock %}
+<!-- Load css if need -->
+{% block css %}
+<!-- -->
+{% endblock %} {% block user_name %} {{query }} {% endblock %} {% block email %} {% endblock %}
+
+
+
+<!-- Page Name -->
+{% block pageName %} Home {% endblock %} {% block pageName2 %} {% endblock %} {% block content %}
+
+<h1 align-text="center">Wellcome </h1>
+<p>User Home</p>
+<p>Hi {{ query }}!</p>
+{% endblock %}
