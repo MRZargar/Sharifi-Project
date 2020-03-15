@@ -4,6 +4,10 @@ from django.contrib.auth import authenticate, login
 import os
 from django.contrib.auth import get_user_model
 from users.models import CustomUser
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.contrib import auth
 
 User = get_user_model()
 
@@ -14,47 +18,60 @@ def home_page(request):
 
 
 
-def profile(request):
+def UserProfile(request):
     if request.session.has_key('username'):
         posts = request.session['username']
         query = User.objects.filter(username=posts)
-        return render(request, 'Home.html', {"query":query})
+        return render(request, 'UserHome.html', {"query":query})
     else:
         return render(request, 'Signin.html', {})
 
-def signout(request):
-    try:
-        del request.session['username']
-    except:
-        pass
-    return render(request, 'signout.html', {})
+
+def OperatorProfile(request):
+    if request.session.has_key('username'):
+        posts = request.session['username']
+        query = User.objects.filter(username=posts)
+        return render(request, 'OperatorHome.html', {"query":query})
+    else:
+        return render(request, 'Signin.html', {})
+
+
+def AdminProfile(request):
+    if request.session.has_key('username'):
+        posts = request.session['username']
+        query = User.objects.filter(username=posts)
+        return render(request, 'AdminHome.html', {"query":query})
+    else:
+        return render(request, 'Signin.html', {})  
+
+
 
 def signpage(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username=username, password=password)
+        user = auth.authenticate(username=username, password=password)
         if user is not None:
             request.session['username'] = username
             if user.is_user:
-                if request.session.has_key('username'):
-                    posts = request.session['username']
-                    query = User.objects.filter(username=posts)
-                return render(request, 'UserHome.html', {"query":query[0]})
+                auth.login(request, user)
+                return redirect("UserProfile")
             elif user.is_operator:
-                if request.session.has_key('username'):
-                    posts = request.session['username']
-                    query = User.objects.filter(username=posts)
-                    return render(request, 'OperatorHome.html', {"query":query[0]})
+                    auth.login(request, user)
+                    return redirect("OperatorProfile")
             elif user.is_admin:
-                if request.session.has_key('username'):
-                    posts = request.session['username']
-                    query = User.objects.filter(username=posts)
-                    return render(request, 'AdminHome.html', {"query":query[0]})
+                    auth.login(request, user)
+                    return redirect("AdminProfile")
         else:
             return render(request, 'Signin2.html', {})
     else:
         return render(request, 'Signin.html', {})
+
+
+def signout(request):
+    auth.logout(request)
+    return render(request,'signout.html')
+
 
 def plot_page(request):
     from .Functions import simplePlot
@@ -67,3 +84,19 @@ def plots_map_page(request):
     cwd = os.getcwd()
     script, div = simplePlot.plot_map(cwd)
     return render(request, 'plot.html', dict(script=script, div=div))
+
+# def change_password(request):
+#     if request.method == 'POST':
+#         form = PasswordChangeForm(request.user, request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             update_session_auth_hash(request, user)  # Important!
+#             messages.success(request, 'Your password was successfully updated!')
+#             return redirect('change_password')
+#         else:
+#             messages.error(request, 'Please correct the error below.')
+#     else:
+#         form = PasswordChangeForm(request.user)
+#     return render(request, 'change_password.html', {
+#         'form': form
+#     })
