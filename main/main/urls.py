@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-
+from django.conf.urls import handler403, handler404
 
 from .views import(
     home_page,
@@ -16,9 +16,8 @@ from .views import(
     plots_map_page,
 )
 urlpatterns = [
-    path('', home_page, name='home_page'),
+    path('', signpage, name='signpage'),
     path('admin/', admin.site.urls),
-    path('signin', signpage, name='signpage'),
     path('users/1', login_required(UserProfile), name='UserProfile'),
     path('users/2', login_required(OperatorProfile), name='OperatorProfile'),
     path('users/3', login_required(AdminProfile), name='AdminProfile'),

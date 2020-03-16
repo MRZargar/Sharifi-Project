@@ -9,11 +9,11 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.contrib import auth
 
+
 User = get_user_model()
 
 def home_page(request):
-    homePage_title = ""
-    return render(request, "Signin.html", {'title':homePage_title})
+    return render(request, "Signin.html")
 
 
 
@@ -84,19 +84,6 @@ def plots_map_page(request):
     cwd = os.getcwd()
     script, div = simplePlot.plot_map(cwd)
     return render(request, 'plot.html', dict(script=script, div=div))
-
-# def change_password(request):
-#     if request.method == 'POST':
-#         form = PasswordChangeForm(request.user, request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             update_session_auth_hash(request, user)  # Important!
-#             messages.success(request, 'Your password was successfully updated!')
-#             return redirect('change_password')
-#         else:
-#             messages.error(request, 'Please correct the error below.')
-#     else:
-#         form = PasswordChangeForm(request.user)
-#     return render(request, 'change_password.html', {
-#         'form': form
-#     })
+    
+# def my_handler404(request, exception):
+#     return render(request, '404.html', status=404)
