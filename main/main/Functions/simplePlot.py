@@ -1,6 +1,6 @@
 import numpy as np
 from bokeh.plotting import figure,gmap, output_file, save
-from bokeh.models import ColumnDataSource, CustomJS, GMapOptions, HoverTool, OpenURL, TapTool
+from bokeh.models import ColumnDataSource, CustomJS, GMapOptions, HoverTool, OpenURL, TapTool, PrintfTickFormatter
 from bokeh.models.widgets import RangeSlider, TextInput, CheckboxGroup, CheckboxButtonGroup
 from bokeh.layouts import row, column
 from bokeh.embed import components
@@ -31,11 +31,13 @@ def merc_y(lat):
 
 
 def plot_map(cwd):
-
+    sizing_mode = 'scale_width'
     tile_provider = get_provider(CARTODBPOSITRON)
     p = figure(x_range=(merc_x(40), merc_x(65)), y_range=(merc_y(20), merc_y(45)),
             x_axis_type="mercator", y_axis_type="mercator",
-            tools="pan,wheel_zoom,box_zoom,reset,tap")
+            tools="pan,wheel_zoom,box_zoom,reset,tap",
+            sizing_mode=sizing_mode
+            )
     p.add_tile(tile_provider)
 
     source = ColumnDataSource(
@@ -73,11 +75,12 @@ def plot_data(cwd):
     width = 800
     height = 250
 
+    sizing_mode = 'scale_width'
 
-    checkbox_group = CheckboxButtonGroup(labels=["a_x", "a_y", "a_z"], active=[0, 1, 2])
-    range_slider = RangeSlider(start=0, end=file.shape[0], value=(0, file.shape[0]), step=1, title="Range1")
-    text_start = TextInput(value="", title="Start:", width=100)
-    text_end = TextInput(value="", title="End:", width=100)
+    checkbox_group = CheckboxButtonGroup(labels=["a_x", "a_y", "a_z"], active=[0, 1, 2], sizing_mode=sizing_mode)
+    range_slider = RangeSlider(start=0, end=file.shape[0], width=600, height=100, value=(0, file.shape[0]), step=1, title="Range1", sizing_mode=sizing_mode)
+    text_start = TextInput(value="", title="Start:", width=100, height=50, sizing_mode=sizing_mode)
+    text_end = TextInput(value="", title="End:", width=100, height=50, sizing_mode=sizing_mode)
 
     # p = figure(title="a", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
     # l1 = p.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
@@ -85,18 +88,31 @@ def plot_data(cwd):
     # l3 = p.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
     #  plot_width=width, plot_height=height,
 
-    sizing_mode = 'scale_width'
-
     p1 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
-    l1 = p1.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
+    l1 = p1.line(x='x', y='y1', source=source, line_color="red")
     p1.yaxis.axis_label = 'a_x'
+    p1.xaxis.axis_label_text_font_size = '15pt'
+    p1.yaxis.axis_label_text_font_size = '15pt'
     p2 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
-    l2 = p2.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
+    l2 = p2.line(x='x', y='y2', source=source, line_color="blue")
     p2.yaxis.axis_label = 'a_y'
+    p2.xaxis.axis_label_text_font_size = '15pt'
+    p2.yaxis.axis_label_text_font_size = '15pt'
     p3 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
-    l3 = p3.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
+    l3 = p3.line(x='x', y='y3', source=source, line_color="green")
     p3.yaxis.axis_label = 'a_z'
+    p3.xaxis.axis_label_text_font_size = '15pt'
+    p3.yaxis.axis_label_text_font_size = '15pt'
 
+    xaxis_format = PrintfTickFormatter(format="%i")
+    yaxis_format = PrintfTickFormatter(format="%5.1e")
+
+    p1.xaxis[0].formatter = xaxis_format
+    p1.yaxis[0].formatter = yaxis_format
+    p2.xaxis[0].formatter = xaxis_format
+    p2.yaxis[0].formatter = yaxis_format
+    p3.xaxis[0].formatter = xaxis_format
+    p3.yaxis[0].formatter = yaxis_format
 
     RangeSlider_callback = CustomJS(args=dict(
                                 raw_source=raw_source,

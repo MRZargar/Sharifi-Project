@@ -33,12 +33,16 @@ DEBUG = True
 if DEBUG is False:
     ALLOWED_HOSTS = [
         '127.0.0.1',
+        '192.168.1.114'
         '*',
     ]
 
 if DEBUG is True:
-    ALLOWED_HOSTS = []
-
+    ALLOWED_HOSTS = [
+        '127.0.0.1',
+        '192.168.1.114'
+        '*',
+    ]
 
 
 INSTALLED_APPS = [
