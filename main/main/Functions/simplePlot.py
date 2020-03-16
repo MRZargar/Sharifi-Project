@@ -83,16 +83,20 @@ def plot_data(cwd):
     # l1 = p.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
     # l2 = p.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
     # l3 = p.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
+    #  plot_width=width, plot_height=height,
 
-    p1 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset")
+    sizing_mode = 'scale_width'
+
+    p1 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
     l1 = p1.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
     p1.yaxis.axis_label = 'a_x'
-    p2 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset")
+    p2 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
     l2 = p2.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
     p2.yaxis.axis_label = 'a_y'
-    p3 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset")
+    p3 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
     l3 = p3.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
     p3.yaxis.axis_label = 'a_z'
+
 
     RangeSlider_callback = CustomJS(args=dict(
                                 raw_source=raw_source,
@@ -143,7 +147,9 @@ def plot_data(cwd):
     range_slider.js_on_change('value', RangeSlider_callback)
     checkbox_group.js_on_change('active', CheckboxGroup_callback)
 
-    my_widgets = column(row(text_start, text_end), range_slider)
-    layout = column(my_widgets, p1, p2, p3)
+    my_widgets = column(row(text_start, text_end))
+    layout = column(my_widgets, range_slider, p1, p2, p3)
+    layout.sizing_mode = sizing_mode
+
     script, div = components(layout)
     return script, div
