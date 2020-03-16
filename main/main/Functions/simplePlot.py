@@ -28,8 +28,8 @@ def plot_data(cwd):
     source = ColumnDataSource(data=data)
     raw_source = ColumnDataSource(data=raw_data)
 
-    width = 600
-    height = 400
+    width = 800
+    height = 250
 
 
     checkbox_group = CheckboxButtonGroup(labels=["a_x", "a_y", "a_z"], active=[0, 1, 2])
@@ -37,10 +37,20 @@ def plot_data(cwd):
     text_start = TextInput(value="", title="Start:", width=100)
     text_end = TextInput(value="", title="End:", width=100)
 
-    p = figure(title="a", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
-    l1 = p.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
-    l2 = p.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
-    l3 = p.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
+    # p = figure(title="a", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
+    # l1 = p.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
+    # l2 = p.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
+    # l3 = p.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
+
+    p1 = figure(title="", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
+    l1 = p1.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
+    p1.yaxis.axis_label = 'a_x'
+    p2 = figure(title="", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
+    l2 = p2.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
+    p2.yaxis.axis_label = 'a_y'
+    p3 = figure(title="", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
+    l3 = p3.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
+    p3.yaxis.axis_label = 'a_z'
 
     RangeSlider_callback = CustomJS(args=dict(
                                 raw_source=raw_source,
@@ -91,7 +101,7 @@ def plot_data(cwd):
     range_slider.js_on_change('value', RangeSlider_callback)
     checkbox_group.js_on_change('active', CheckboxGroup_callback)
 
-    my_widgets = column(checkbox_group, row(text_start, text_end), range_slider)
-    layout = column(my_widgets, p)
+    my_widgets = column(row(text_start, text_end), range_slider)
+    layout = column(my_widgets, p1, p2, p3)
     script, div = components(layout)
     return script, div

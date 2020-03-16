@@ -41,7 +41,7 @@ def AdminProfile(request):
         query = User.objects.filter(username=posts)
         return render(request, 'AdminHome.html', {"query":query})
     else:
-        return render(request, 'Signin.html', {})  
+        return render(request, 'Signin.html', {})
 
 
 
@@ -73,18 +73,21 @@ def signout(request):
 
 
 def plot_page(request):
-    print(request.GET['a'])
+    try:
+        print(request.GET['a'])
+    except KeyError:
+        pass
     from .Functions import simplePlot
     cwd = os.getcwd()
     script, div = simplePlot.plot_data(cwd)
     return render(request, 'plot.html', dict(script=script, div=div))
+
 
 def plots_map_page(request):
     from .Functions import simplePlot
     cwd = os.getcwd()
     script, div = simplePlot.plot_map(cwd)
     return render(request, 'plot.html', dict(script=script, div=div))
-    
+
 # def my_handler404(request, exception):
 #     return render(request, '404.html', status=404)
-
