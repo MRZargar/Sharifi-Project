@@ -1,20 +1,62 @@
 import numpy as np
 from bokeh.plotting import figure,gmap, output_file, save
-from bokeh.models import ColumnDataSource, CustomJS, GMapOptions
+from bokeh.models import ColumnDataSource, CustomJS, GMapOptions, HoverTool, OpenURL, TapTool
 from bokeh.models.widgets import RangeSlider, TextInput, CheckboxGroup, CheckboxButtonGroup
 from bokeh.layouts import row, column
 from bokeh.embed import components
+from bokeh.tile_providers import CARTODBPOSITRON, get_provider
+import math
+
+
+def merc_x(lon):
+  r_major=6378137.000
+  return r_major*math.radians(lon)
+
+
+def merc_y(lat):
+  if lat>89.5:lat=89.5
+  if lat<-89.5:lat=-89.5
+  r_major=6378137.000
+  r_minor=6356752.3142
+  temp=r_minor/r_major
+  eccent=math.sqrt(1-temp**2)
+  phi=math.radians(lat)
+  sinphi=math.sin(phi)
+  con=eccent*sinphi
+  com=eccent/2
+  con=((1.0-con)/(1.0+con))**com
+  ts=math.tan((math.pi/2-phi)/2)/con
+  y=0-r_major*math.log(ts)
+  return y
 
 
 def plot_map(cwd):
-    map_options = GMapOptions(lat=30.2861, lng=-97.7394, map_type="roadmap", zoom=11)
 
-    p = gmap("AIzaSyA5Cv2ZON6-Rx34LIUUVAJu3NdbPEMjpR8", map_options, title="Austin")
+    tile_provider = get_provider(CARTODBPOSITRON)
+    p = figure(x_range=(merc_x(40), merc_x(65)), y_range=(merc_y(20), merc_y(45)),
+            x_axis_type="mercator", y_axis_type="mercator",
+            tools="pan,wheel_zoom,box_zoom,reset,tap")
+    p.add_tile(tile_provider)
+
     source = ColumnDataSource(
-        data=dict(lat=[ 30.29,  30.20,  30.29],
-                  lon=[-97.70, -97.74, -97.78])
+        data=dict(lat=[33, 25, 35],
+                  lon=[49, 60, 54],
+                  merc_lon = list(map(merc_x, [49, 60, 54])),
+                  merc_lat = list(map(merc_y, [33, 25, 35])),
+                  name=['St1', 'St2', 'St3'],)
     )
-    p.circle(x="lon", y="lat", size=15, fill_color="blue", fill_alpha=0.8, source=source)
+    p.circle(x="merc_lon", y="merc_lat", size=15, fill_color="blue", fill_alpha=0.8, source=source)
+    p.add_tools(HoverTool(
+        tooltips=[
+            ( 'name',   '@name'            ),
+            ( '(lat, lon)',  '(@lat, @lon)' ),
+        ],
+    ))
+
+    url = "http://127.0.0.1:8000/plot"
+    taptool = p.select(type=TapTool)
+    taptool.callback = OpenURL(url=url)
+
     script, div = components(p)
     return script, div
 
@@ -42,13 +84,13 @@ def plot_data(cwd):
     # l2 = p.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
     # l3 = p.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
 
-    p1 = figure(title="", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
+    p1 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset")
     l1 = p1.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
     p1.yaxis.axis_label = 'a_x'
-    p2 = figure(title="", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
+    p2 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset")
     l2 = p2.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
     p2.yaxis.axis_label = 'a_y'
-    p3 = figure(title="", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
+    p3 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset")
     l3 = p3.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
     p3.yaxis.axis_label = 'a_z'
 
