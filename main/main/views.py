@@ -9,7 +9,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.contrib import auth
 
-
 User = get_user_model()
 
 def home_page(request):
@@ -87,3 +86,4 @@ def plots_map_page(request):
     
 # def my_handler404(request, exception):
 #     return render(request, '404.html', status=404)
+

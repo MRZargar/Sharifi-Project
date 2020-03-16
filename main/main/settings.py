@@ -28,7 +28,7 @@ SECRET_KEY = 'uyxfa8h9op(y_$y_n@6x2at%+cfv-&@smt2c9j_*od@$-0cvg%'
 
 # ALLOWED_HOSTS = []
 
-DEBUG = False
+DEBUG = True
 
 if DEBUG is False:
     ALLOWED_HOSTS = [
