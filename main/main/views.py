@@ -57,6 +57,7 @@ def signpage(request):
         return render(request, 'Signin.html', {})
 
 def plot_page(request):
+    print(request.GET['a'])
     from .Functions import simplePlot
     cwd = os.getcwd()
     script, div = simplePlot.plot_data(cwd)

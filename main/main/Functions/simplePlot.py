@@ -38,9 +38,9 @@ def plot_data(cwd):
     text_end = TextInput(value="", title="End:", width=100)
 
     p = figure(title="a", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
-    l1 = p.line(x='x', y='y1', source=source, legend="a_x", line_color="red")
-    l2 = p.line(x='x', y='y2', source=source, legend="a_y", line_color="blue")
-    l3 = p.line(x='x', y='y3', source=source, legend="a_z", line_color="green")
+    l1 = p.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
+    l2 = p.line(x='x', y='y2', source=source, legend_label="a_y", line_color="blue")
+    l3 = p.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
 
     RangeSlider_callback = CustomJS(args=dict(
                                 raw_source=raw_source,
