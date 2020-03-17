@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Map{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'dist/css/ol.css' %}" type="text/css">
+    <style>
+    .map {
+        height: 550px;
+        width: 100%;
+    }
+    </style>
+    <script src="{% static 'dist/js/ol.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+        var Map = ol.Map;
+        var View = ol.View;
+        var Tile = ol.layer.Tile;
+        var OSM = ol.source.OSM;
+
+        var map = new Map({
+            target: 'map',
+            layers: [
+            new Tile({
+                source: new OSM()
+            })
+            ],
+            view: new View({
+            projection: 'EPSG:4326',
+            center: [52.4146, 35.6891],
+            zoom: 9
+            })
+        });
+    </script>
+{% endblock %}
