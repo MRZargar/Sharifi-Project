@@ -25,14 +25,27 @@
         var GeoJSON = ol.format.GeoJSON;
         var Style = ol.style;
 
+        // var lableStyle = function(feature){
+        //     new Style.Text({
+        //             text: feature.get('Name')
+        //         });
+        // };
+
+        var iconStyle = function(){
+            return new Style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                src: "{% static 'assets/images/sensorIcon.png' %}"
+            });
+        };
+
         function pointStyle(feature, resolution) {
             return new Style.Style({
-                image: new Style.Circle({
-                    radius: 5,
-                    fill: new Style.Fill({color: 'red'})
-                    })
-            }); 
-        };
+                image: iconStyle()//,
+                // text: lableStyle(feature)
+            });
+        }
 
         var vectorS = new VectorSource({
             features: (new GeoJSON()).readFeatures({{ geojsonObject | safe }})
