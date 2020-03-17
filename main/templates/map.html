@@ -54,6 +54,20 @@
         content: "✖";
     }
     
+    input[type=submit] {
+        position: absolute;
+        bottom: 2px;
+        right: 15px;
+        color: blue;
+        background-color: #ffffff;
+        padding: 0px;
+        font-size: 15px;
+    }
+
+    input[type=submit]:hover {
+        background-color: #dddddd;
+    }
+
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -78,6 +92,9 @@
     <div id="popup" class="ol-popup">
         <a href="#" id="popup-closer" class="ol-popup-closer"></a>
         <div id="popup-content"></div>
+        <form action="\plot" method="GET" target="_blank">
+            <input class="btn" type="submit" value="Show Data">
+        </form>
     </div>
 
     <script type="text/javascript">
@@ -228,7 +245,7 @@
                                                 +'<td>' + feature.get('Latitude') + '</td>' 
                                             +'</tr>' 
                                         +'</table>'
-                                    +'</font>'; 
+                                    +'</font>';
             } else {
                 // closer.onclick();
             }
