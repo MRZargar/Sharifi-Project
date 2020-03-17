@@ -25,11 +25,19 @@
         var GeoJSON = ol.format.GeoJSON;
         var Style = ol.style;
 
-        // var lableStyle = function(feature){
-        //     new Style.Text({
-        //             text: feature.get('Name')
-        //         });
-        // };
+        var lableStyle = function(feature){
+            return new Style.Text({
+                // textAlign: 'center',
+                // textBaseline: 'middle',
+                // font: ,
+                text: feature.get('Name').trunc(10),
+                fill: new Style.Fill({color: '#000000'}),
+                stroke: new Style.Stroke({color: '#ffffff', width: 3}),
+                offsetX: 0,
+                offsetY: 5,
+                // rotation: 10
+            });
+        };
 
         var iconStyle = function(){
             return new Style.Icon({
@@ -42,8 +50,8 @@
 
         function pointStyle(feature, resolution) {
             return new Style.Style({
-                image: iconStyle()//,
-                // text: lableStyle(feature)
+                image: iconStyle(),
+                text: lableStyle(feature)
             });
         }
 
@@ -70,5 +78,14 @@
             zoom: 9
             })
         });
+
+        /**
+        * @param {number} n The max number of characters to keep.
+        * @return {string} Truncated string.
+        */
+        String.prototype.trunc = String.prototype.trunc ||
+            function(n) {
+            return this.length > n ? this.substr(0, n - 1) + '...' : this.substr(0);
+        };
     </script>
 {% endblock %}
