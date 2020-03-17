@@ -18,15 +18,38 @@
     <script type="text/javascript">
         var Map = ol.Map;
         var View = ol.View;
+        var VectorLayer = ol.layer.Vector;
+        var VectorSource = ol.source.Vector;
         var Tile = ol.layer.Tile;
         var OSM = ol.source.OSM;
+        var GeoJSON = ol.format.GeoJSON;
+        var Style = ol.style;
+
+        function pointStyle(feature, resolution) {
+            return new Style.Style({
+                image: new Style.Circle({
+                    radius: 5,
+                    fill: new Style.Fill({color: 'red'})
+                    })
+            }); 
+        };
+
+        var vectorS = new VectorSource({
+            features: (new GeoJSON()).readFeatures({{ geojsonObject | safe }})
+        });
+
+        var vectorL = new VectorLayer({
+            source: vectorS,
+            style: pointStyle
+        });
 
         var map = new Map({
             target: 'map',
             layers: [
             new Tile({
                 source: new OSM()
-            })
+            }),
+            vectorL
             ],
             view: new View({
             projection: 'EPSG:4326',

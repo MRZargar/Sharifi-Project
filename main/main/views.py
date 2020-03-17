@@ -90,7 +90,36 @@ def plots_map_page(request):
     return render(request, 'plot.html', dict(script=script, div=div))
 
 def map(request):
-    return render(request, 'map.html', {})
-
+    # GeoJSON will created using DB datas...
+    geojson = """{
+        'type': 'FeatureCollection', 
+        'crs': {
+            'type': 'name',
+            'properties': {
+            'name': 'EPSG:4326'
+            }
+        },
+        'features': [
+            {
+            'type': 'Feature',
+            'properties': {
+                'ID': '1',
+                'Name': 'Shahid Beheshti',
+                'Operator': 'Mohammad Reza Zargar',
+                'Sensor Type': 'type 2',
+                'Address': 'Univesity of Tehran',
+                'Status': 'Active',
+                'Start Time': '1398/01/01 10:52',
+                'End Time': '',
+                'Longitude': '35.6891',
+                'Latitude': '52.4146'
+            },
+            'geometry': {
+            'type': 'Point',
+            'coordinates': [52.4146, 35.6891]
+            }
+        }]
+        }"""
+    return render(request, 'map.html', dict(geojsonObject=geojson))
 # def my_handler404(request, exception):
 #     return render(request, '404.html', status=404)
