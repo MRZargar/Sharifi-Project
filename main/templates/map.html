@@ -43,7 +43,7 @@
         border-width: 11px;
         left: 48px;
         margin-left: -11px;
-    }
+    } 
     .ol-popup-closer {
         text-decoration: none;
         position: absolute;
@@ -52,6 +52,22 @@
     }
     .ol-popup-closer:after {
         content: "✖";
+    }
+    
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #ffffff;
+        text-align: left;
+        padding: 0px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
     }
     </style>
     <script src="{% static 'dist/js/ol.js' %}"></script>
@@ -113,14 +129,9 @@
             style: pointStyle
         });        
 
-        /**
-        * Elements that make up the popup.
-        */
         var container = document.getElementById('popup');
         var content = document.getElementById('popup-content');
         var closer = document.getElementById('popup-closer');
-
-        // var element = document.getElementById('zargar');
 
         var overlay = new ol.Overlay({
             element: container,
@@ -173,63 +184,51 @@
             if (feature) {
                 var coordinates = feature.getGeometry().getCoordinates();
                 overlay.setPosition(coordinates);
-                content.innerHTML = '<style>'
-                                        +'table {'
-                                            +'font-family: arial, sans-serif;'
-                                            +'border-collapse: collapse;'
-                                            +'width: 100%;'
-                                        +'}'
-
-                                        +'td {'
-                                            +'border: 1px solid #ffffff;'
-                                            +'text-align: left;'
-                                            +'padding: 0px;'
-                                        +'}'
-
-                                        +'tr:nth-child(even) {'
-                                            +'background-color: #dddddd;'
-                                        +'}'
-                                        +'</style>'
-
-                                    +'<code>' + feature.get('Name') + '</code>'
-                                    +'<table>'
-                                        +'<tr>' 
-                                            +'<td>ID:</td>' 
-                                            +'<td><code>' + feature.get('ID') + '</code></td>' 
-                                        +'</tr>' 
-                                        +'<tr>' 
-                                            +'<td>Operator:</td>' 
-                                            +'<td><code>' + feature.get('Operator') + '</code></td>' 
-                                        +'</tr>' 
-                                        +'<tr>' 
-                                            +'<td>Sensor Type:</td>' 
-                                            +'<td><code>' + feature.get('Sensor Type') + '</code></td>' 
-                                        +'</tr>' 
-                                        +'<tr>' 
-                                            +'<td>Address:</td>' 
-                                            +'<td><code>' + feature.get('Address') + '</code></td>' 
-                                        +'</tr>' 
-                                        +'<tr>' 
-                                            +'<td>Status:</td>' 
-                                            +'<td><code>' + feature.get('Status') + '</code></td>' 
-                                        +'</tr>' 
-                                        +'<tr>' 
-                                            +'<td>Start Time:</td>' 
-                                            +'<td><code>' + feature.get('Start Time') + '</code></td>' 
-                                        +'</tr>' 
-                                        +'<tr>' 
-                                            +'<td>End Time:</td>' 
-                                            +'<td><code>' + feature.get('End Time') + '</code></td>' 
-                                        +'</tr>' 
-                                        +'<tr>' 
-                                            +'<td>Longitude:</td>' 
-                                            +'<td><code>' + feature.get('Longitude') + '</code></td>' 
-                                        +'</tr>' 
-                                        +'<tr>' 
-                                            +'<td>Latitude:</td>' 
-                                            +'<td><code>' + feature.get('Latitude') + '</code></td>' 
-                                        +'</tr>' 
-                                    +'</table>'; 
+                content.innerHTML = '<h6>' + feature.get('Name') + '</h6>'
+                                    +'<font size="2">' 
+                                        +'<table>'
+                                            +'<tr>' 
+                                                +'<td>ID:</td>' 
+                                                +'<td>' + feature.get('ID') + '</td>' 
+                                            +'</tr>' 
+                                            +'<tr>' 
+                                                +'<td>Operator:</td>' 
+                                                +'<td>' + feature.get('Operator') + '</td>' 
+                                            +'</tr>' 
+                                            +'<tr>' 
+                                                +'<td>Sensor Type:</td>' 
+                                                +'<td>' + feature.get('Sensor Type') + '</td>' 
+                                            +'</tr>' 
+                                            +'<tr>' 
+                                                +'<td>Address:</td>' 
+                                                +'<td>' + feature.get('Address') + '</td>' 
+                                            +'</tr>' 
+                                            +'<tr>' 
+                                                +'<td>Status:</td>' 
+                                                +'<td><b>'
+                                                    +'<font color="green">'
+                                                        + feature.get('Status') 
+                                                    +'</font>'
+                                                +'</b></td>' 
+                                            +'</tr>' 
+                                            +'<tr>' 
+                                                +'<td>Start Time:</td>' 
+                                                +'<td>' + feature.get('Start Time') + '</td>' 
+                                            +'</tr>' 
+                                            +'<tr>' 
+                                                +'<td>End Time:</td>' 
+                                                +'<td>' + feature.get('End Time') + '</td>' 
+                                            +'</tr>' 
+                                            +'<tr>' 
+                                                +'<td>Longitude:</td>' 
+                                                +'<td>' + feature.get('Longitude') + '</td>' 
+                                            +'</tr>' 
+                                            +'<tr>' 
+                                                +'<td>Latitude:</td>' 
+                                                +'<td>' + feature.get('Latitude') + '</td>' 
+                                            +'</tr>' 
+                                        +'</table>'
+                                    +'</font>'; 
             } else {
                 // closer.onclick();
             }
