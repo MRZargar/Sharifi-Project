@@ -4,10 +4,54 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'dist/css/ol.css' %}" type="text/css">
+    <script src="{% static 'dist/js/jquery-3.2.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'dist/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'dist/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <style>
     .map {
         height: 550px;
         width: 100%;
+    }
+    .ol-popup {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 280px;
+    }
+    .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+    .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+    }
+    .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+    }
+    .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+    }
+    .ol-popup-closer:after {
+        content: "✖";
     }
     </style>
     <script src="{% static 'dist/js/ol.js' %}"></script>
@@ -15,6 +59,11 @@
 
 {% block content %}
     <div id="map" class="map"></div>
+    <div id="popup" class="ol-popup">
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
+
     <script type="text/javascript">
         var Map = ol.Map;
         var View = ol.View;
@@ -48,7 +97,7 @@
             });
         };
 
-        function pointStyle(feature, resolution) {
+        function pointStyle(feature) {
             return new Style.Style({
                 image: iconStyle(),
                 text: lableStyle(feature)
@@ -62,10 +111,46 @@
         var vectorL = new VectorLayer({
             source: vectorS,
             style: pointStyle
+        });        
+
+        /**
+        * Elements that make up the popup.
+        */
+        var container = document.getElementById('popup');
+        var content = document.getElementById('popup-content');
+        var closer = document.getElementById('popup-closer');
+
+        // var element = document.getElementById('zargar');
+
+        var overlay = new ol.Overlay({
+            element: container,
+            positioning: 'bottom-center',
+            stopEvent: false,
+            offset: [0, -50],
+            autoPan: true,
+            autoPanAnimation: {
+                duration: 250
+            }
         });
+        
+        closer.onclick = function() {
+            overlay.setPosition(undefined);
+            closer.blur();
+            return false;
+        };
+
+        //     // change mouse cursor when over marker
+        //     if (evt.dragging) {
+        //         $(element).popover('destroy');
+        //         return;
+        //     }
+        //     var pixel = map.getEventPixel(evt.originalEvent);
+        //     var hit = map.hasFeatureAtPixel(pixel);
+        //     map.getTarget().style.cursor = hit ? 'pointer' : '';
 
         var map = new Map({
             target: 'map',
+            overlays: [overlay],
             layers: [
             new Tile({
                 source: new OSM()
@@ -79,10 +164,77 @@
             })
         });
 
-        /**
-        * @param {number} n The max number of characters to keep.
-        * @return {string} Truncated string.
-        */
+        map.on('pointermove', function(evt) {
+            var feature = map.forEachFeatureAtPixel(evt.pixel,
+                function(feature) {
+                return feature;
+                });
+
+            if (feature) {
+                var coordinates = feature.getGeometry().getCoordinates();
+                overlay.setPosition(coordinates);
+                content.innerHTML = '<style>'
+                                        +'table {'
+                                            +'font-family: arial, sans-serif;'
+                                            +'border-collapse: collapse;'
+                                            +'width: 100%;'
+                                        +'}'
+
+                                        +'td {'
+                                            +'border: 1px solid #ffffff;'
+                                            +'text-align: left;'
+                                            +'padding: 0px;'
+                                        +'}'
+
+                                        +'tr:nth-child(even) {'
+                                            +'background-color: #dddddd;'
+                                        +'}'
+                                        +'</style>'
+
+                                    +'<code>' + feature.get('Name') + '</code>'
+                                    +'<table>'
+                                        +'<tr>' 
+                                            +'<td>ID:</td>' 
+                                            +'<td><code>' + feature.get('ID') + '</code></td>' 
+                                        +'</tr>' 
+                                        +'<tr>' 
+                                            +'<td>Operator:</td>' 
+                                            +'<td><code>' + feature.get('Operator') + '</code></td>' 
+                                        +'</tr>' 
+                                        +'<tr>' 
+                                            +'<td>Sensor Type:</td>' 
+                                            +'<td><code>' + feature.get('Sensor Type') + '</code></td>' 
+                                        +'</tr>' 
+                                        +'<tr>' 
+                                            +'<td>Address:</td>' 
+                                            +'<td><code>' + feature.get('Address') + '</code></td>' 
+                                        +'</tr>' 
+                                        +'<tr>' 
+                                            +'<td>Status:</td>' 
+                                            +'<td><code>' + feature.get('Status') + '</code></td>' 
+                                        +'</tr>' 
+                                        +'<tr>' 
+                                            +'<td>Start Time:</td>' 
+                                            +'<td><code>' + feature.get('Start Time') + '</code></td>' 
+                                        +'</tr>' 
+                                        +'<tr>' 
+                                            +'<td>End Time:</td>' 
+                                            +'<td><code>' + feature.get('End Time') + '</code></td>' 
+                                        +'</tr>' 
+                                        +'<tr>' 
+                                            +'<td>Longitude:</td>' 
+                                            +'<td><code>' + feature.get('Longitude') + '</code></td>' 
+                                        +'</tr>' 
+                                        +'<tr>' 
+                                            +'<td>Latitude:</td>' 
+                                            +'<td><code>' + feature.get('Latitude') + '</code></td>' 
+                                        +'</tr>' 
+                                    +'</table>'; 
+            } else {
+                // closer.onclick();
+            }
+        });
+
         String.prototype.trunc = String.prototype.trunc ||
             function(n) {
             return this.length > n ? this.substr(0, n - 1) + '...' : this.substr(0);

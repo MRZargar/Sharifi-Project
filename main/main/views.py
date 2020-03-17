@@ -118,6 +118,24 @@ def map(request):
             'type': 'Point',
             'coordinates': [52.4146, 35.6891]
             }
+        }, {
+            'type': 'Feature',
+            'properties': {
+                'ID': '1',
+                'Name': 'Shahid Beheshti',
+                'Operator': 'Mohammad Reza Zargar',
+                'Sensor Type': 'type 2',
+                'Address': 'Univesity of Tehran',
+                'Status': 'Active',
+                'Start Time': '1398/01/01 10:52',
+                'End Time': '',
+                'Longitude': '35.6891',
+                'Latitude': '52.4146'
+            },
+            'geometry': {
+            'type': 'Point',
+            'coordinates': [51.4146, 35.6891]
+            }
         }]
         }"""
     return render(request, 'map.html', dict(geojsonObject=geojson))
