@@ -14,6 +14,7 @@ from .views import(
     AdminProfile,
     plot_page,
     plots_map_page,
+    map
 )
 urlpatterns = [
     path('', signpage, name='signpage'),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('plots_map/', plots_map_page, name='plots'),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
+    path('map/', map, name='map')
 ]

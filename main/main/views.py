@@ -89,5 +89,8 @@ def plots_map_page(request):
     script, div = simplePlot.plot_map(cwd)
     return render(request, 'plot.html', dict(script=script, div=div))
 
+def map(request):
+    return render(request, 'map.html', {})
+
 # def my_handler404(request, exception):
 #     return render(request, '404.html', status=404)
