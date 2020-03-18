@@ -64,7 +64,7 @@ def plot_map(cwd):
 
 
 def plot_data(cwd):
-    file = np.loadtxt(cwd + '/main/Functions/TestFile.txt')
+    file = np.loadtxt(cwd + '/main/Functions/Obs.txt', skiprows=2)
     last = 100
     data = dict(x=file[:, 0], y1=file[:, 1], y2=file[:, 2], y3=file[:, 3])
     raw_data = dict(x=file[:, 0], y1=file[:, 1], y2=file[:, 2], y3=file[:, 3])
@@ -73,14 +73,14 @@ def plot_data(cwd):
     raw_source = ColumnDataSource(data=raw_data)
 
     width = 800
-    height = 250
+    height = 400
 
     sizing_mode = 'scale_width'
 
     checkbox_group = CheckboxButtonGroup(labels=["a_x", "a_y", "a_z"], active=[0, 1, 2], sizing_mode=sizing_mode)
     range_slider = RangeSlider(start=0, end=file.shape[0], width=600, height=100, value=(0, file.shape[0]), step=1, title="Range1", sizing_mode=sizing_mode)
-    text_start = TextInput(value="", title="Start:", width=100, height=50, sizing_mode=sizing_mode)
-    text_end = TextInput(value="", title="End:", width=100, height=50, sizing_mode=sizing_mode)
+    text_start = TextInput(value="0", title="Start:", width=100, height=50, sizing_mode=sizing_mode)
+    text_end = TextInput(value=str(len(data['x'])), title="End:", width=100, height=50, sizing_mode=sizing_mode)
 
     # p = figure(title="a", plot_width=width, plot_height=height, tools = "pan,wheel_zoom,box_zoom,reset")
     # l1 = p.line(x='x', y='y1', source=source, legend_label="a_x", line_color="red")
@@ -88,17 +88,17 @@ def plot_data(cwd):
     # l3 = p.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
     #  plot_width=width, plot_height=height,
 
-    p1 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
+    p1 = figure(title="", plot_width=width, plot_height=height, tools="reset,pan,wheel_zoom,box_zoom", sizing_mode=sizing_mode, toolbar_location="below")
     l1 = p1.line(x='x', y='y1', source=source, line_color="red")
     p1.yaxis.axis_label = 'a_x'
     p1.xaxis.axis_label_text_font_size = '15pt'
     p1.yaxis.axis_label_text_font_size = '15pt'
-    p2 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
+    p2 = figure(title="", plot_width=width, plot_height=height, tools="reset,pan,wheel_zoom,box_zoom", sizing_mode=sizing_mode, toolbar_location="below")
     l2 = p2.line(x='x', y='y2', source=source, line_color="blue")
     p2.yaxis.axis_label = 'a_y'
     p2.xaxis.axis_label_text_font_size = '15pt'
     p2.yaxis.axis_label_text_font_size = '15pt'
-    p3 = figure(title="", plot_width=width, plot_height=height, tools="pan,wheel_zoom,box_zoom,reset", sizing_mode=sizing_mode)
+    p3 = figure(title="", plot_width=width, plot_height=height, tools="reset,pan,wheel_zoom,box_zoom", sizing_mode=sizing_mode, toolbar_location="below")
     l3 = p3.line(x='x', y='y3', source=source, line_color="green")
     p3.yaxis.axis_label = 'a_z'
     p3.xaxis.axis_label_text_font_size = '15pt'
@@ -114,12 +114,66 @@ def plot_data(cwd):
     p3.xaxis[0].formatter = xaxis_format
     p3.yaxis[0].formatter = yaxis_format
 
+    p1.yaxis.minor_tick_line_color = None
+    p2.yaxis.minor_tick_line_color = None
+    p3.yaxis.minor_tick_line_color = None
+    p1.xaxis.minor_tick_line_color = None
+    p2.xaxis.minor_tick_line_color = None
+    p3.xaxis.minor_tick_line_color = None
+
+
+    p1.yaxis.axis_label_text_font_size = "9px"
+    p2.yaxis.axis_label_text_font_size = "9px"
+    p3.yaxis.axis_label_text_font_size = "9px"
+
+    p1.xaxis.major_label_text_font_size = "9px"
+    p2.xaxis.major_label_text_font_size = "9px"
+    p3.xaxis.major_label_text_font_size = "9px"
+
+
     RangeSlider_callback = CustomJS(args=dict(
                                 raw_source=raw_source,
                                 source=source,
                                 range_slider=range_slider,
                                 ),
                         code="""
+        const value = range_slider.value
+        const start = value[0]
+        const end = value[1]
+        const raw_data = raw_source.data;
+        const x = []
+        const y1 = []
+        const y2 = []
+        const y3 = []
+        const raw_x = raw_data['x']
+        const raw_y1 = raw_data['y1']
+        const raw_y2 = raw_data['y2']
+        const raw_y3 = raw_data['y3']
+        for (var i = 0; i < end - start; i++) {
+            x[i] = raw_x[start + i]
+            y1[i] = raw_y1[start + i]
+            y2[i] = raw_y2[start + i]
+            y3[i] = raw_y3[start + i]
+        }
+        source.data['x'] = x
+        source.data['y1'] = y1
+        source.data['y2'] = y2
+        source.data['y3'] = y3
+        source.change.emit();
+    """)
+
+    text_start_end_callback = CustomJS(args=dict(
+                                raw_source=raw_source,
+                                source=source,
+                                range_slider=range_slider,
+                                text_start=text_start,
+                                text_end=text_end
+                                ),
+                        code="""
+        const new_value = []
+        new_value[0] = parseInt(text_start.value)
+        new_value[1] = parseInt(text_end.value)
+        range_slider.value = new_value
         const value = range_slider.value
         const start = value[0]
         const end = value[1]
@@ -162,6 +216,8 @@ def plot_data(cwd):
 
     range_slider.js_on_change('value', RangeSlider_callback)
     checkbox_group.js_on_change('active', CheckboxGroup_callback)
+    text_end.js_on_change('value', text_start_end_callback)
+    text_start.js_on_change('value', text_start_end_callback)
 
     my_widgets = column(row(text_start, text_end))
     layout = column(my_widgets, range_slider, p1, p2, p3)
