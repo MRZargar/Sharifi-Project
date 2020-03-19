@@ -106,6 +106,7 @@
         var OSM = ol.source.OSM;
         var GeoJSON = ol.format.GeoJSON;
         var Style = ol.style;
+        var Overlay = ol.Overlay;
 
         var lableStyle = function(feature){
             return new Style.Text({
@@ -150,7 +151,7 @@
         var content = document.getElementById('popup-content');
         var closer = document.getElementById('popup-closer');
 
-        var overlay = new ol.Overlay({
+        var overlay = new Overlay({
             element: container,
             positioning: 'bottom-center',
             stopEvent: false,
@@ -166,15 +167,6 @@
             closer.blur();
             return false;
         };
-
-        //     // change mouse cursor when over marker
-        //     if (evt.dragging) {
-        //         $(element).popover('destroy');
-        //         return;
-        //     }
-        //     var pixel = map.getEventPixel(evt.originalEvent);
-        //     var hit = map.hasFeatureAtPixel(pixel);
-        //     map.getTarget().style.cursor = hit ? 'pointer' : '';
 
         var map = new Map({
             target: 'map',
@@ -246,8 +238,6 @@
                                             +'</tr>' 
                                         +'</table>'
                                     +'</font>';
-            } else {
-                // closer.onclick();
             }
         });
 

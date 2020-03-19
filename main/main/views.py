@@ -90,6 +90,10 @@ def plots_map_page(request):
     return render(request, 'plot.html', dict(script=script, div=div))
 
 def map(request):
+    # # creating GeoJSON using DB datas ...
+    # from .Functions import GeoJSON
+    # geojson = GeoJSON.get()
+    
     # GeoJSON will created using DB datas...
     geojson = """{
         'type': 'FeatureCollection', 
@@ -139,5 +143,6 @@ def map(request):
         }]
         }"""
     return render(request, 'map.html', dict(geojsonObject=geojson))
+    
 # def my_handler404(request, exception):
 #     return render(request, '404.html', status=404)
