@@ -130,7 +130,7 @@ def map(request):
                 'Operator': 'Mohammad Reza Zargar',
                 'Sensor Type': 'type 2',
                 'Address': 'Univesity of Tehran',
-                'Status': 'Active',
+                'Status': 'Inactive',
                 'Start Time': '1398/01/01 10:52',
                 'End Time': '',
                 'Longitude': '35.6891',

@@ -215,7 +215,7 @@
                                             +'<tr>' 
                                                 +'<td>Status:</td>' 
                                                 +'<td><b>'
-                                                    +'<font color="green">'
+                                                    +'<font color="' + (feature.get('Status') == 'Active' ? 'green' : 'red') + '">'
                                                         + feature.get('Status') 
                                                     +'</font>'
                                                 +'</b></td>' 
