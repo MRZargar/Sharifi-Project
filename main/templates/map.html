@@ -9,7 +9,7 @@
     <script src="{% static 'dist/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <style>
     .map {
-        height: 550px;
+        height: 600px;
         width: 100%;
     }
     .ol-popup {
@@ -92,9 +92,10 @@
     <div id="popup" class="ol-popup">
         <a href="#" id="popup-closer" class="ol-popup-closer"></a>
         <div id="popup-content"></div>
-        <form action="\plot" method="GET" target="_blank">
+        <!-- <form action="\plot" method="GET" target="_blank">
+            <input type="hidden" id="siteID" name="siteID" value=>
             <input class="btn" type="submit" value="Show Data">
-        </form>
+        </form> -->
     </div>
 
     <script type="text/javascript">
@@ -237,7 +238,11 @@
                                                 +'<td>' + feature.get('Latitude') + '</td>' 
                                             +'</tr>' 
                                         +'</table>'
-                                    +'</font>';
+                                    +'</font>'
+                                    +'<form action="\\plot" method="GET" target="_blank">'
+                                        +'<input type="hidden" id="siteID" name="siteID" value=' + feature.get('ID') + '>'
+                                        +'<input class="btn" type="submit" value="Show Data">'
+                                    +'</form>';
             }
         });
 
