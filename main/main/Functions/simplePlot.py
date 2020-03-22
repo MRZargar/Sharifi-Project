@@ -88,21 +88,23 @@ def plot_data(cwd):
     # l3 = p.line(x='x', y='y3', source=source, legend_label="a_z", line_color="green")
     #  plot_width=width, plot_height=height,
 
+    axis_label_text_font_size = '20pt'
+
     p1 = figure(title="", plot_width=width, plot_height=height, tools="reset,pan,wheel_zoom,box_zoom", sizing_mode=sizing_mode, toolbar_location="below")
     l1 = p1.line(x='x', y='y1', source=source, line_color="red")
     p1.yaxis.axis_label = 'a_x'
-    p1.xaxis.axis_label_text_font_size = '15pt'
-    p1.yaxis.axis_label_text_font_size = '15pt'
+    p1.xaxis.axis_label_text_font_size = axis_label_text_font_size
+    p1.yaxis.axis_label_text_font_size = axis_label_text_font_size
     p2 = figure(title="", plot_width=width, plot_height=height, tools="reset,pan,wheel_zoom,box_zoom", sizing_mode=sizing_mode, toolbar_location="below")
     l2 = p2.line(x='x', y='y2', source=source, line_color="blue")
     p2.yaxis.axis_label = 'a_y'
-    p2.xaxis.axis_label_text_font_size = '15pt'
-    p2.yaxis.axis_label_text_font_size = '15pt'
+    p2.xaxis.axis_label_text_font_size = axis_label_text_font_size
+    p2.yaxis.axis_label_text_font_size = axis_label_text_font_size
     p3 = figure(title="", plot_width=width, plot_height=height, tools="reset,pan,wheel_zoom,box_zoom", sizing_mode=sizing_mode, toolbar_location="below")
     l3 = p3.line(x='x', y='y3', source=source, line_color="green")
     p3.yaxis.axis_label = 'a_z'
-    p3.xaxis.axis_label_text_font_size = '15pt'
-    p3.yaxis.axis_label_text_font_size = '15pt'
+    p3.xaxis.axis_label_text_font_size = axis_label_text_font_size
+    p3.yaxis.axis_label_text_font_size = axis_label_text_font_size
 
     xaxis_format = PrintfTickFormatter(format="%i")
     yaxis_format = PrintfTickFormatter(format="%5.1e")
@@ -122,13 +124,13 @@ def plot_data(cwd):
     p3.xaxis.minor_tick_line_color = None
 
 
-    p1.yaxis.axis_label_text_font_size = "9px"
-    p2.yaxis.axis_label_text_font_size = "9px"
-    p3.yaxis.axis_label_text_font_size = "9px"
+    p1.yaxis.axis_label_text_font_size = "15px"
+    p2.yaxis.axis_label_text_font_size = "15px"
+    p3.yaxis.axis_label_text_font_size = "15px"
 
-    p1.xaxis.major_label_text_font_size = "9px"
-    p2.xaxis.major_label_text_font_size = "9px"
-    p3.xaxis.major_label_text_font_size = "9px"
+    p1.xaxis.major_label_text_font_size = "13px"
+    p2.xaxis.major_label_text_font_size = "13px"
+    p3.xaxis.major_label_text_font_size = "13px"
 
 
     RangeSlider_callback = CustomJS(args=dict(
@@ -219,7 +221,8 @@ def plot_data(cwd):
     text_end.js_on_change('value', text_start_end_callback)
     text_start.js_on_change('value', text_start_end_callback)
 
-    my_widgets = column(row(text_start, text_end))
+    my_widgets = row(text_start, text_end)
+    my_widgets.sizing_mode = 'fixed'
     layout = column(my_widgets, range_slider, p1, p2, p3)
     layout.sizing_mode = sizing_mode
 
