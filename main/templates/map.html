@@ -212,8 +212,8 @@
             })
         });
 
-        map.on('pointermove', function(evt) {
-            var feature = map.forEachFeatureAtPixel(evt.pixel,
+        function ContentOfPopup(pixel) {
+            var feature = map.forEachFeatureAtPixel(pixel,
                 function(feature) {
                 return feature;
                 });
@@ -271,48 +271,45 @@
                                         +'<input class="btn" type="submit" value="Show Data">'
                                     +'</form>';
             }
+        }
+
+        map.on('pointermove', function(evt) {
+            ContentOfPopup(evt.pixel);
         });
 
         String.prototype.trunc = String.prototype.trunc ||
             function(n) {
             return this.length > n ? this.substr(0, n - 1) + '...' : this.substr(0);
         };
-    </script>
-
-
-<script type="text/javascript">
-
+    
+        
     var myData = [
             {
                 text: "Shahid Beheshti",
-                ID: 'ZARGAR',
                 color: '#234b6e',
                 tags: ['Active'],
+                Longitude: '35.6891',
+                Latitude: '52.4146',
                 nodes: [
                 {
                     text: "  1",
-                    ID: 'ZARGAR',
                     icon: 'glyphicon glyphicon-info-sign'
                 },
                 {
-                  text: "  Mohammad Reza Zargar",
-                  ID: 'ZARGAR',
+                  text: "  Mohammad Reza 1",
                   icon: "glyphicon glyphicon-user"
                 },
                 {
                   text: "  type 2",
-                  ID: 'ZARGAR',
                   icon: 'glyphicon glyphicon-wrench'
                 },
                 {
                     text: "  Active",
-                    ID: 'ZARGAR',
                     icon: 'glyphicon glyphicon-ok-sign',
                     color: 'green'
                 },
                 {
                     text: "  University of Tehran",
-                    ID: 'ZARGAR',
                     icon: 'glyphicon glyphicon-map-marker'
                 }                
                 ]
@@ -340,7 +337,14 @@
         levels: 2,
         showTags: true,
         onNodeSelected: function(event, node) {
-          map.overlay.setPosition([52.4146, 35.6891]);
+            var view = new View({
+                projection: 'EPSG:4326',
+                center: [node.Latitude, node.Longitude],
+                zoom: map.getView().getZoom()
+                });
+            map.setView(view);
+            var pixel = map.getPixelFromCoordinate([node.Latitude, node.Longitude]);
+            ContentOfPopup(pixel);
         }
     });
 </script>  
