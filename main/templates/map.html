@@ -4,9 +4,13 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'dist/css/ol.css' %}" type="text/css">
-    <script src="{% static 'dist/js/jquery-3.2.1.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'dist/vendor/bootstrap/css/bootstrap.min.css' %}">
-    <script src="{% static 'dist/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'dist/js/ol.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'assets/libs/bootstrap/dist-v3/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/libs/treeview/bootstrap-treeview.min.css' %}"> 
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script> 
+    <script src="{% static 'assets/libs/treeview/bootstrap-treeview.min.js' %}"></script> 
+
     <style>
     .map, .map-style {
         height: 600px;
@@ -99,15 +103,17 @@
         background-color: #dddddd;
     }
     </style>
-    <script src="{% static 'dist/js/ol.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <div class="row-map">
-        <div class="column-map" style="width: 20%;">
-            
+        <h5>Map</h5>
+    </div>
+    <div class="row-map">
+        <div class="column-map" style="width: 30%;">
+            <div id="myTreeView"></div>
         </div>
-        <div class="column-map" style="width: 80%;">
+        <div class="column-map" style="width: 70%;">
             <div id="map" class="map">
                 <div class="map-style" style="outline-style: solid; outline-width: 5px; outline-color: white; -moz-outline-radius: 10px;"></div>
                 <div class="map-style" style="outline-style: solid; outline-width: 1.5px; outline-color: rgba(0,0,0,.125); -moz-outline-radius: 5px;"></div>
@@ -272,4 +278,71 @@
             return this.length > n ? this.substr(0, n - 1) + '...' : this.substr(0);
         };
     </script>
+
+
+<script type="text/javascript">
+
+    var myData = [
+            {
+                text: "Shahid Beheshti",
+                ID: 'ZARGAR',
+                color: '#234b6e',
+                tags: ['Active'],
+                nodes: [
+                {
+                    text: "  1",
+                    ID: 'ZARGAR',
+                    icon: 'glyphicon glyphicon-info-sign'
+                },
+                {
+                  text: "  Mohammad Reza Zargar",
+                  ID: 'ZARGAR',
+                  icon: "glyphicon glyphicon-user"
+                },
+                {
+                  text: "  type 2",
+                  ID: 'ZARGAR',
+                  icon: 'glyphicon glyphicon-wrench'
+                },
+                {
+                    text: "  Active",
+                    ID: 'ZARGAR',
+                    icon: 'glyphicon glyphicon-ok-sign',
+                    color: 'green'
+                },
+                {
+                    text: "  University of Tehran",
+                    ID: 'ZARGAR',
+                    icon: 'glyphicon glyphicon-map-marker'
+                }                
+                ]
+            },
+            {
+                text: "Shahid Rajaee",
+                color: '#234b6e',
+                nodes: [
+                {
+                    text: "Inactive",
+                    icon: 'glyphicon glyphicon-remove-sign',
+                    color: 'red'
+                }
+                ]
+            }
+        ];
+
+    $('#myTreeView').treeview({
+        data: myData,
+        showBorder: false,
+        color: "#428bca",
+        expandIcon: 'glyphicon glyphicon-chevron-right',
+        collapseIcon: 'glyphicon glyphicon-chevron-down',
+        highlightSelected: true,
+        levels: 2,
+        showTags: true,
+        onNodeSelected: function(event, node) {
+          map.overlay.setPosition([52.4146, 35.6891]);
+        }
+    });
+</script>  
+
 {% endblock %}
