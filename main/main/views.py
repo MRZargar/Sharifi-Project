@@ -125,8 +125,8 @@ def map(request):
         }, {
             'type': 'Feature',
             'properties': {
-                'ID': '1',
-                'Name': 'Shahid Beheshti',
+                'ID': '2',
+                'Name': 'Shahid Soleimani',
                 'Operator': 'Mohammad Reza Zargar',
                 'Sensor Type': 'type 2',
                 'Address': 'Univesity of Tehran',

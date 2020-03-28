@@ -112,6 +112,7 @@
     <div class="row-map">
         <div class="column-map" style="width: 30%;">
             <div id="myTreeView"></div>
+            <div id="zzz"></div>
         </div>
         <div class="column-map" style="width: 70%;">
             <div id="map" class="map">
@@ -221,7 +222,7 @@
             if (feature) {
                 var coordinates = feature.getGeometry().getCoordinates();
                 overlay.setPosition(coordinates);
-                content.innerHTML = '<h6>' + feature.get('Name') + '</h6>'
+                content.innerHTML = '<h5><b>' + feature.get('Name') + '</b></h5>'
                                     +'<font size="2">' 
                                         +'<table>'
                                             +'<tr>' 
@@ -281,60 +282,53 @@
             function(n) {
             return this.length > n ? this.substr(0, n - 1) + '...' : this.substr(0);
         };
-    
-        
-    var myData = [
-            {
-                text: "Shahid Beheshti",
-                color: '#234b6e',
-                tags: ['Active'],
-                Longitude: '35.6891',
-                Latitude: '52.4146',
-                nodes: [
-                {
-                    text: "  1",
-                    icon: 'glyphicon glyphicon-info-sign'
-                },
-                {
-                  text: "  Mohammad Reza 1",
-                  icon: "glyphicon glyphicon-user"
-                },
-                {
-                  text: "  type 2",
-                  icon: 'glyphicon glyphicon-wrench'
-                },
-                {
-                    text: "  Active",
-                    icon: 'glyphicon glyphicon-ok-sign',
-                    color: 'green'
-                },
-                {
-                    text: "  University of Tehran",
-                    icon: 'glyphicon glyphicon-map-marker'
-                }                
-                ]
-            },
-            {
-                text: "Shahid Rajaee",
-                color: '#234b6e',
-                nodes: [
-                {
-                    text: "Inactive",
-                    icon: 'glyphicon glyphicon-remove-sign',
-                    color: 'red'
-                }
-                ]
-            }
-        ];
 
-    $('#myTreeView').treeview({
-        data: myData,
+        function myTreeData() {
+            var json = '[';
+            vectorS.forEachFeature(function (feature) {
+                json = json + "{"
+                            + '"text": "' + feature.get('Name') + '", '
+                            + '"color": "#234b6e", '
+                            + '"Longitude": "' + feature.get('Longitude') + '", ' 
+                            + '"Latitude": "' + feature.get('Latitude') + '", ' 
+                            + (feature.get('Status') == 'Active' ? '"tags": ["Active"], ' : '')
+                            + '"nodes":['
+                                + '{'
+                                    + '"text": "  ' + feature.get('ID') + '", '
+                                    + '"icon": "glyphicon glyphicon-info-sign"'
+                                + '}, '
+                                + '{'
+                                    + '"text": "  ' + feature.get('Operator') + '", '
+                                    + '"icon": "glyphicon glyphicon-user"'
+                                + '},'
+                                + '{'
+                                    + '"text": "  ' + feature.get('Sensor Type') + '", '
+                                    + '"icon": "glyphicon glyphicon-wrench"'
+                                + '}, '
+                                + '{'
+                                    + '"text": "  ' + feature.get('Status') + '", '
+                                    + '"icon": "glyphicon glyphicon-' + (feature.get('Status') == 'Active' ? 'ok-sign"' : 'remove-sign"') + ', '
+                                    + '"color": ' + (feature.get('Status') == 'Active' ? '"green"' : '"red"')
+                                + '}, '
+                                + '{'
+                                    + '"text": "  ' + feature.get('Address') + '", '
+                                    + '"icon": "glyphicon glyphicon-map-marker"'
+                                + '}'
+                            + ']},';
+            });
+            json = json.substr(0, json.length - 1) + ']';
+
+            return JSON.parse(json);;
+        };
+
+        $('#myTreeView').treeview({
+        data: myTreeData(),
         showBorder: false,
         color: "#428bca",
         expandIcon: 'glyphicon glyphicon-chevron-right',
         collapseIcon: 'glyphicon glyphicon-chevron-down',
         highlightSelected: true,
-        levels: 2,
+        levels: 1,
         showTags: true,
         onNodeSelected: function(event, node) {
             var view = new View({
