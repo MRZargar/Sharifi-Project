@@ -8,9 +8,24 @@
     <link rel="stylesheet" href="{% static 'dist/vendor/bootstrap/css/bootstrap.min.css' %}">
     <script src="{% static 'dist/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <style>
-    .map {
+    .map, .map-style {
         height: 600px;
         width: 100%;
+        position: relative;
+    }
+    .map-style {
+        position: absolute; 
+        top: 0; 
+        left: 0;
+    }
+    .column-map {
+        padding: 10px;
+        float: left;
+    }
+    .row-map::after {
+        content: "";
+        display: table;
+        clear: both;
     }
     .ol-popup {
         position: absolute;
@@ -88,14 +103,20 @@
 {% endblock %}
 
 {% block content %}
-    <div id="map" class="map"></div>
-    <div id="popup" class="ol-popup">
-        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-        <div id="popup-content"></div>
-        <!-- <form action="\plot" method="GET" target="_blank">
-            <input type="hidden" id="siteID" name="siteID" value=>
-            <input class="btn" type="submit" value="Show Data">
-        </form> -->
+    <div class="row-map">
+        <div class="column-map" style="width: 20%;">
+            
+        </div>
+        <div class="column-map" style="width: 80%;">
+            <div id="map" class="map">
+                <div class="map-style" style="outline-style: solid; outline-width: 5px; outline-color: white; -moz-outline-radius: 10px;"></div>
+                <div class="map-style" style="outline-style: solid; outline-width: 1.5px; outline-color: rgba(0,0,0,.125); -moz-outline-radius: 5px;"></div>
+            </div>
+            <div id="popup" class="ol-popup">
+                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                <div id="popup-content"></div>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript">
