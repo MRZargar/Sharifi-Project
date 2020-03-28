@@ -134,7 +134,7 @@ def map(request):
                 'Start Time': '1398/01/01 10:52',
                 'End Time': '',
                 'Longitude': '35.6891',
-                'Latitude': '52.4146'
+                'Latitude': '51.4146'
             },
             'geometry': {
             'type': 'Point',

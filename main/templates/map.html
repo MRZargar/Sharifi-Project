@@ -112,7 +112,6 @@
     <div class="row-map">
         <div class="column-map" style="width: 30%;">
             <div id="myTreeView"></div>
-            <div id="zzz"></div>
         </div>
         <div class="column-map" style="width: 70%;">
             <div id="map" class="map">
@@ -336,9 +335,11 @@
                 center: [node.Latitude, node.Longitude],
                 zoom: map.getView().getZoom()
                 });
-            map.setView(view);
-            var pixel = map.getPixelFromCoordinate([node.Latitude, node.Longitude]);
-            ContentOfPopup(pixel);
+            if (node.Longitude){
+                map.setView(view);
+                var pixel = map.getPixelFromCoordinate([node.Latitude, node.Longitude]);
+                ContentOfPopup(pixel);
+            }
         }
     });
 </script>  
