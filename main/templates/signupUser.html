@@ -1,0 +1,65 @@
+{% load static %} {% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/uni.png' %}">
+    <title> Sign In </title>
+    <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <h1 style="text-align: center;">Sign Up</h1>
+                    <div class="card-body">
+                        <div class="material-icon-list-demo">
+
+                            <form method="post">
+                                {% csrf_token %} {{ form|crispy }}
+                                <button class="btn btn-success" type="submit">Sign Up</button>
+                            </form>
+                            <!-- ============================================================== -->
+                            <!-- End Container fluid  -->
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+                            <!-- footer -->
+                            <!-- ============================================================== -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer text-center">
+            © 2020 <a href="https://ut.ac.ir" target="_blank">University of Tehran</a> All rights reserved
+        </footer>
+    </div>
+</body>
+<!-- ============================================================== -->
+<script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script src="{% static 'assets/libs/popper.js/dist/umd/popper.min.js' %}"></script>
+<script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'dist/js/app-style-switcher.js' %}"></script>
+<!--Wave Effects -->
+<script src="{% static 'dist/js/waves.js' %}"></script>
+<!--Menu sidebar -->
+<script src="{% static 'dist/js/sidebarmenu.js' %}"></script>
+<!--Custom JavaScript -->
+<script src="{% static 'dist/js/custom.js' %}"></script>
+</body>
+
+</html>
