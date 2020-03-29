@@ -106,14 +106,32 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row-map">
-        <h5>Map</h5>
+    <div class="container">
+        <div class="row">
+            <h3>Map</h3>
+        </div>
     </div>
     <div class="row-map">
-        <div class="column-map" style="width: 30%;">
-            <div id="myTreeView"></div>
+        <div class="column-map" style="width: 27%;">
+            <div class="row-map">
+                <div class="column-map" style="padding: 2px; width: 17%;">
+                    <button type="button" class="btn btn-default" id="btn-search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="column-map" style="padding: 2px; width: 83%;">
+                    <div class="form-group">
+                        <label for="input-search" class="sr-only">Search Tree:</label>
+                        <input type="input" class="form-control" id="input-search" placeholder="Type to search..." value="">
+                    </div>
+                </div>
+            </div>
+            <div class="row-map">
+                <div id="myTreeView"></div>
+            </div>
+            <div id="zzz"></div>
         </div>
-        <div class="column-map" style="width: 70%;">
+        <div class="column-map" style="width: 73%;">
             <div id="map" class="map">
                 <div class="map-style" style="outline-style: solid; outline-width: 5px; outline-color: white; -moz-outline-radius: 10px;"></div>
                 <div class="map-style" style="outline-style: solid; outline-width: 1.5px; outline-color: rgba(0,0,0,.125); -moz-outline-radius: 5px;"></div>
@@ -320,7 +338,7 @@
             return JSON.parse(json);;
         };
 
-        $('#myTreeView').treeview({
+        var $searchableTree = $('#myTreeView').treeview({
         data: myTreeData(),
         showBorder: false,
         color: "#428bca",
@@ -329,6 +347,8 @@
         highlightSelected: true,
         levels: 1,
         showTags: true,
+        searchResultColor: "#ffffff",
+        searchResultBackColor: "#aaaaaa",
         onNodeSelected: function(event, node) {
             var view = new View({
                 projection: 'EPSG:4326',
@@ -342,6 +362,20 @@
             }
         }
     });
+
+    var search = function(e) {
+        $searchableTree.treeview('collapseAll');
+        var pattern = $('#input-search').val();
+        var options = {
+        ignoreCase: false,
+        exactMatch: false,
+        revealResults: true
+        };
+        var results = $searchableTree.treeview('search', [ pattern, options ]);
+    };
+
+    $('#btn-search').on('click', search);
+    $('#input-search').on('keyup', search);
 </script>  
 
 {% endblock %}
