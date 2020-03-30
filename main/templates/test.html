@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Toolbar{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/libs/bootstrap/dist-v3/css/bootstrap.css' %}">
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script> 
+    <script src="{% static 'assets/libs/bootstrap/dist-v3/js/bootstrap.js' %}"></script> 
+
+    <link rel="stylesheet" href="{% static 'assets/libs/clockpicker/dist/jquery-clockpicker.css' %}"> 
+    <script src="{% static 'assets/libs/clockpicker/dist/jquery-clockpicker.js' %}"></script> 
+
+    <link rel="stylesheet" href="{% static 'assets/libs/calendar/dist/jquery.md.bootstrap.datetimepicker.style.css' %}"> 
+    <script src="{% static 'assets/libs/calendar/dist/jquery.md.bootstrap.datetimepicker.js' %}"></script> 
+
+    <style>
+        .ul-plot-toolbar {
+            border-style: solid;
+            border-width: 1.5px;
+            border-color: rgba(0,0,0,.125);
+            border-radius: 5px;
+            list-style-type: none;
+            padding: 2.5px;
+            overflow: hidden;
+            background-color: #888;
+        }
+
+        .li-plot-toolbar {
+            padding: 5px;
+            float: right;
+        }
+
+        .li-plot-toolbar-text {
+            float: right;
+            color: white;
+            text-align: center;
+            padding-top: 8px;
+            padding-right: 2px;
+            padding-left: 10px;
+            font-size: large;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <ul class="ul-plot-toolbar">
+        <li class="li-plot-toolbar" style="width: 110px;">
+            <div class="input-group clockpicker">
+                <input type="text" id="ToClock" class="form-control" value="00:00">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
+        </li>
+        <li class="li-plot-toolbar-text">To:</li>
+        <li class="li-plot-toolbar" style="width: 110px;">
+            <div class="input-group clockpicker">
+                <input type="text" id="FromClock" class="form-control" value="00:00">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
+        </li>
+        <li class="li-plot-toolbar-text">From:</li>
+        <li class="li-plot-toolbar" style="width: 145px;">
+            <div class="input-group">
+                <input type="text" id="inputDate2" class="form-control" placeholder="Gregorian Calendar" aria-label="date2" aria-describedby="date2">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date2"></span>
+                </span>
+            </div>
+        </li>
+        <li class="li-plot-toolbar-text">Data:</li>
+    </ul>
+
+    <div class="container">
+        <div class="row">
+            <h3>ToolBar</h3>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    
+        $('#date2').MdPersianDateTimePicker({
+            targetTextSelector: '#inputDate2',
+            selectedDate: new Date(),
+            isGregorian: false,
+            placement: 'bottom',
+            align: 'right',
+            autoclose: true
+        });
+        
+    </script>
+    
+    <script type="text/javascript">
+
+        $('.clockpicker').clockpicker({
+            'default': "00:00",
+            placement: 'bottom',
+            align: 'right',
+            autoclose: true,
+            afterShow: function() {
+                $(".clockpicker-minutes").find(".clockpicker-tick").filter(function(index,element){
+                    return ($.inArray($(element).text(), ['00']) == -1)
+                }).remove();
+            }
+        });
+        
+    </script>
+
+
+{% endblock %}
