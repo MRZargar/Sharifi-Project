@@ -108,7 +108,7 @@ def map(request):
             'type': 'Feature',
             'properties': {
                 'ID': '1',
-                'Name': 'Shahid Beheshti',
+                'Name': 'Donald Trump',
                 'Operator': 'Mohammad Reza Zargar',
                 'Sensor Type': 'type 2',
                 'Address': 'Univesity of Tehran',
@@ -126,7 +126,7 @@ def map(request):
             'type': 'Feature',
             'properties': {
                 'ID': '2',
-                'Name': 'Shahid Soleimani',
+                'Name': 'Dear Benjamin Netanyahu <3',
                 'Operator': 'Mohammad Reza Zargar',
                 'Sensor Type': 'type 2',
                 'Address': 'Univesity of Tehran',
