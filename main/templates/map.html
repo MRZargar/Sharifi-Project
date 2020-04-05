@@ -7,104 +7,13 @@
     <script src="{% static 'dist/js/ol.js' %}"></script>
 
     <link rel="stylesheet" href="{% static 'assets/libs/bootstrap/dist-v3/css/bootstrap.css' %}">
-    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script> 
-    <script src="{% static 'assets/libs/bootstrap/dist-v3/js/bootstrap.js' %}"></script> 
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist-v3/js/bootstrap.js' %}"></script>
 
-    <link rel="stylesheet" href="{% static 'assets/libs/treeview/bootstrap-treeview.min.css' %}"> 
-    <script src="{% static 'assets/libs/treeview/bootstrap-treeview.min.js' %}"></script> 
+    <link rel="stylesheet" href="{% static 'assets/libs/treeview/bootstrap-treeview.min.css' %}">
+    <script src="{% static 'assets/libs/treeview/bootstrap-treeview.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'dist/css/plot_style.css' %}" type="text/css">
 
-    <style>
-    .map, .map-style {
-        height: 600px;
-        width: 100%;
-        position: relative;
-    }
-    .map-style {
-        position: absolute; 
-        top: 0; 
-        left: 0;
-    }
-    .column-map {
-        padding: 10px;
-        float: left;
-    }
-    .row-map::after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-    .ol-popup {
-        position: absolute;
-        background-color: white;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-        padding: 15px;
-        border-radius: 10px;
-        border: 1px solid #cccccc;
-        bottom: 12px;
-        left: -50px;
-        min-width: 280px;
-    }
-    .ol-popup:after, .ol-popup:before {
-        top: 100%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-    }
-    .ol-popup:after {
-        border-top-color: white;
-        border-width: 10px;
-        left: 48px;
-        margin-left: -10px;
-    }
-    .ol-popup:before {
-        border-top-color: #cccccc;
-        border-width: 11px;
-        left: 48px;
-        margin-left: -11px;
-    } 
-    .ol-popup-closer {
-        text-decoration: none;
-        position: absolute;
-        top: 2px;
-        right: 8px;
-    }
-    .ol-popup-closer:after {
-        content: "✖";
-    }
-    
-    input[type=submit] {
-        position: absolute;
-        bottom: 2px;
-        right: 15px;
-        color: blue;
-        background-color: #ffffff;
-        padding: 0px;
-        font-size: 15px;
-    }
-
-    input[type=submit]:hover {
-        background-color: #dddddd;
-    }
-
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td, th {
-        border: 1px solid #ffffff;
-        text-align: left;
-        padding: 0px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-    </style>
 {% endblock %}
 
 {% block content %}
@@ -113,36 +22,36 @@
             <h3>Map</h3>
         </div>
     </div>
-    <div class="row-map">
-        <div class="column-map" style="width: 27%;">
-            <div class="row-map">
-                <div class="column-map" style="padding: 2px; width: 17%;">
-                    <button type="button" class="btn btn-default" id="btn-search">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <div class="column-map" style="padding: 2px; width: 83%;">
-                    <div class="form-group">
-                        <label for="input-search" class="sr-only">Search Tree:</label>
-                        <input type="input" class="form-control" id="input-search" placeholder="Type to search..." value="">
+        <div class="row-map-main">
+            <div class="column-map-main">
+                <div class="row-map1">
+                    <div class="column-map1" >
+                        <button type="button" class="btn btn-default" id="btn-search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="column-map2" style="padding: 2px; width: 83%;">
+                        <div class="form-group">
+                            <label for="input-search" class="sr-only">Search Tree:</label>
+                            <input type="input" class="form-control" id="input-search" placeholder="Type to search..." value="">
+                        </div>
                     </div>
                 </div>
+                <div class="row-map3">
+                    <div id="myTreeView"></div>
+                </div>
             </div>
-            <div class="row-map">
-                <div id="myTreeView"></div>
+            <div class="column-map3">
+                <div id="map" class="map">
+                    <div class="map-style" style="outline-style: solid; outline-width: 5px; outline-color: white; -moz-outline-radius: 10px;"></div>
+                    <div class="map-style" style="outline-style: solid; outline-width: 1.5px; outline-color: rgba(0,0,0,.125); -moz-outline-radius: 5px;"></div>
+                </div>
+                <div id="popup" class="ol-popup">
+                    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                    <div id="popup-content"></div>
+                </div>
             </div>
         </div>
-        <div class="column-map" style="width: 73%;">
-            <div id="map" class="map">
-                <div class="map-style" style="outline-style: solid; outline-width: 5px; outline-color: white; -moz-outline-radius: 10px;"></div>
-                <div class="map-style" style="outline-style: solid; outline-width: 1.5px; outline-color: rgba(0,0,0,.125); -moz-outline-radius: 5px;"></div>
-            </div>
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
-            </div>
-        </div>
-    </div>
 
     <script type="text/javascript">
         var Map = ol.Map;
@@ -192,7 +101,7 @@
         var vectorL = new VectorLayer({
             source: vectorS,
             style: pointStyle
-        });        
+        });
 
         var container = document.getElementById('popup');
         var content = document.getElementById('popup-content');
@@ -208,7 +117,7 @@
                 duration: 250
             }
         });
-        
+
         closer.onclick = function() {
             overlay.setPosition(undefined);
             closer.blur();
@@ -241,48 +150,48 @@
                 var coordinates = feature.getGeometry().getCoordinates();
                 overlay.setPosition(coordinates);
                 content.innerHTML = '<h5><b>' + feature.get('Name') + '</b></h5>'
-                                    +'<font size="2">' 
+                                    +'<font size="2">'
                                         +'<table>'
-                                            +'<tr>' 
-                                                +'<td>ID:</td>' 
-                                                +'<td>' + feature.get('ID') + '</td>' 
-                                            +'</tr>' 
-                                            +'<tr>' 
-                                                +'<td>Operator:</td>' 
-                                                +'<td>' + feature.get('Operator') + '</td>' 
-                                            +'</tr>' 
-                                            +'<tr>' 
-                                                +'<td>Sensor Type:</td>' 
-                                                +'<td>' + feature.get('Sensor Type') + '</td>' 
-                                            +'</tr>' 
-                                            +'<tr>' 
-                                                +'<td>Address:</td>' 
-                                                +'<td>' + feature.get('Address') + '</td>' 
-                                            +'</tr>' 
-                                            +'<tr>' 
-                                                +'<td>Status:</td>' 
+                                            +'<tr>'
+                                                +'<td>ID:</td>'
+                                                +'<td>' + feature.get('ID') + '</td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td>Operator:</td>'
+                                                +'<td>' + feature.get('Operator') + '</td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td>Sensor Type:</td>'
+                                                +'<td>' + feature.get('Sensor Type') + '</td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td>Address:</td>'
+                                                +'<td>' + feature.get('Address') + '</td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td>Status:</td>'
                                                 +'<td><b>'
                                                     +'<font color="' + (feature.get('Status') == 'Active' ? 'green' : 'red') + '">'
-                                                        + feature.get('Status') 
+                                                        + feature.get('Status')
                                                     +'</font>'
-                                                +'</b></td>' 
-                                            +'</tr>' 
-                                            +'<tr>' 
-                                                +'<td>Start Time:</td>' 
-                                                +'<td>' + feature.get('Start Time') + '</td>' 
-                                            +'</tr>' 
-                                            +'<tr>' 
-                                                +'<td>End Time:</td>' 
-                                                +'<td>' + feature.get('End Time') + '</td>' 
-                                            +'</tr>' 
-                                            +'<tr>' 
-                                                +'<td>Longitude:</td>' 
-                                                +'<td>' + feature.get('Longitude') + '</td>' 
-                                            +'</tr>' 
-                                            +'<tr>' 
-                                                +'<td>Latitude:</td>' 
-                                                +'<td>' + feature.get('Latitude') + '</td>' 
-                                            +'</tr>' 
+                                                +'</b></td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td>Start Time:</td>'
+                                                +'<td>' + feature.get('Start Time') + '</td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td>End Time:</td>'
+                                                +'<td>' + feature.get('End Time') + '</td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td>Longitude:</td>'
+                                                +'<td>' + feature.get('Longitude') + '</td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td>Latitude:</td>'
+                                                +'<td>' + feature.get('Latitude') + '</td>'
+                                            +'</tr>'
                                         +'</table>'
                                     +'</font>'
                                     +'<form action="\\plot" method="GET" target="_blank">'
@@ -307,8 +216,8 @@
                 json = json + "{"
                             + '"text": "' + feature.get('Name') + '", '
                             + '"color": "#234b6e", '
-                            + '"Longitude": "' + feature.get('Longitude') + '", ' 
-                            + '"Latitude": "' + feature.get('Latitude') + '", ' 
+                            + '"Longitude": "' + feature.get('Longitude') + '", '
+                            + '"Latitude": "' + feature.get('Latitude') + '", '
                             + (feature.get('Status') == 'Active' ? '"tags": ["Active"], ' : '')
                             + '"nodes":['
                                 + '{'
@@ -377,6 +286,6 @@
 
     $('#btn-search').on('click', search);
     $('#input-search').on('keyup', search);
-</script>  
+</script>
 
 {% endblock %}
