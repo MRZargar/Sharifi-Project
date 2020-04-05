@@ -56,7 +56,11 @@
 							Sign in
 						</button>
                     </div>
-
+                    {% if post == False %}
+                    <div>
+                        <p class="wrongsign" align="center" style="color:crimson; padding-bottom:10px; font-size:large" }><b>Wrong username or password</b></p>
+                    </div>
+                    {% endif %}
                     <div class="text-center p-t-90" style="position: relative; right: 2px;">
                         <a class="txt1" href="#">
 							Forgot Password?   
@@ -64,7 +68,6 @@
                         <a class="txt1" href="{% url 'signup2' %}">
                                 |Sign Up
                             </a>
-
                     </div>
                 </form>
             </div>

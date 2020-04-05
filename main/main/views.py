@@ -8,6 +8,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.contrib import auth
+from django.http import JsonResponse
+import json
 
 User = get_user_model()
 
@@ -46,6 +48,8 @@ def AdminProfile(request):
 
 
 def signpage(request):
+    post = True
+    count = 0
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -62,7 +66,11 @@ def signpage(request):
                     auth.login(request, user)
                     return redirect("AdminProfile")
         else:
-            return render(request, 'Signin2.html', {})
+            count += 1
+            if count > 0:
+                post = False
+            count += 1
+            return render(request, 'Signin.html', {"post":post})
     else:
         return render(request, 'Signin.html', {})
 

@@ -39,7 +39,6 @@ if DEBUG is False:
 if DEBUG is True:
     ALLOWED_HOSTS = [
         '127.0.0.1',
-        '192.168.1.114',
         '*',
     ]
 
@@ -143,4 +142,11 @@ STATICFILES_DIRS = [
 ]
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ut810395@gmail.com'
+EMAIL_HOST_PASSWORD = 'ABcd!@1234'
+EMAIL_PORT = 587
