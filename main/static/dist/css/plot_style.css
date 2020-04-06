@@ -138,6 +138,10 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
+#myTreeView {
+    height: 550px;
+    overflow-y: scroll;
+}
 
 /*######### mobile ###########*/
 
@@ -159,6 +163,9 @@ tr:nth-child(even) {
     }
     .map,
     .map-style {
+        height: 300px;
+    }
+    #myTreeView {
         height: 300px;
     }
 }
