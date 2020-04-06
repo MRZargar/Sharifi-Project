@@ -157,4 +157,8 @@ tr:nth-child(even) {
     .column-map3 {
         width: 100%;
     }
+    .map,
+    .map-style {
+        height: 300px;
+    }
 }
