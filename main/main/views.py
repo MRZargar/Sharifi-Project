@@ -56,13 +56,13 @@ def signpage(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             request.session['username'] = username
-            if user.is_user:
+            if user.userType == 'is_user':
                 auth.login(request, user)
                 return redirect("UserProfile")
-            elif user.is_operator:
+            elif user.userType == 'is_operator':
                     auth.login(request, user)
                     return redirect("OperatorProfile")
-            elif user.is_admin:
+            elif user.userType == 'is_admin':
                     auth.login(request, user)
                     return redirect("AdminProfile")
         else:

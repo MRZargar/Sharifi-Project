@@ -6,11 +6,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
-
-
+from django.contrib.auth.models import User
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('sucess')
+    success_url = reverse_lazy('success')
     template_name = 'signup.html'
 
 def sucess_signup(request):
