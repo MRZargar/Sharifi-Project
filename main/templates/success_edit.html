@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% load static %}
+<!--  Title  -->
+{% block title %}Success{% endblock %}
+<!-- Load css if need -->
+{% block css %}
+<!-- -->
+{% endblock %} {% block email %} {% endblock %}
+
+
+
+<!-- Page Name -->
+{% block pageName %} Home {% endblock %} {% block pageName2 %} {% endblock %} {% block content %}
+
+<h1 align-text="center">Success</h1>
+<p>Your user name changed successfuly and new username is a <b>{{ request.user.username }}</b></p>
+{% endblock %}

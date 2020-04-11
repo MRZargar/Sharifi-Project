@@ -11,6 +11,4 @@
 
 <h1 align-text="center">Wellcome </h1>
 <p>Admin Home</p>
-
-
-{% endblock %}
+<a href="{% url 'signup' request.user.pk %}"> SignUp</a> {% endblock %}
