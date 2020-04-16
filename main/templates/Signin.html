@@ -51,23 +51,25 @@
 							Remember me
 						</label>
                     </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div>
+                        <p class="wrongsign" align="center"}><b>{{ message }}</b></p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                     <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="submit">
 							Sign in
 						</button>
                     </div>
-                    {% if post == False %}
-                    <div>
-                        <p class="wrongsign" align="center" style="color:crimson; padding-bottom:10px; font-size:large" }><b>Wrong username or password</b></p>
-                    </div>
-                    {% endif %}
                     <div class="text-center p-t-90" style="position: relative; right: 2px;">
                         <a class="txt1" href="#">
 							Forgot Password?   
                         </a>
                         <a class="txt1" href="{% url 'signup2' %}">
                                 |Sign Up
-                            </a>
+                         </a>
                     </div>
                 </form>
             </div>
@@ -75,7 +77,6 @@
     </div>
 
 
-    <div id=" dropDownSelect1 "></div>
 
 </body>
 <script src="{% static 'dist/js/main.js' %} "></script>

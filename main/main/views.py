@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib import auth
 from django.http import JsonResponse
 import json
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -48,8 +49,6 @@ def AdminProfile(request):
 
 
 def signpage(request):
-    post = True
-    count = 0
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -66,11 +65,9 @@ def signpage(request):
                     auth.login(request, user)
                     return redirect("AdminProfile")
         else:
-            count += 1
-            if count > 0:
-                post = False
-            count += 1
-            return render(request, 'Signin.html', {"post":post})
+            messages.error(request, "Wrong username or password")
+            return redirect('signpage')
+
     else:
         return render(request, 'Signin.html', {})
 

@@ -64,7 +64,7 @@ def SignUpView(request, pk):
             return redirect('account_activation_sent')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'signupUser.html', {'form': form})
+    return render(request, 'signup.html', {'form': form})
 
 
 
