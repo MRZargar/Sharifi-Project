@@ -50,6 +50,7 @@ a {
     -webkit-transition: all 0.4s;
     -o-transition: all 0.4s;
     -moz-transition: all 0.4s;
+    text-decoration: none;
 }
 
 a:focus {
@@ -58,7 +59,7 @@ a:focus {
 
 a:hover {
     text-decoration: none;
-    color: #fff;
+    color: rgb(84, 201, 247);
 }
 
 
@@ -248,6 +249,7 @@ iframe {
     overflow: hidden;
     padding: 55px 55px 37px 55px;
     background: linear-gradient(to top, #16222a, #3a6073);
+    margin-top: -60px;
 }
 
 
@@ -575,10 +577,21 @@ iframe {
     }
 }
 
-
-.wrongsign{
+.wrongsign {
     color: crimson;
     margin-bottom: 4px;
     font-size: large;
+}
 
+.footer--another {
+    padding: 15px 20px;
+    text-align: center!important;
+    display: block;
+    position: fixed;
+    bottom: 0;
+}
+
+.footer--another a {
+    color: #2962FF;
+    background-color: transparent;
 }

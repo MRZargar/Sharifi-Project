@@ -15,7 +15,6 @@
     -moz-transform: rotate(45deg)
 }
 
-
 :root {
     --blue: #2962FF;
     --indigo: #6610f2;
@@ -99,7 +98,7 @@ section {
 body {
     margin: 0;
     font-family: "Nunito Sans", sans-serif;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
     color: #3e5569;
@@ -2829,7 +2828,8 @@ fieldset:disabled a.btn {
 .btn-success {
     color: #fff;
     background-color: #36bea6;
-    border-color: #36bea6
+    border-color: #36bea6;
+    border-radius: 5px;
 }
 
 .btn-success:hover {
@@ -2864,6 +2864,11 @@ fieldset:disabled a.btn {
 .show>.btn-success.dropdown-toggle:focus {
     -webkit-box-shadow: 0 0 0 0.2rem rgba(54, 190, 166, 0.5);
     box-shadow: 0 0 0 0.2rem rgba(54, 190, 166, 0.5)
+}
+
+.btn-password--reset {
+    margin: 30px auto 0 auto;
+    display: block;
 }
 
 .btn-info {
@@ -7335,6 +7340,7 @@ button.bg-purple:hover {
 
 .rounded-circle {
     border-radius: 50%!important;
+    padding-right: 2.5px;
 }
 
 .rounded-0 {
@@ -11514,7 +11520,7 @@ ul.list-style-none li a:hover {
 
 .sidebar-nav ul .sidebar-item .sidebar-link {
     color: #fff;
-    padding: 14px 15px;
+    padding: 30px 15px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -11523,7 +11529,11 @@ ul.list-style-none li a:hover {
     -ms-flex-align: center;
     align-items: center;
     line-height: 25px;
-    opacity: 0.6
+    opacity: 0.75
+}
+
+.User-profile-custom {
+    font-size: 20px;
 }
 
 .sidebar-nav ul .sidebar-item .sidebar-link i {
@@ -12267,6 +12277,88 @@ html body .waves-notransition {
 .profiletimeline .sl-date {
     font-size: 12px;
     color: #a1aab2
+}
+
+.password--reset {
+    position: relative;
+    margin: 0 auto;
+    width: 450px;
+    top: 120px;
+}
+
+.SignUp--user {
+    position: relative;
+    margin: 0 auto;
+    width: 450px;
+    top: 120px
+}
+
+.password--reset--header {
+    text-align: center;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.password--reset--box {
+    border: 1px solid gray;
+    box-sizing: border-box;
+    position: absolute;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 3px;
+}
+
+.card-body small ul {
+    position: relative;
+    left: -20px;
+}
+
+.password--reset--box--text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.password--reset--box--text--done {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.password--reset--box--text--done a {
+    padding: 0 2px 0 2px;
+    color: #388E3C;
+}
+
+.password--reset--box--text--done a:hover {
+    color: rgb(41, 132, 168);
+}
+
+.footer--another--pass {
+    margin: 0 auto;
+    text-align: center!important;
+    top: 450px;
+    position: relative;
+}
+
+.footer--another--signup {
+    margin: 0 auto;
+    text-align: center!important;
+    top: 850px;
+    position: relative;
+}
+
+.footer--another--confirm {
+    margin: 0 auto;
+    text-align: center!important;
+    top: 550px;
+    position: relative;
+}
+
+.footer--another--complete {
+    margin: 0 auto;
+    text-align: center!important;
+    top: 400px;
+    position: relative;
 }
 
 @media (min-width:768px) {

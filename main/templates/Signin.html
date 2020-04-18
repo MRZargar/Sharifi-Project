@@ -44,36 +44,32 @@
                         <input class="input100" type="password" name="password" placeholder="Password" required="required">
                         <span class="focus-input100" data-placeholder="&#xf191;"></span>
                     </div>
-
-                    <div class="contact100-form-checkbox">
-                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-                        <label class="label-checkbox100" for="ckb1">
-							Remember me
-						</label>
-                    </div>
-                    {% if messages %}
-                    {% for message in messages %}
+                    {% if messages %} {% for message in messages %}
                     <div>
-                        <p class="wrongsign" align="center"}><b>{{ message }}</b></p>
+                        <p class="wrongsign" align="center" }><b>{{ message }}</b></p>
                     </div>
-                    {% endfor %}
-                    {% endif %}
+                    {% endfor %} {% endif %}
                     <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="submit">
 							Sign in
 						</button>
                     </div>
                     <div class="text-center p-t-90" style="position: relative; right: 2px;">
-                        <a class="txt1" href="#">
+                        <a class="txt1" href="/users/password_reset/">
 							Forgot Password?   
                         </a>
                         <a class="txt1" href="{% url 'signup2' %}">
-                                |Sign Up
+                                Sign Up
                          </a>
                     </div>
                 </form>
             </div>
+            <footer class="footer--another">
+                © 2020 <a href="https://ut.ac.ir" target="_blank">University of Tehran</a> All rights reserved
+            </footer>
+
         </div>
+
     </div>
 
 

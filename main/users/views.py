@@ -67,13 +67,8 @@ def SignUpView(request, pk):
     return render(request, 'signup.html', {'form': form})
 
 
-
-
-
-
-
-
-
+def profile_view(request, pk):
+    return render(request, 'profile.html', {})
 
 def success_signup(request):
     return render(request, 'signup2.html', {})

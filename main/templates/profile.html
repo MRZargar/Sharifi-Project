@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %}
+<!--  Title  -->
+{% block title %}profile{% endblock %}
+<!-- Load css if need -->
+{% block css %}
+<!-- -->
+{% endblock %}
+
+<!-- Page Name -->
+{% block pageName %} Profile {% endblock %}{% block content %}
+
+<h3>Change username</h3>
+<hr>
+<p>If you want change your username click the button below</p>
+<botton class="btn btn-success" onclick=location.href="{% url 'EditUserName' request.user.pk %}">Username</botton>
+<h3 style="padding-top: 15px;">Change password</h3>
+<hr>
+<p>If you want change your password click the button below</p>
+<botton class="btn btn-success" onclick=location.href="../password_change/">Password</botton>
+{% endblock %}
+
+<a href="{% url 'EditUserName' request.user.pk %}"> Username</a>

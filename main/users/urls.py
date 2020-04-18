@@ -6,7 +6,8 @@ from .views import (
     AuthorUpdate,
     success_edit,
     account_activation_sent,
-    activate
+    activate,
+    profile_view
 ) 
 from django.contrib.auth.decorators import login_required
 
@@ -20,6 +21,7 @@ urlpatterns = [
     path('changed', success_edit, name="success_edit"),
     path('account_activation_sent/', account_activation_sent, name='account_activation_sent'),
     path('activate/?P<uidb64>[0-9A-Za-z_\-]+/?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20}/', activate, name='activate'),
+    path('profile/<int:pk>', login_required(profile_view), name='profile')
 ]
 
 
