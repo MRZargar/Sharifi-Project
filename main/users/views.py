@@ -17,6 +17,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 User = get_user_model()
 
 class AuthorUpdate(UpdateView):
@@ -29,18 +30,6 @@ class AuthorUpdate(UpdateView):
         if obj != self.request.user:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
-
-# class SignUpView(CreateView):
-#     model = CustomUser
-#     form_class = CustomUserCreationForm
-#     success_url = reverse_lazy('success')
-#     template_name = 'signup.html'
-#     def dispatch(self, request, *args, **kwargs):
-#         obj = self.request.user
-#         if obj.userType != 'is_admin':
-#             raise PermissionDenied
-#         return super().dispatch(request, *args, **kwargs)
-
 
 def SignUpView(request, pk):
     obj = request.user
@@ -61,7 +50,7 @@ def SignUpView(request, pk):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject, message)
-            return redirect('account_activation_sent')
+            return JsonResponse({'data': 'success'}, status=200)
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -75,14 +64,6 @@ def success_signup(request):
 
 def success_edit(request):
     return render(request, 'success_edit.html', {})
-
-# class SignUpView2(CreateView):
-#     model = CustomUser
-#     form_class = CustomUserCreationForm2
-#     print('here is the model')
-#     print(model.objects.all())
-#     success_url = reverse_lazy('signpage')
-#     template_name = 'signupUser.html'
 
 def SignUpView2(request):
     if request.method == 'POST':
@@ -100,7 +81,6 @@ def SignUpView2(request):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject, message)
-            return redirect('account_activation_sent')
     else:
         form = CustomUserCreationForm2()
     return render(request, 'signupUser.html', {'form': form})
