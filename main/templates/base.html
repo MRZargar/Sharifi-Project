@@ -100,9 +100,32 @@
                             <!-- User Profile-->
                             <div class="user-profile d-flex no-block dropdown m-t-20">
                                 <div class="user-content hide-menu m-l-10">
-                                    <a href="javascript:void(0)" class="" id="Userdd" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="op-5 user-email">{% block email %}<!-- -->{% endblock %}</span>
-                                        <h4 class="m-b-0 user-name font-medium"> Hi {{ request.user.username }} </h4>
+                                    <div class="main">
+                                        <div class="sidebar-menu">
+                                            <ul>
+                                                <li class="sidebar-dropdown">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                                                        <span class="hide-menu" style="color: #212529"><i class="mdi mdi-account-settings-variant" style="padding-right: 10px;"></i>Account</span>
+                                                    </a>
+                                                    <div class="sidebar-submenu">
+                                                        <ul>
+                                                            <li>
+                                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'profile' request.user.pk %}"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
+
+                                                            </li>
+                                                            <li>
+                                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
+                                                            </li>
+                                                            <li class="sign-out-li">
+                                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'signout' %}"><i class="fa fa-power-off m-r-5 m-l-5"></i>Sign out</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <h4 class="m-b-0 user-name font-medium"> Hi {{ request.user.username }} </h4>
                                     </a>
                                 </div>
                             </div>
@@ -203,6 +226,36 @@
     <script src="{% static 'dist/js/sidebarmenu.js' %}"></script>
     <!--Custom JavaScript -->
     <script src="{% static 'dist/js/custom.js' %}"></script>
+    <script>
+        var count = 0;
+        $(".sidebar-dropdown > a").click(function() {
+            $(".sidebar-submenu").slideUp(200);
+
+            if ((
+                    $(this)
+                    .parent()
+                    .hasClass("active")
+                ) && (count >= 1)) {
+
+                $(".sidebar-dropdown").removeClass("active");
+                $(this)
+                    .parent()
+                    .removeClass("active");
+                $('#main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link').css("transform", "translateY(0)")
+            } else {
+                $('#main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link').css("transform", "translateY(120px)")
+
+                $(".sidebar-dropdown").removeClass("active");
+                $(this)
+                    .next(".sidebar-submenu")
+                    .slideDown(200);
+                $(this)
+                    .parent()
+                    .addClass("active");
+            }
+            count = 1
+        });
+    </script>
 </body>
 
 </html>
