@@ -17,7 +17,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.http import JsonResponse
 User = get_user_model()
 
 class AuthorUpdate(UpdateView):
@@ -50,7 +49,8 @@ def SignUpView(request, pk):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject, message)
-            return JsonResponse({'data': 'success'}, status=200)
+            messages.success(request, "Please confirm your email address to complete the registration.")
+            return redirect('signup', pk)
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -81,6 +81,8 @@ def SignUpView2(request):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject, message)
+            messages.success(request, "Please confirm your email address to complete the registration.")
+            return redirect('signup2')
     else:
         form = CustomUserCreationForm2()
     return render(request, 'signupUser.html', {'form': form})
