@@ -11,42 +11,12 @@ from django.contrib import auth
 from django.http import JsonResponse
 import json
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 User = get_user_model()
 
 def home_page(request):
     return render(request, "Signin.html")
-
-
-
-
-def UserProfile(request):
-    if request.session.has_key('username'):
-        posts = request.session['username']
-        query = User.objects.filter(username=posts)
-        return render(request, 'UserHome.html', {"query":query})
-    else:
-        return render(request, 'Signin.html', {})
-
-
-def OperatorProfile(request):
-    if request.session.has_key('username'):
-        posts = request.session['username']
-        query = User.objects.filter(username=posts)
-        return render(request, 'OperatorHome.html', {"query":query})
-    else:
-        return render(request, 'Signin.html', {})
-
-
-def AdminProfile(request):
-    if request.session.has_key('username'):
-        posts = request.session['username']
-        query = User.objects.filter(username=posts)
-        return render(request, 'AdminHome.html', {"query":query})
-    else:
-        return render(request, 'Signin.html', {})
-
-
 
 def signpage(request):
     if request.method == 'POST':
@@ -54,22 +24,50 @@ def signpage(request):
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
         if user is not None and user.email_confirmed == True:
+            pk = user.pk
             request.session['username'] = username
             if user.userType == 'is_user':
                 auth.login(request, user)
-                return redirect("UserProfile")
+                return redirect("UserProfile", pk=pk)
             elif user.userType == 'is_operator':
                     auth.login(request, user)
-                    return redirect("OperatorProfile")
+                    return redirect("OperatorProfile", pk=pk)
             elif user.userType == 'is_admin':
                     auth.login(request, user)
-                    return redirect("AdminProfile")
+                    return redirect("AdminProfile", pk=pk)
         else:
             messages.error(request, "Wrong username or password")
             return redirect('signpage')
 
     else:
         return render(request, 'Signin.html', {})
+
+
+@login_required(login_url='signpage')
+def UserProfile(request, pk):
+    obj = request.user
+    if obj.userType != 'is_user':
+        raise PermissionDenied
+    else:
+        return render(request, 'UserHome.html')
+
+
+@login_required(login_url='signpage')
+def OperatorProfile(request, pk):
+    obj = request.user
+    if obj.userType != 'is_operator':
+        raise PermissionDenied
+    else:
+        return render(request, 'OperatorHome.html')
+
+@login_required(login_url='signpage')
+def AdminProfile(request, pk):
+    obj = request.user
+    if obj.userType != 'is_admin':
+        raise PermissionDenied
+    else:
+        return render(request, 'AdminHome.html')
+
 
 
 def signout(request):
