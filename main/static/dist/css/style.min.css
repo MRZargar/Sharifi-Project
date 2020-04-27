@@ -12581,3 +12581,44 @@ ul.messagelist li.error {
         top: 60px;
     }
 }
+
+
+/* plot section */
+
+.calendar_main {
+    display: flex;
+    background-color: #1c6356;
+    height: 8vh;
+}
+
+.line_graph_main {
+    margin-top: 5px;
+    display: flex;
+    background-color: #20c997;
+    height: 30vh;
+}
+
+.line_graph_main>div {
+    background-color: #1eb2f5;
+    margin: 30px auto;
+    width: 30%;
+}
+
+.histogram_and_treeView {
+    margin-top: 5px;
+    display: flex;
+    background-color: #20c997;
+    height: 50vh;
+}
+
+.treeView_main {
+    background-color: #32383e;
+    margin: 30px auto;
+    width: 30%;
+}
+
+.histogram_main {
+    background-color: #563dea;
+    margin: 30px auto;
+    width: 60%;
+}

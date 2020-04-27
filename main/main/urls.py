@@ -12,10 +12,9 @@ from .views import(
     UserProfile,
     OperatorProfile,
     AdminProfile,
-    plot_page,
-    plots_map_page,
+    plot,
     map,
-    ttest
+    ttest,
 )
 urlpatterns = [
     path('', signpage, name='signpage'),
@@ -24,8 +23,7 @@ urlpatterns = [
     path('users/2/<int:pk>', OperatorProfile, name='OperatorProfile'),
     path('users/3/<int:pk>', AdminProfile, name='AdminProfile'),
     path('signout', signout, name='signout'),
-    path('plot/', plot_page, name='plot'),
-    path('plots_map/', plots_map_page, name='plots'),
+    path('plot/', plot, name='plot'),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('map/', map, name='map'),

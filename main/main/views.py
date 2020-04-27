@@ -75,6 +75,10 @@ def signout(request):
     return render(request,'signout.html')
 
 
+def plot(request):
+    return render(request, 'plot.html')
+
+
 def plot_page(request):
     try:
         print(request.GET['a'])
@@ -91,6 +95,8 @@ def plots_map_page(request):
     cwd = os.getcwd()
     script, div = simplePlot.plot_map(cwd)
     return render(request, 'plot.html', dict(script=script, div=div))
+
+
 
 def map(request):
     # # creating GeoJSON using DB datas ...

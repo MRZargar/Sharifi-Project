@@ -1,25 +1,117 @@
-{% extends "base.html" %}
-{% load static %}
-{% block title %}Plot page{% endblock %}
+{% extends "base.html" %} {% load static %} {% block title %}Plot page{% endblock %} {% block css %}
 
-{% block css %}
-    <link href="http://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.css" rel="stylesheet" type="text/css">
-    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.0.4.min.css" rel="stylesheet" type="text/css">
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.js"></script>
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.0.4.min.js"></script>
-    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.4.0.min.js"></script>
-    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.4.0.min.js"></script>
-    <script type="text/javascript">
-     Bokeh.set_log_level("info");
-    </script>
-    {{ script | safe }}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-{% endblock %}
+<link rel="stylesheet" href="{% static 'assets/libs/bootstrap/dist-v3/css/bootstrap.css' %}">
+<script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'assets/libs/bootstrap/dist-v3/js/bootstrap.js' %}"></script>
 
-{% block content %}
-    <div class="plot">
-        {{ div | safe }}
+<link rel="stylesheet" href="{% static 'assets/libs/clockpicker/dist/jquery-clockpicker.css' %}">
+<script src="{% static 'assets/libs/clockpicker/dist/jquery-clockpicker.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'assets/libs/calendar/dist/jquery.md.bootstrap.datetimepicker.style.css' %}">
+<script src="{% static 'assets/libs/calendar/dist/jquery.md.bootstrap.datetimepicker.js' %}"></script>
+
+<style>
+    .ul-plot-toolbar {
+        list-style-type: none;
+        padding: 2.5px;
+        overflow: hidden;
+        margin: auto auto;
+    }
+    
+    .li-plot-toolbar {
+        padding: 5px;
+        float: right;
+    }
+    
+    .li-plot-toolbar-text {
+        float: right;
+        color: white;
+        text-align: center;
+        padding-top: 8px;
+        padding-right: 2px;
+        padding-left: 10px;
+        font-size: large;
+        font-weight: bold;
+    }
+</style>
+
+{% endblock %} {% block content %}
+
+<div class="calendar_main">
+    <ul class="ul-plot-toolbar">
+        <li class="li-plot-toolbar" style="width: 160px;">
+            <div class="input-group clockpicker">
+                <input type="text" id="ToClock" class="form-control" value="00:00">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
+        </li>
+        <li class="li-plot-toolbar-text">To:</li>
+        <li class="li-plot-toolbar" style="width: 160px;">
+            <div class="input-group clockpicker">
+                <input type="text" id="FromClock" class="form-control" value="00:00">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
+        </li>
+        <li class="li-plot-toolbar-text">From:</li>
+        <li class="li-plot-toolbar" style="width: 160px;">
+            <div class="input-group">
+                <input type="text" id="inputDate2" class="form-control" placeholder="Gregorian Calendar" aria-label="date2" aria-describedby="date2">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date2"></span>
+                </span>
+            </div>
+        </li>
+        <li class="li-plot-toolbar-text">Data:</li>
+    </ul>
+
+</div>
+<div class="line_graph_main">
+    <div class="line_graph_1">1</div>
+    <div class="line_graph_2">2</div>
+    <div class="line_graph_3">3</div>
+</div>
+<div class="histogram_and_treeView">
+    <div class="treeView_main">
+        treeView
     </div>
+    <div class="histogram_main">
+        histogram
+    </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+    $('#date2').MdPersianDateTimePicker({
+        targetTextSelector: '#inputDate2',
+        selectedDate: new Date(),
+        isGregorian: true,
+        placement: 'bottom',
+        align: 'right',
+        autoclose: true
+    });
+</script>
+
+<script type="text/javascript">
+    $('.clockpicker').clockpicker({
+        'default': "00:00",
+        placement: 'bottom',
+        align: 'right',
+        autoclose: true,
+        afterShow: function() {
+            $(".clockpicker-minutes").find(".clockpicker-tick").filter(function(index, element) {
+                return ($.inArray($(element).text(), ['00']) == -1)
+            }).remove();
+        }
+    });
+</script>
+
+
 {% endblock %}
