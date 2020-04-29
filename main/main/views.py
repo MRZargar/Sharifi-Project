@@ -79,22 +79,22 @@ def plot(request):
     return render(request, 'plot.html')
 
 
-def plot_page(request):
-    try:
-        print(request.GET['a'])
-    except KeyError:
-        pass
-    from .Functions import simplePlot
-    cwd = os.getcwd()
-    script, div = simplePlot.plot_data(cwd)
-    return render(request, 'plot.html', dict(script=script, div=div))
+# def plot_page(request):
+#     try:
+#         print(request.GET['a'])
+#     except KeyError:
+#         pass
+#     from .Functions import simplePlot
+#     cwd = os.getcwd()
+#     script, div = simplePlot.plot_data(cwd)
+#     return render(request, 'plot.html', dict(script=script, div=div))
 
 
-def plots_map_page(request):
-    from .Functions import simplePlot
-    cwd = os.getcwd()
-    script, div = simplePlot.plot_map(cwd)
-    return render(request, 'plot.html', dict(script=script, div=div))
+# def plots_map_page(request):
+#     from .Functions import simplePlot
+#     cwd = os.getcwd()
+#     script, div = simplePlot.plot_map(cwd)
+#     return render(request, 'plot.html', dict(script=script, div=div))
 
 
 
