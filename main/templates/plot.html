@@ -81,22 +81,8 @@
         <li class="li-plot-toolbar-text">Date:</li>
     </ul>
 
-</div> 
-    <div class="line_graph_main">
-    <div class="line_graph_1"><div id='myChart1'></div></div>
-    <div class="line_graph_2"><div id='myChart2'></div></div>
-    <div class="line_graph_3"><div id='myChart3'></div></div>
-</div>
-<div class="histogram_and_treeView">
-    <div class="treeView_main">
-        treeView
-    </div>
-    <div class="histogram_main">
-        histogram
-    </div>
-</div> -->
 
-<!-- <script type="text/javascript">
+    <script type="text/javascript">
     $('.clockpicker').clockpicker({
         'default': "00:00",
         placement: 'bottom',
@@ -126,11 +112,11 @@
             </div>
         </div>
         <div class="row-map3">
-            <div id="myTreeView"></div>
+            <div id="myTreeView" class="TreeView-plot"></div>
         </div>
     </div>
     <div class="column-map3">
-               
+        <div id='myHistogram' style="width: 100%; height: 300px"></div>
     </div>
 </div>
 <div class="row-map-main">
@@ -138,7 +124,6 @@
     <div id='myChart2' style="width: 100%; height: 150px"></div>
     <div id='myChart3' style="width: 100%; height: 210px"></div> 
 </div>
-<div id="zargar"></div>
 
 <script>
     var VectorSource = ol.source.Vector;
@@ -226,12 +211,9 @@
     $('#input-search').on('keyup', search);
 </script>
 
-
-
-
 <script>
     // x = '';
-    x = {{ ddataTest | safe }};
+    x = {{ PlotData | safe }};
     // document.getElementById("zargar").innerHTML = "<pre>" + x + "</pre>";
         
         g = [];
@@ -311,5 +293,70 @@
         );
         var sync = Dygraph.synchronize(g);
 </script>   
+
+<script>
+    // Darken a color
+    function darkenColor(colorStr) {
+        // Defined in dygraph-utils.js
+        var color = Dygraph.toRGB_(colorStr);
+        color.r = Math.floor((255 + color.r) / 2);
+        color.g = Math.floor((255 + color.g) / 2);
+        color.b = Math.floor((255 + color.b) / 2);
+        return 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
+    }
+
+      // This function draws bars for a single series. See
+      // multiColumnBarPlotter below for a plotter which can draw multi-series
+      // bar charts.
+      function barChartPlotter(e) {
+        var ctx = e.drawingContext;
+        var points = e.points;
+        var y_bottom = e.dygraph.toDomYCoord(0);
+
+        ctx.fillStyle = darkenColor(e.color);
+
+        // Find the minimum separation between x-values.
+        // This determines the bar width.
+        var min_sep = Infinity;
+        for (var i = 1; i < points.length; i++) {
+          var sep = points[i].canvasx - points[i - 1].canvasx;
+          if (sep < min_sep) min_sep = sep;
+        }
+        var bar_width = Math.floor(2.0 / 3 * min_sep);
+
+        // Do the actual plotting.
+        for (var i = 0; i < points.length; i++) {
+          var p = points[i];
+          var center_x = p.canvasx;
+
+          ctx.fillRect(center_x - bar_width / 2, p.canvasy,
+              bar_width, y_bottom - p.canvasy);
+
+          ctx.strokeRect(center_x - bar_width / 2, p.canvasy,
+              bar_width, y_bottom - p.canvasy);
+        }
+      };
+
+    var dataHist = {{ HistData | safe }};
+    
+    var Hist = new Dygraph(
+        document.getElementById("myHistogram"),
+        dataHist,
+        {
+            axes:{
+                y:{
+                    axisLineWidth: 2
+                }
+            },
+            plotter: barChartPlotter,
+            dateWindow: [0, 25],
+            includeZero: true,
+            title: "Histogram",
+            ylabel: "ylabel",
+            // xlabel: "xlabel",
+            interactionModel: {}
+        }
+    );  
+</script>
 
 {% endblock %}

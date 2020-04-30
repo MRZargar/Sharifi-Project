@@ -38731,7 +38731,33 @@ def plot(request):
             502095.990282,0.64165
             502096.000203,0.71108`'''
 
-    return render(request, 'plot.html', dict(geojsonObject=geojson, ddataTest=ddataTest))
+    dddataTest = '''`Hours, Value
+            1, 10
+            2, 20
+            3, 5
+            4, 35
+            5, 30
+            6, 25
+            7, 32
+            8, 25
+            9, 50
+            10, 2
+            11, 40
+            12, 25
+            13, 36
+            14, 34
+            15, 17
+            16, 45
+            17, 7
+            18, 17
+            19, 12
+            20, 14
+            21, 23
+            22, 28
+            23, 32
+            24, 37`'''
+
+    return render(request, 'plot.html', dict(geojsonObject=geojson, PlotData=ddataTest, HistData=dddataTest))
 
 
 # def plot_page(request):
