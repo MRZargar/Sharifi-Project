@@ -4,6 +4,10 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.conf.urls import handler403, handler404
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 from .views import(
     home_page,
@@ -27,5 +31,13 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('map/', map, name='map'),
-    path('test/', ttest, name='test')
+    path('test/', ttest, name='test'),
+    path('stations/', include('stations.urls')),
+
 ]
+
+
+
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)

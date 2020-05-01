@@ -51,8 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms', # new
-    'users', # New
-    'six', # New
+    'users.apps.UsersConfig', # New
+    'stations.apps.StationsConfig' #New
+
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -141,6 +142,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

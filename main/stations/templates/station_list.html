@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %}
+<!--  Title  -->
+{% block title %}Stations{% endblock %}
+
+<!-- Page Name -->
+{% block pageName %} Stations{% endblock %} {% block content %}
+
+	{% for station in station_list %}
+
+		<div>
+			<h2><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></h2>
+		</div>
+		{% endfor %}
+
+{% endblock %}

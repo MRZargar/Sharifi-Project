@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %}
+<!--  Title  -->
+{% block title %}Station{% endblock %}
+
+<!-- Page Name -->
+{% block pageName %} Stations{% endblock %} {% block content %}
+
+
+<div class="col-md-6">
+    {{ station.station_name }}</br> {{station.description}}</br> {{station.date}}</br> {{station.status}}<br/>{{station.address}} {% for image in images %} {% if station.id == image.setup_id %}
+    <img src="{{ image.images.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> {% endif %} {% endfor %}
+</div>
+
+{% endblock %}
+
+
+
+
+

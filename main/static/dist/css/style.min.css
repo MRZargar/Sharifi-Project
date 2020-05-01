@@ -10626,7 +10626,6 @@ html[dir=ltr] body .p-l-0 {
 #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav .user-name {
     color: #212529;
     margin-left: 10px;
-    margin-top: 10px;
 }
 
 #main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .create-btn,
@@ -10708,7 +10707,7 @@ html[dir=ltr] body .p-l-0 {
     }
     #main-wrapper[data-layout=vertical][data-sidebartype=mini-sidebar] .left-sidebar:hover .sidebar-nav .has-arrow:after,
     #main-wrapper[data-layout=vertical][data-sidebartype=mini-sidebar] .left-sidebar:hover .sidebar-nav .hide-menu {
-        display: block
+        display: inline;
     }
     #main-wrapper[data-layout=vertical][data-sidebartype=mini-sidebar] .left-sidebar:hover .sidebar-nav .nav-small-cap {
         -webkit-box-pack: start;
@@ -11551,10 +11550,29 @@ ul.list-style-none li a:hover {
     color: #212529;
 }
 
-.sidebar-menu .sidebar-dropdown.active>a:after {
+.sidebar-menu .sidebar-dropdown.active>a::after {
     transform: rotate(90deg);
     right: 17px;
 }
+
+#sidebar-a-mobile{
+    margin-left: 10px;
+}
+
+#sidebar-a-mobile2{
+    margin-left: 1px;
+}
+
+
+#sidebar-a-mobile:hover{
+    opacity: 1;
+}
+
+
+#sidebar-a-mobile2:hover{
+    opacity: 1;
+}
+
 
 @media (max-width:767px) {
     .topbar .top-navbar .navbar-collapse.collapsing,
@@ -11652,7 +11670,7 @@ ul.list-style-none li a:hover {
 .sidebar-nav ul {}
 
 .sidebar-nav ul .sidebar-item {
-    width: 250px
+    width: 150px
 }
 
 .sidebar-nav ul .sidebar-item .sidebar-link {
@@ -12622,3 +12640,7 @@ ul.messagelist li.error {
     margin: 30px auto;
     width: 60%;
 }
+
+
+
+
