@@ -35,10 +35,8 @@ class Image(models.Model):
 
 
 class Deactivate(models.Model):
-	operator_name = models.ForeignKey(
-				  get_user_model(),
-				  on_delete=models.CASCADE,
-				  )
+	operator_name = models.CharField(max_length=150)
+
 	station_name = models.ForeignKey(Setup,
 				 	on_delete=models.CASCADE,
 				 	related_name='deactivates',
@@ -48,4 +46,4 @@ class Deactivate(models.Model):
 
 
 	def __str__(self):
-		return self.station_name
+		return str(self.station_name) if self.station_name else ""

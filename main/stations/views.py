@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import StationSetup
-from .models import Setup, Image
+from .forms import StationSetup, StationDeactivate
+from .models import Setup, Image, Deactivate
+from django.http import JsonResponse
 
 
 def station_setup(request):
@@ -26,21 +27,41 @@ def station_setup(request):
 	return render(request, 'setupStation.html', {'form':form})
 
 
+
 def success(request):
 	return HttpResponse('success')
+
 
 
 def station_list(request):
 	if request.method == "GET":
 		station_list = Setup.objects.all()
-		print(station_list)
 		return render(request, 'station_list.html', {'station_list':station_list})
 
 
 def station_detail(request, pk):
 	if request.method == "GET":
+		global station
 		station = Setup.objects.get(pk = pk)
 		images = Image.objects.filter(setup_id = pk)
-		print(station_list)
 		return render(request, 'station_detail.html', {'station': station,
 													   'images': images})
+	if request.method == "POST":
+		form = StationDeactivate(request.POST)
+		if form.is_valid():
+			operator_name = request.user.username
+			station_name = Setup.objects.get(station_name = station.station_name)
+			description = form.cleaned_data['description']
+
+			this_station = Setup.objects.get(id = station.id)
+			this_station.status = False
+			this_station.save()
+			Deactivate.objects.create(operator_name=operator_name, 
+					                  station_name=station_name,
+					                   description=description)
+			return redirect('success')
+		else:
+			form = StationDeactivate()
+		return render(request, 'station_detail.html', {'form': form})
+
+

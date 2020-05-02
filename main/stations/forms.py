@@ -1,5 +1,5 @@
 from django import forms
-from .models import Setup
+from .models import Setup,Deactivate
 
 
 class StationSetup(forms.ModelForm):
@@ -14,3 +14,11 @@ class SetupFullForm(forms.ModelForm):
 
 	class Meta(StationSetup.Meta):
 		fields =  StationSetup.Meta.fields + ['images', ]
+
+
+
+class StationDeactivate(forms.ModelForm):
+
+	class Meta:
+		model = Deactivate
+		fields = ['description']

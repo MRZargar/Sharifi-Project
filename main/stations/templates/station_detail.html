@@ -6,10 +6,17 @@
 {% block pageName %} Stations{% endblock %} {% block content %}
 
 
-<div class="col-md-6">
-    {{ station.station_name }}</br> {{station.description}}</br> {{station.date}}</br> {{station.status}}<br/>{{station.address}} {% for image in images %} {% if station.id == image.setup_id %}
-    <img src="{{ image.images.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> {% endif %} {% endfor %}
-</div>
+	<div class="col-md-6">
+	    {{ station.station_name }}</br> {{station.description}}</br> {{station.date}}</br> {{station.status}}<br/>{{station.address}} {% for image in images %} {% if station.id == image.setup_id %}
+	    <img src="{{ image.images.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> {% endif %} {% endfor %}
+	</div>
+
+	{% if station.status == True %}
+		<form method="post">
+		    {% csrf_token %} {{ form|crispy }}
+		    <button class="btn btn-success" type="submit">Deactive</button>
+		</form>
+	{% endif %}
 
 {% endblock %}
 
