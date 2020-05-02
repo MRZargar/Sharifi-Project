@@ -12605,8 +12605,9 @@ ul.messagelist li.error {
 
 .calendar_main {
     display: flex;
-/*    background-color: #1c6356;
-*/    height: 8vh;
+    background-color: #1f3237;
+    height: 8vh;
+    margin-left: 55px;
 }
 
 .line_graph_main {
@@ -12617,9 +12618,8 @@ ul.messagelist li.error {
 */}
 
 .line_graph_main>div {
-/*    background-color: #1eb2f5;
-*/    margin: 15px auto;
-    width: 80%;
+    margin: 0px auto;
+    width: 100%;
     line-height: 150px;
     text-align: center;
 }
@@ -12628,36 +12628,44 @@ ul.messagelist li.error {
     line-height: 210px;
 }
 
+.line_graph_main>div:nth-child(3) div div div div{
+    margin-top: -25px;
+    margin-left: 40px;
+}
+
+
 .histogram_and_treeView {
-    margin-top: 5px;
+    margin-top: 10vh;
     display: flex;
-/*    background-color: #20c997;
-*/    height: 55vh;
+    height: 60vh;
 }
 
 .treeView_main {
-/*    background-color: #32383e;
-*/    margin: 30px auto;
-    width: 30%;
+    margin-left: 50px; 
+    margin-top: 20px;
+    width: 32.5%;
 }
 
 .histogram_main {
-/*    background-color: #563dea;
-*/    margin: 30px auto;
-    width: 60%;
+
+    margin: 30px auto;
+    width: 62.5%;
+}
+.histogram_main div div{
+    margin-left: 0px;
 }
 
 #myChart1{
-    width: 80%;
+    width: 100%;
     height: 260px;
 }
 
 #myChart2{
-    width: 80%;
+    width: 100%;
     height: 260px;
 }
 
 #myChart3{
-    width: 80%;
+    width: 100%;
     height: 260px;
 }
