@@ -12605,42 +12605,59 @@ ul.messagelist li.error {
 
 .calendar_main {
     display: flex;
-    background-color: #1c6356;
-    height: 8vh;
+/*    background-color: #1c6356;
+*/    height: 8vh;
 }
 
 .line_graph_main {
     margin-top: 5px;
     display: flex;
-    background-color: #20c997;
-    height: 30vh;
-}
+    flex-direction: column;
+/*    background-color: #20c997;
+*/}
 
 .line_graph_main>div {
-    background-color: #1eb2f5;
-    margin: 30px auto;
-    width: 30%;
+/*    background-color: #1eb2f5;
+*/    margin: 15px auto;
+    width: 80%;
+    line-height: 150px;
+    text-align: center;
+}
+
+.line_graph_main>div:nth-child(3){
+    line-height: 210px;
 }
 
 .histogram_and_treeView {
     margin-top: 5px;
     display: flex;
-    background-color: #20c997;
-    height: 50vh;
+/*    background-color: #20c997;
+*/    height: 55vh;
 }
 
 .treeView_main {
-    background-color: #32383e;
-    margin: 30px auto;
+/*    background-color: #32383e;
+*/    margin: 30px auto;
     width: 30%;
 }
 
 .histogram_main {
-    background-color: #563dea;
-    margin: 30px auto;
+/*    background-color: #563dea;
+*/    margin: 30px auto;
     width: 60%;
 }
 
+#myChart1{
+    width: 80%;
+    height: 260px;
+}
 
+#myChart2{
+    width: 80%;
+    height: 260px;
+}
 
-
+#myChart3{
+    width: 80%;
+    height: 260px;
+}
