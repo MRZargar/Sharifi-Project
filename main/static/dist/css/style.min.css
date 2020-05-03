@@ -12612,7 +12612,7 @@ ul.messagelist li.error {
 .histogram_and_treeView {
     margin-top: 10vh;
     display: flex;
-    height: 45vh;
+    height: auto;
 }
 
 .treeView_main {
