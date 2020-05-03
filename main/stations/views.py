@@ -3,10 +3,18 @@ from django.http import HttpResponse
 from .forms import StationSetup, StationDeactivate
 from .models import Setup, Image, Deactivate
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 
+@login_required(login_url='signpage')
 def station_setup(request):
-	if  request.method == 'POST':
+	obj = request.user
+	print(obj.userType)
+	if obj.userType == 'is_user':
+		raise PermissionDenied
+
+	elif  request.method == 'POST':
 		form = StationSetup(request.POST, request.FILES)
 		files = request.FILES.getlist('images')
 		if form.is_valid():
@@ -27,19 +35,27 @@ def station_setup(request):
 	return render(request, 'setupStation.html', {'form':form})
 
 
-
+@login_required(login_url='signpage')
 def success(request):
 	return HttpResponse('success')
 
 
-
+@login_required(login_url='signpage')
 def station_list(request):
-	if request.method == "GET":
+	obj = request.user
+	if obj.userType == 'is_user':
+		raise PermissionDenied
+	elif request.method == "GET":
 		station_list = Setup.objects.all()
 		return render(request, 'station_list.html', {'station_list':station_list})
 
 
+@login_required(login_url='signpage')
 def station_detail(request, pk):
+	obj = request.user
+	if obj.userType == 'is_user':
+		raise PermissionDenied
+
 	if request.method == "GET":
 		global station
 		station = Setup.objects.get(pk = pk)
@@ -49,16 +65,17 @@ def station_detail(request, pk):
 	if request.method == "POST":
 		form = StationDeactivate(request.POST)
 		if form.is_valid():
+			print("test")
 			operator_name = request.user.username
 			station_name = Setup.objects.get(station_name = station.station_name)
 			description = form.cleaned_data['description']
 
 			this_station = Setup.objects.get(id = station.id)
-			this_station.status = False
-			this_station.save()
 			Deactivate.objects.create(operator_name=operator_name, 
 					                  station_name=station_name,
 					                   description=description)
+			this_station.status = False
+			this_station.save()
 			return redirect('success')
 		else:
 			form = StationDeactivate()

@@ -11,12 +11,13 @@
 	    <img src="{{ image.images.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> {% endif %} {% endfor %}
 	</div>
 
-	{% if station.status == True %}
+	{% if station.status != False %}
 		<form method="post">
 		    {% csrf_token %} {{ form|crispy }}
 		    <button class="btn btn-success" type="submit">Deactive</button>
 		</form>
 	{% endif %}
+
 
 {% endblock %}
 
