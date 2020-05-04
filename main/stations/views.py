@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
 
+### Setup station view ###
 @login_required(login_url='signpage')
 def station_setup(request):
 	obj = request.user
@@ -29,17 +30,13 @@ def station_setup(request):
 						 status=True)
 			for f in files:
 				Image.objects.create(setup=station_obj, images=f)
-			return redirect('success')
+			return redirect('station_list')
 	else:
 		form = StationSetup()
 	return render(request, 'setupStation.html', {'form':form})
 
 
-@login_required(login_url='signpage')
-def success(request):
-	return HttpResponse('success')
-
-
+### station list view ###
 @login_required(login_url='signpage')
 def station_list(request):
 	obj = request.user
@@ -50,6 +47,8 @@ def station_list(request):
 		return render(request, 'station_list.html', {'station_list':station_list})
 
 
+
+### station detail view ###
 @login_required(login_url='signpage')
 def station_detail(request, pk):
 	obj = request.user
@@ -60,7 +59,12 @@ def station_detail(request, pk):
 		global station
 		station = Setup.objects.get(pk = pk)
 		images = Image.objects.filter(setup_id = pk)
-		return render(request, 'station_detail.html', {'station': station,
+		if station.status == False:
+			deactive = Deactivate.objects.get(station_name_id = pk)
+			return render(request, 'station_detail.html', {'station': station,
+													   'images': images, 'deactive':deactive})
+		else:
+			return render(request, 'station_detail.html', {'station': station,
 													   'images': images})
 	if request.method == "POST":
 		form = StationDeactivate(request.POST)
@@ -76,7 +80,7 @@ def station_detail(request, pk):
 					                   description=description)
 			this_station.status = False
 			this_station.save()
-			return redirect('success')
+			return redirect('station_list')
 		else:
 			form = StationDeactivate()
 		return render(request, 'station_detail.html', {'form': form})

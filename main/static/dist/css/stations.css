@@ -1,3 +1,27 @@
+html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-up(sm) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html {
+    font-size: 1.4rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html {
+    font-size: 1.6rem;
+  }
+}
+
+
+
 .sidebar-menu-Admins {
     display: inline-block;
     position: absolute;
@@ -173,3 +197,98 @@ tr th>a {
     display: block;
     color: black;
 }
+
+
+
+/* ######################### */
+
+
+.carousel {
+  margin: 30px auto;
+  width : 80%;
+  height : 600px;
+  margin-bottom: 5%;
+}
+
+
+.carousel-images{
+  width : 100%;
+  height : 600px;
+}
+
+
+.carousel-control-next,
+.carousel-control-prev {
+    filter: invert(60%);
+}
+
+
+ .carousel-indicators .active{
+    filter: invert(60%);
+}
+
+
+#card-detail-active{
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    width: 80%;
+    margin: 0px auto;
+}
+
+#card-detail-deactive{
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    width: 80%;
+    margin: 0px auto;
+}
+
+#details-content{
+    display: ;
+    margin-left: 20%;
+}
+
+#card-detail-active #detail-header{
+    border: 1px solid rgba(0,0,0,.125);
+    background-color: #28a745!important;
+
+}
+
+#card-detail-deactive #detail-header{
+    border: 5px solid rgba(0,0,0,.125);
+    background-color: #dc3545!important
+
+}
+
+#detail-header h4{
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+
+#deactive-btn{
+    border-radius: 3px;
+    margin: 20px auto;
+    display: block;
+}
+
+
+#description-detail{
+    text-align: left;
+    display: contents;
+}
+
+
+
+#description-detail .col-sum-3{
+    padding-left: 10px;
+}
+
+#description-detail p{
+    padding: 10px 10px;
+}
+/*.details-hr{
+    width: 100%;
+    height: 4px;
+    background-image: -webkit-linear-gradient(left, rgba(15,157,88,.8), rgba(15, 157, 88,.6), rgba(0,0,0,0));
+    margin-top: -2rem;
+}*/
