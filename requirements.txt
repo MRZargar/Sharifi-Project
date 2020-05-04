@@ -1,5 +1,4 @@
 asgiref==3.2.3
-bokeh==1.4.0
 Django==3.0.3
 django-chartjs==2.0.0
 django-crispy-forms==1.9.0
