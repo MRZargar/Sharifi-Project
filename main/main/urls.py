@@ -33,6 +33,7 @@ urlpatterns = [
     path('map/', map, name='map'),
     path('test/', ttest, name='test'),
     path('stations/', include('stations.urls')),
+    path('message', include('message.urls'))
 
 ]
 
