@@ -17,6 +17,7 @@ class Message(models.Model):
 	send_content = models.TextField(blank=False)
 	visualized = models.BooleanField(default=False)
 	slug = models.SlugField(null=False, unique=True)
+	messageType = models.CharField(max_length=10, blank="send")
 
 
 	def __str__(self):
@@ -27,7 +28,7 @@ class Message(models.Model):
 			random_number = randrange(100, 1000)
 			sender_username = self.sender.username 
 			time_hash = int(sha256(str(datetime.datetime.now()).encode('utf-8')).hexdigest(), 16 % 10**16)
-			slug = str(random_number) + sender_username + str(time_hash)[:10]
+			slug = str(random_number) + 'U' + sender_username + str(time_hash)[:10]
 			self.slug = slugify(slug)
 		return super().save(*args, **kwargs)
 

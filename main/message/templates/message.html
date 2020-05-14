@@ -213,6 +213,7 @@ $('#message-active').click(function(event) {
             } else {
                 main_table = ""
                 for (i in data.messages) {
+                    console.log(data)
                     var get_absolute_url = data.messages[i].urls
                     let re = new RegExp(get_absolute_url)
                     table = '<tr onclick="sentFunction(' + re + ')">' +

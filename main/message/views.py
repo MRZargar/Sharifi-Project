@@ -11,10 +11,12 @@ def calculate_number_of_sent(user_messages_send):
 	temp = user_messages_send[0].title
 	user_messages_send_list.append(user_messages_send[0])
 	for i in range(1, len(user_messages_send)):
-		if temp != user_messages_send[i].title:
-			user_messages_send_list.append(user_messages_send[i])
+		if temp == user_messages_send[i].title and user_messages_send[i].reciver.userType == 'is_admin' and user_messages_send[i].messageType == "send":
 			temp = user_messages_send[i].title
-	return user_messages_send_list
+			continue
+		else:
+			user_messages_send_list.append(user_messages_send[i])
+	return user_messages_send_list  
 
 
 
@@ -99,6 +101,7 @@ def send(request, pk):
 		if user_messages_send.count() >= 1:
 			user_messages_send_list = calculate_number_of_sent(user_messages_send)
 		number_of_sent = len(user_messages_send_list)
+		print(number_of_sent)
 		messages = []
 		for message in user_messages_send_list:
 			messages.append({'title': message.title, 'date_message': message.date_message.strftime("%Y-%m-%d %H:%M:%S"),
@@ -134,6 +137,14 @@ def inbox_detail(request, slug):
 			content=request.POST.get('content'),
 			author = request.user
 			)
+		for inbox_message in message :
+			my_message = inbox_message
+		sender = request.user
+		title = my_message.title
+		content = request.POST.get('content')
+		reciver = my_message.sender
+		messageType = "replay"
+		Message.objects.create(sender=sender, reciver=reciver, title=title, send_content=content, messageType=messageType)
 		return redirect(inbox , request.user.pk)
 	else:
 		message_details = Message.objects.filter(slug = slug)
@@ -143,3 +154,5 @@ def inbox_detail(request, slug):
 		'title':message_details.title,'date_message':message_details.date_message.strftime("%Y-%m-%d %H:%M:%S"),
 		'sender':message_details.sender.username}
 		return JsonResponse({'message':message}, status=200)
+
+

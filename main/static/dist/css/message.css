@@ -392,8 +392,8 @@ tr td.time{
 
 textarea#content{
     width: 80%;
+    height: 20vh;
     position: relative;
-    padding: 10%;
     margin-bottom: 5%;
     margin-left: 10%;
     padding-bottom: 5px;
