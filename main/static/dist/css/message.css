@@ -243,15 +243,16 @@ body{
 }
 
 #message-header{
-    padding-bottom: 50px;
+    padding-bottom: 100px;
+    padding-top: 25px;
 }
 
 #message-active{
-    padding-bottom: 50px;
+    padding-bottom: 100px;
 }
 
 #inbox_loader{
-    padding-bottom: 50px;
+    padding-bottom: 100px;
 }
 
 #message-discard{
@@ -381,3 +382,41 @@ tr td.time{
 
 }
 
+#replay-form{
+    position: absolute;
+    width: 100%;
+    bottom: 2.5%;
+    display: block;
+
+}
+
+textarea#content{
+    width: 80%;
+    position: relative;
+    padding: 10%;
+    margin-bottom: 5%;
+    margin-left: 10%;
+    padding-bottom: 5px;
+    resize: none;
+    border: 1px solid #b0b8bf;
+}
+
+#replay-form button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 50%;
+}
+#folder-section{
+    padding-top: 2.5%;
+}
+
+#messages-section{
+    padding-top: 2.5%
+}
+.table-responsive{
+    font-size: 1.1rem;
+}
+#Folder-inbox-sent{
+    font-size: 1.2rem;
+}

@@ -6,91 +6,86 @@
 {% block pageName %}send message{% endblock %} {% block css %}
 <link href="{% static 'dist/css/message.css' %}" rel="stylesheet">
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
 {% endblock %}
+{% block content %}
+<div class="col-md-12">
+    <div class="grid email">
+        <div class="grid-body">
+            <div class="row">
+                <div class="col-md-3" id="folder-section">
+                    <h2 class="grid-title"><i class="fa fa-inbox"></i> INBOX</h2>
+                    <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#compose-modal" style="font-size: 1.1rem"><i class="mdi mdi-grease-pencil"></i>&nbsp;&nbsp;MESSAGE</a>
+                    <hr>
 
+                    <div>
+                        <ul class="nav nav-pills nav-stacked" id = "Folder-inbox-sent">
+                            <li id="message-header" class="header">Folders</li>
+                            <li id="inbox_loader" ><a href="#"><i class="fa fa-inbox"></i> Inbox({{number_of_inbox}})</a></li>
+                            <li id="message-active" ><a href="#"><i class="mdi mdi-message"></i> Sent({{number_of_sent}})</a></li>
+                        </ul>
+                    </div>
+                </div>
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="grid email">
-                <div class="grid-body">
+                <div class="col-md-9" id="messages-section">
                     <div class="row">
-                        <div class="col-md-3">
-                            <h2 class="grid-title"><i class="fa fa-inbox"></i> INBOX</h2>
-                            <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#compose-modal"><i class="mdi mdi-grease-pencil"></i>&nbsp;&nbsp;MESSAGE</a>
-                            <hr>
-
-                            <div>
-                                <ul class="nav nav-pills nav-stacked">
-                                    <li id="message-header" class="header">Folders</li>
-                                    <li id="inbox_loader" ><a href="#"><i class="fa fa-inbox"></i> Inbox({{number_of_inbox}})</a></li>
-                                    <li id="message-active" ><a href="#"><i class="mdi mdi-message"></i> Sent({{number_of_sent}})</a></li>
-                                </ul>
-                            </div>
+                        <div class="col-sm-6">
+                            <label style="margin-right: 8px;" class="">
+									<div class="icheckbox_square-blue" style="position: relative;"><input type="checkbox" id="check-all" class="icheck" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>
+								</label>
                         </div>
+                    </div>
 
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label style="margin-right: 8px;" class="">
-											<div class="icheckbox_square-blue" style="position: relative;"><input type="checkbox" id="check-all" class="icheck" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>
-										</label>
-                                </div>
-                            </div>
+                    <div class="padding"></div>
 
-                            <div class="padding"></div>
-
-                            <div class="table-responsive">
-                                <table id="messages-table" class="table table-hover">
-                                    <tbody>
-                                        <tr id="header-table">
-                                            <th class="name">FROM</th>
-                                            <th class="subject">SUBJECT</th>
-                                            <th class="time">TIME</th>
-                                        </tr>
-                                        {% if number_of_inbox == 0 %}
-                                        <tr>
-                                            <td class="name">----</td>
-                                            <td class="subject">--------</td>
-                                            <td class="time">-----</td>
-                                        </tr>
-                                        {% endif %} {% for message in messages %}
-                                        <tr id="message_detail">
-                                            <td class="name"><a href="#">{{message.sender}}</a></td>
-                                            <td class="subject"><a href="#">{{message.title}}</a>
-                                            </td>
-                                            <td class="time"><a href="#">{{message.date_message}}</a></td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="modal fade" id="compose-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-wrapper">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-blue">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                <h4 class="modal-title"><i class="fa fa-envelope"></i> Compose New Message</h4>
-                                            </div>
-                                            <form action="#" method="post">
-                                                <div class="modal-body">
-                                                    <form method="post">
-                                                        {% csrf_token %} {{ form|crispy }}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button id="message-discard" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
-													 Discard
-													</button>
-                                                    <button id="message-send-message" type="submit" class="btn btn-primary pull-right" name="action1" value="send">
-														<i class="fa fa-envelope"></i> Send Message
-													</button>
-                                                    </form>
-                                                </div>
+                    <div class="table-responsive">
+                        <table id="messages-table" class="table table-hover">
+                            <tbody>
+                                <tr id="header-table">
+                                    <th class="name">FROM</th>
+                                    <th class="subject">SUBJECT</th>
+                                    <th class="time">TIME</th>
+                                </tr>
+                                {% if number_of_inbox == 0 %}
+                                <tr>
+                                    <td class="name">----</td>
+                                    <td class="subject">--------</td>
+                                    <td class="time">-----</td>
+                                </tr>
+                                {% endif %} {% for message in messages %}
+                                <tr id="message_detail">
+                                    <td class="name"><a href="#">{{message.sender}}</a></td>
+                                    <td class="subject"><a href="#">{{message.title}}</a>
+                                    </td>
+                                    <td class="time"><a href="#">{{message.date_message}}</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal fade" id="compose-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-wrapper">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-blue">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title"><i class="fa fa-envelope"></i> Compose New Message</h4>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <div class="modal-body">
+                                            <form method="post">
+                                                {% csrf_token %} {{ form|crispy }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="message-discard" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
+											 Discard
+											</button>
+                                            <button id="message-send-message" type="submit" class="btn btn-primary pull-right" name="action1" value="send">
+												<i class="fa fa-envelope"></i> Send Message
+											</button>
                                             </form>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +122,7 @@
                         read = "unread-message"
                     };
                     table = '<tr onclick="inboxFunction(' + re + ')"' + ' class=' + '"' + read + '"' + '>' +
-                        '<td class="name"><a href="#">Admin</a></td>' +
+                        '<td class="name"><a href="#">' + data.messages[i].sender + '</a></td>' +
                         '<td class="subject"><a href="#">' + data.messages[i].title + '</a></td>' +
                         '<td class="time"><a href="#">' + data.messages[i].date_message + '</a></td>' +
                         '</tr>'
@@ -186,6 +181,7 @@
             $(".message_detail_all_inbox").css('display', 'none')
             $(".message_detail_all").css('display', 'none')
             $("#messages-table").empty();
+            $("#replay-form").remove()
             $("#messages-table").prepend('<tbody>' +
                 '<tr id="header-table">' +
                 '<th class="name">FROM</th>' +
@@ -231,6 +227,7 @@ $('#message-active').click(function(event) {
             $(".message_detail_all").css('display', 'none')
             $(".message_detail_all_inbox").css('display', 'none')
             $("#messages-table").empty();
+            $("#replay-form").remove()
             $("#messages-table").prepend('<tbody>' +
                 '<tr id="header-table">' +
                 '<th class="name">FROM</th>' +
@@ -254,8 +251,6 @@ function inboxFunction(get_absolute_url) {
         success: function(data) {
             $("#replay-button").css("display", "block");
             $("#messages-table").empty();
-            $("#compose-modal").remove();
-            $("#form22").remove()
             $(".table-responsive").prepend('<div class="message_detail_all_inbox">' +
                 '<h2 class="message_title_inbox">' + data.message.title + '</h2>' +
                 '<div class="sender_and_time_inbox">' +
@@ -269,9 +264,8 @@ function inboxFunction(get_absolute_url) {
                 '<div id="replay-form">' +
                 '<form method="POST">' +
                 '{% csrf_token %}' +
-                '<label>Message</label>' +
-                '<textarea id="content"></textarea>' +
-                '<button type="submit" class="btn btn-primary" onclick="replayFunction(' + g + ')" name="action2" value="replay">send</button>' +
+                '<textarea class="form-control" id="content"></textarea>' +
+                '<button type="submit" class="btn btn-success btn-lg" onclick="replayFunction(' + g + ')" name="action2" value="replay">SEND</button>' +
                 '</form>' +
                 '</div>'
             )
@@ -279,8 +273,29 @@ function inboxFunction(get_absolute_url) {
     });
 };
 
-
+    function sentFunction(get_absolute_url) {
+        get_absolute_url = get_absolute_url.toString().replace(/[ /\ ]/gi, '');
+        $.ajax({
+            type: "GET",
+            url: get_absolute_url,
+            success: function(data) {
+                $("#messages-table").empty();
+                $(".table-responsive").prepend('<div class="message_detail_all">' +
+                    '<h2 class="message_title">' + data.message.title + '</h2>' +
+                    '<div class="sender_and_time">' +
+                    '<h4 class="message_sender"> TO : ' + data.message.reciver + '</h4>' +
+                    '<h4 class="message_time">' + data.message.date_message + '</h4>' +
+                    '</div>' +
+                    '<div class="message_content">' +
+                    '<p>' + data.message.content_message + '</p>' +
+                    '</div>' +
+                    '</div>'
+                )
+            }
+        });
+    };
 </script>
+
 
 <script src="{% static 'dist/js/pages/message.js' %}"></script>
 {% endblock %}

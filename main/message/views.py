@@ -40,7 +40,7 @@ def send_message(request, pk):
 				recivers = CustomUser.objects.filter(userType = message_recivers)
 				for reciver in recivers:
 					message = Message.objects.create(sender=sender, reciver=reciver, title=title, send_content=content)
-				return redirect('send_message', pk)
+				return redirect('messages', pk)
 
 		else:
 			form = SendMessageUsers(request.POST)
@@ -64,7 +64,6 @@ def send_message(request, pk):
 
 		messages =[]
 		for message in user_messages_send_list:
-			print(message.slug)
 			messages.append({'reciver': message.reciver.username, 'title': message.title, 'date_message': message.date_message.strftime("%Y-%m-%d %H:%M:%S"),
 							'visualized':message.visualized, 'urls' : message.get_absolute_url_inbox()})
 
@@ -104,8 +103,6 @@ def send(request, pk):
 		for message in user_messages_send_list:
 			messages.append({'title': message.title, 'date_message': message.date_message.strftime("%Y-%m-%d %H:%M:%S"),
 							 'urls' : message.get_absolute_url_send(), 'content':message.send_content, 'reciver': message.reciver.username})
-		print(messages)
-		print(number_of_sent)
 		return JsonResponse({'messages': messages, 'count':number_of_sent}, status=200)
 
 
@@ -116,7 +113,7 @@ def send_detail(request, slug):
 	for message_detail in message_details:
 		message_details = message_detail
 	if request.user.userType == 'is_admin':
-		reciver = message_details.reciver
+		reciver = message_details.reciver.username
 	else:
 		reciver = 'Admin'
 	message = {'content_message':message_details.send_content, 'seen': message_details.visualized, 
