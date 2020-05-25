@@ -72,7 +72,7 @@ def AdminProfile(request, pk):
 
 def signout(request):
     auth.logout(request)
-    return render(request,'signout.html')
+    return render(request,'Signin.html')
 
 
 def plot(request):
@@ -38798,7 +38798,7 @@ def map(request):
             'type': 'Feature',
             'properties': {
                 'ID': '1',
-                'Name': 'Donald Trump',
+                'Name': 'Station1',
                 'Operator': 'Mohammad Reza Zargar',
                 'Sensor Type': 'type 2',
                 'Address': 'Univesity of Tehran',
@@ -38816,7 +38816,7 @@ def map(request):
             'type': 'Feature',
             'properties': {
                 'ID': '2',
-                'Name': 'Dear Benjamin Netanyahu <3',
+                'Name': 'Station2',
                 'Operator': 'Mohammad Reza Zargar',
                 'Sensor Type': 'type 2',
                 'Address': 'Univesity of Tehran',
@@ -38836,6 +38836,3 @@ def map(request):
     
 # def my_handler404(request, exception):
 #     return render(request, '404.html', status=404)
-
-def ttest(request):
-    return render(request, 'test.html')
