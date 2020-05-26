@@ -147,6 +147,10 @@ tr:nth-child(even) {
     height: 550px;
     overflow-y: scroll;
 }
+.popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in{
+    left:1600px !important;
+}
+
 
 /*######### mobile ###########*/
 
