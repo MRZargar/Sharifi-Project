@@ -178,3 +178,47 @@ tr:nth-child(even) {
         height: 300px;
     }
 }
+
+
+@media screen and (max-width: 680px) {
+    .row-map-main {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .column-map-main {
+        padding: 10px;
+        float: none;
+        width: 100%;
+    }
+    .column-map1 {
+        width: 17%;
+    }
+    .column-map3 {
+        width: 100%;
+    }
+    .map,
+    .map-style {
+        height: 300px;
+    }
+    #myTreeView {
+        height: 300px;
+    }
+    .histogram_and_treeView{
+        flex-direction: column-reverse;
+    }
+    .histogram_and_calender{
+        width: 100%;
+        padding: 10px;
+        float: none;
+    }
+    .column-map1 {
+        width: 17%;
+    }
+    .column-map3 {
+        width: 100%;
+    }
+    .treeView_main{
+        width:auto;
+    }
+
+}

@@ -412,11 +412,44 @@ textarea#content{
 }
 
 #messages-section{
-    padding-top: 2.5%
+    padding-top: 2.5%;
 }
-.table-responsive{
-    font-size: 1.1rem;
-}
+
 #Folder-inbox-sent{
     font-size: 1.2rem;
 }
+
+
+
+@media screen and (max-width: 680px) {
+    .col-md-12 div div div .col-md-3{
+        border-right: 0px;
+    }
+    .col-md-3 hr{
+        margin-top: 15px;
+        padding-bottom: 0px;
+    }
+    #message-header{
+        padding-bottom: 10px;
+        padding-top: 10px;
+        text-align: center;
+    }
+    #inbox_loader{
+        padding-bottom: 10px;
+    }
+    #message-active{
+        padding-bottom: 10px;
+        margin-left: 62%;
+        margin-top: -14%;
+    }
+    #messages-section{
+        padding-top: 0;
+    }
+    .table-responsive{
+        font-size: .8rem;
+    }
+}
+
+
+
+    
