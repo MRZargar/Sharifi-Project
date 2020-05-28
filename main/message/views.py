@@ -101,7 +101,6 @@ def send(request, pk):
 		if user_messages_send.count() >= 1:
 			user_messages_send_list = calculate_number_of_sent(user_messages_send)
 		number_of_sent = len(user_messages_send_list)
-		print(number_of_sent)
 		messages = []
 		for message in user_messages_send_list:
 			messages.append({'title': message.title, 'date_message': message.date_message.strftime("%Y-%m-%d %H:%M:%S"),

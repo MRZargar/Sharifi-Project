@@ -17,7 +17,7 @@ class Message(models.Model):
 	send_content = models.TextField(blank=False)
 	visualized = models.BooleanField(default=False)
 	slug = models.SlugField(null=False, unique=True)
-	messageType = models.CharField(max_length=10, blank="send")
+	messageType = models.CharField(max_length=10, default="send")
 
 
 	def __str__(self):
