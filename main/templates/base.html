@@ -118,7 +118,7 @@
 
                                                             </li>
                                                             <li>
-                                                                <a id="sidebar-a-mobile" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
+                                                                <a id="sidebar-a-mobile" class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'messages' request.user.pk %}"><i class="ti-email m-r-5 m-l-5"></i> Message</a>
                                                             </li>
                                                             <li class="sign-out-li">
                                                                 <a id="sidebar-a-mobile2" class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'signout' %}"><i class="fa fa-power-off m-r-5 m-l-5"></i>Sign out</a>

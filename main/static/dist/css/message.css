@@ -418,6 +418,9 @@ textarea#content{
 #Folder-inbox-sent{
     font-size: 1.2rem;
 }
+#hr-for-mobile{
+    display: none;
+}
 
 
 
@@ -436,17 +439,70 @@ textarea#content{
     }
     #inbox_loader{
         padding-bottom: 10px;
+        display: inline-block;
     }
     #message-active{
         padding-bottom: 10px;
-        margin-left: 62%;
-        margin-top: -14%;
+        display: table;
+        margin-left: auto;
+        margin-top: -38px;
     }
     #messages-section{
         padding-top: 0;
     }
     .table-responsive{
         font-size: .8rem;
+        margin-top: -10%
+    }
+    #sent-mobile-move{
+        position: relative;
+        top:2px;
+    }
+    .message_title_inbox{
+        font-size: 0.9rem;
+        margin-right: 0;
+        text-align: center;
+    }
+    .message_sender_inbox{
+        padding-left: 0;
+        font-size: 0.8rem;
+        width: 70%;
+    }
+    .message_time_inbox{;
+        font-size: 0.8rem;
+        width: 30%;
+    }
+    #replay-form{
+        display: contents;
+    }
+    textarea#content{
+        width: 100%;
+        margin-left: 0;
+    }
+    #replay-form button{
+        position: relative;
+        display: grid;
+        margin: auto;
+    }
+    .message_title{
+        font-size: 0.9rem;
+        margin-right: 0;
+        text-align: center;
+    }
+    .message_sender{
+        padding-left: 0;
+        font-size: 0.8rem;
+        width: 70%;
+    }
+    .message_time{;
+        font-size: 0.8rem;
+        width: 30%;
+    }
+    #hr-for-mobile{
+        display: block;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
 }
 

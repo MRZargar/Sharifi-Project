@@ -22,11 +22,10 @@
                         <ul class="nav nav-pills nav-stacked" id = "Folder-inbox-sent">
                             <li id="message-header" class="header">Folders</li>
                             <li id="inbox_loader" ><a href="#"><i class="fa fa-inbox"></i> Inbox({{number_of_inbox}})</a></li>
-                            <li id="message-active" ><a href="#"><i class="mdi mdi-message"></i> Sent({{number_of_sent}})</a></li>
+                            <li id="message-active" ><a href="#" id="sent-mobile-move"><i class="mdi mdi-message"></i> Sent({{number_of_sent}})</a></li>
                         </ul>
                     </div>
                 </div>
-
                 <div class="col-md-9" id="messages-section">
                     <div class="row">
                         <div class="col-sm-6">
@@ -251,7 +250,7 @@ function inboxFunction(get_absolute_url) {
         success: function(data) {
             $("#replay-button").css("display", "block");
             $("#messages-table").empty();
-            $(".table-responsive").prepend('<div class="message_detail_all_inbox">' +
+            $(".table-responsive").prepend('<hr id="hr-for-mobile">' + '<div class="message_detail_all_inbox">' +
                 '<h2 class="message_title_inbox">' + data.message.title + '</h2>' +
                 '<div class="sender_and_time_inbox">' +
                 '<h4 class="message_sender_inbox"> FROM : ' + data.message.sender + '</h4>' +
@@ -280,7 +279,7 @@ function inboxFunction(get_absolute_url) {
             url: get_absolute_url,
             success: function(data) {
                 $("#messages-table").empty();
-                $(".table-responsive").prepend('<div class="message_detail_all">' +
+                $(".table-responsive").prepend('<hr id="hr-for-mobile">' + '<div class="message_detail_all">' +
                     '<h2 class="message_title">' + data.message.title + '</h2>' +
                     '<div class="sender_and_time">' +
                     '<h4 class="message_sender"> TO : ' + data.message.reciver + '</h4>' +
