@@ -19,17 +19,11 @@ SECRET_KEY = 'uyxfa8h9op(y_$y_n@6x2at%+cfv-&@smt2c9j_*od@$-0cvg%'
 
 DEBUG = True
 
-if DEBUG is False:
-    ALLOWED_HOSTS = [
-        '127.0.0.1',
-        '*',
-    ]
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    '*',
+]
 
-if DEBUG is True:
-    ALLOWED_HOSTS = [
-        '127.0.0.1',
-        '*',
-    ]
 
 
 INSTALLED_APPS = [
@@ -83,12 +77,27 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+if DEBUG == True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
+if DEBUG == False:
+    DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': db_name,
+        'USER': db_user,
+        'PASSWORD': db_pass,
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+
+
 
 
 # Password validation

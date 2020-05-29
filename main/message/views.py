@@ -103,8 +103,12 @@ def send(request, pk):
 		number_of_sent = len(user_messages_send_list)
 		messages = []
 		for message in user_messages_send_list:
+			if request.user.userType != 'is_admin':
+				reciver_name = 'Admin'
+			else:
+				reciver_name = message.reciver.username
 			messages.append({'title': message.title, 'date_message': message.date_message.strftime("%Y-%m-%d %H:%M:%S"),
-							 'urls' : message.get_absolute_url_send(), 'content':message.send_content, 'reciver': message.reciver.username})
+							 'urls' : message.get_absolute_url_send(), 'content':message.send_content, 'reciver': reciver_name})
 		return JsonResponse({'messages': messages, 'count':number_of_sent}, status=200)
 
 
