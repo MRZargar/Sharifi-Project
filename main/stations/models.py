@@ -10,12 +10,22 @@ def station_directory_path(instance, filename):
 
 
 class Setup(models.Model):
-	operator_name = models.CharField(max_length=150)
+	operator_name = models.CharField(max_length=150, blank=False)
 	station_name = models.CharField(max_length=150, unique=True)
 	address = models.CharField(max_length=255, blank=False)
 	description = models.TextField(blank=False)
 	date = models.DateTimeField(auto_now_add=True)
 	status = models.BooleanField(default=False)
+	sensor_type = models.CharField(max_length=50, blank=False)
+	x_coordinate = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
+	y_coordinate = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
+	coordinate_system = models.CharField(max_length=50, blank=False)
+	validation_1 = models.DecimalField(max_digits=20, decimal_places=10)
+	validation_2 = models.DecimalField(max_digits=20, decimal_places=10)
+	validation_3 = models.DecimalField(max_digits=20, decimal_places=10)
+	validation_4 = models.DecimalField(max_digits=20, decimal_places=10)
+	validation_5 = models.DecimalField(max_digits=20, decimal_places=10)
+	validation_6 = models.DecimalField(max_digits=20, decimal_places=10)
 
 
 	def __str__(self):
@@ -47,3 +57,5 @@ class Deactivate(models.Model):
 
 	def __str__(self):
 		return str(self.station_name) if self.station_name else ""
+
+
