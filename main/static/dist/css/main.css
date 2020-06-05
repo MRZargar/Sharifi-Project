@@ -245,7 +245,7 @@ iframe {
 }
 
 .wrap-login100 {
-    width: 400px;
+    width: 380px;
     border-radius: 10px;
     overflow: hidden;
     padding: 55px 55px 37px 55px;
@@ -509,7 +509,43 @@ iframe {
 
 @media (max-width: 576px) {
     .wrap-login100 {
-        padding: 55px 15px 37px 15px;
+        width: 300px;
+        padding: 0;
+        margin-top: -20px;
+    }
+    .container-login100::before{
+        min-height: auto;
+        padding: 0;
+    }
+    .container-login100{
+        min-height: 90vh;
+    }
+
+    .footer--another{
+        position: absolute!important;
+        font-size: 13px;
+        bottom: 0!important;
+        margin-bottom: -20px!important;
+    }
+    .limiter{
+        position: sticky!important;
+        margin:0;
+    }
+    .login100-form-logo{
+        margin:15px auto;
+    }
+    .login100-form-title{
+        font-size: 22px;
+        line-height: 0.2;
+    }
+    .input100{
+        font-size: 14px;
+        height: 40px;
+    }
+    .login100-form-btn{
+        font-size: 14px;
+        min-width: 100px;
+        height: 40px;
     }
 }
 
@@ -555,7 +591,7 @@ iframe {
     font-family: FontAwesome;
     font-size: 16px;
     color: #c80000;
-    display: block;
+    display: flex;
     position: absolute;
     top: 50%;
     -webkit-transform: translateY(-50%);
@@ -572,7 +608,7 @@ iframe {
 }
 
 @media (max-width: 992px) {
-    .alert-validate::before {
+.alert-validate::before {
         visibility: visible;
         opacity: 1;
     }
@@ -588,7 +624,7 @@ iframe {
     padding: 15px 20px;
     text-align: center!important;
     display: block;
-    position: fixed;
+    position: absolute;
     bottom: 0;
 }
 
@@ -596,3 +632,32 @@ iframe {
     color: #2962FF;
     background-color: transparent;
 }
+
+@media (max-height: 536px) {
+    .footer--another{
+        margin-bottom: -30px;
+    }
+
+    .wrap-login100{
+        margin-top: 0;
+    }
+
+    .login100-form-logo{
+        margin:15px auto;
+    }
+    .login100-form-title{
+        font-size: 22px;
+        line-height: 0.2;
+    }
+    .input100{
+        font-size: 14px;
+        height: 40px;
+    }
+    .login100-form-btn{
+        font-size: 14px;
+        min-width: 100px;
+        height: 40px;
+    }
+
+}
+
