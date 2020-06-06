@@ -12517,7 +12517,7 @@ ul.messagelist li.error {
 .footer--another--pass {
     margin: 0 auto;
     text-align: center!important;
-    top: 500px;
+    top: 435px;
     position: relative;
 }
 
@@ -12575,7 +12575,7 @@ ul.messagelist li.error {
     }
     .footer--another--pass,
     mobile-1 {
-        top: 450px;
+        top: 435px;
     }
     .footer--another--confirm2,
     mobile-1 {
@@ -12596,7 +12596,7 @@ ul.messagelist li.error {
         position: relative;
         max-width: 95%;
         margin: 0 auto;
-        top: 60px;
+        top: 10px;
     }
 }
 

@@ -507,11 +507,13 @@ iframe {
 /*------------------------------------------------------------------
 [ Responsive ]*/
 
-@media (max-width: 576px) {
+@media screen and (max-width:768px){
     .wrap-login100 {
         width: 300px;
-        padding: 0;
+        padding: 0 5px;
         margin-top: -20px;
+        padding-top: 5px;
+        padding-bottom: 10px;
     }
     .container-login100::before{
         min-height: auto;
