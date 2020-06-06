@@ -17,7 +17,11 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.core.mail import EmailMultiAlternatives
+from main.settings import EMAIL_HOST_USER
+from django.utils.html import strip_tags
 User = get_user_model()
+
 
 class AuthorUpdate(UpdateView):
     model = CustomUser
@@ -41,14 +45,18 @@ def SignUpView(request, pk):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
+            subject = 'Activate Your Geolab Account'
+            from_email = EMAIL_HOST_USER
             message = render_to_string('account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            user.email_user(subject, message)
+            text_message = strip_tags(message)
+            msg = EmailMultiAlternatives(subject, text_message, from_email, [str(user.email)])
+            msg.attach_alternative(message, "text/html")
+            msg.send()
             messages.success(request, "Please confirm your email address to complete the registration.")
             return redirect('signup', pk)
     else:
@@ -73,20 +81,23 @@ def SignUpView2(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
+            subject = 'Activate Your Geolab Account'
+            from_email = EMAIL_HOST_USER
             message = render_to_string('account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            user.email_user(subject, message)
+            text_message = strip_tags(message)
+            msg = EmailMultiAlternatives(subject, text_message, from_email, [str(user.email)])
+            msg.attach_alternative(message, "text/html")
+            msg.send()
             messages.success(request, "Please confirm your email address to complete the registration.")
             return redirect('signup2')
     else:
         form = CustomUserCreationForm2()
     return render(request, 'signupUser.html', {'form': form})
-
 
 
 def account_activation_sent(request):
@@ -108,3 +119,7 @@ def activate(request, uidb64, token):
         return redirect('signpage')
     else:
         return render(request, 'account_activation_invalid.html')
+
+
+
+
