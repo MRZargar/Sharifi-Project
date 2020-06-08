@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
     phone_number = models.PositiveIntegerField(null=True, blank=True, unique=True)
     email = models.EmailField(unique=True)
     email_confirmed = models.BooleanField(default=False)
+    admin_confirmed = models.BooleanField(default=False)
     UsersTypes = (
         ('is_user', 'user'),
         ('is_operator', 'operator'),

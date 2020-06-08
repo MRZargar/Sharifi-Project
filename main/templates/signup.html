@@ -4,31 +4,176 @@
 <!-- Load css if need -->
 {% block css %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
+<link href="{% static 'dist/css/Admin_panel.css' %}" rel="stylesheet">
+{% endblock %}
+<!-- Page Name -->
+{% block users %}
+    <div class="topnav">
+        <div class="buttons-add-active">
+            <a id="btn-Add" class="active" href="{% url 'signup' request.user.pk %}">ADD</a>
+            <a id="btn-Active" href="{% url 'active_user_page' request.user.pk %}">ACTIVE</a>
+        </div>
+    </div>
 {% endblock %}
 
-<!-- Page Name -->
-{% block pageName %} Sign Up {% endblock %} {% block content %}
+{% block content %}
 
-<ul class="messagelist">
-    <li class="success">
-        {% if messages %} {% for message in messages %}
-        <b style="font-size: 20px; color: rgb(18, 119, 119);">{{ message }}</b> {% endfor %} {% endif %}
-    </li>
-</ul>
+    <div class="add-user-content">
+        <ul class="messagelist">
+            <li class="success">
+                {% if messages %} {% for message in messages %}
+                <b style="font-size: 20px; color: rgb(18, 119, 119);">{{ message }}</b> {% endfor %} {% endif %}
+            </li>
+        </ul>
 
-<h2 style="padding-left: 15px;">Sign Up</h2>
-<div class='card-body'>
-    <form method="post" data-url="{%url 'signup' request.user.pk %}">
-        {% csrf_token %} {{ form|crispy }}
-        <button class="btn btn-success" type="submit">Sign Up</button>
-    </form>
-</div>
-<script>
-    $(document).ready(function() {
-        $(".asteriskField").remove();
-        $("#id_phone_number").attr('type', 'text');
-    });
-</script>
+        <h2 style="padding-left: 15px;">Sign Up</h2>
+        <div class='card-body'>
+            <form method="post" data-url="{%url 'signup' request.user.pk %}">
+                {% csrf_token %} {{ form|crispy }}
+                <button class="btn btn-success" type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="active-user-content">
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $(".asteriskField").remove();
+            $("#id_phone_number").attr('type', 'text');
+        });
+
+        $("#btn-Add").click(function(event) {
+            event.preventDefault();
+            $("#btn-Add").attr('class', 'active');
+            $("#btn-Active").removeClass('active');
+            $(".add-user-content").css("display", "inherit");
+            $(".active-user-content").css("display", "none");
+            $(".active-user-content").empty()
+        });
+
+        $("#btn-Active").click(function(event) {
+            $(".active-user-content").empty()
+            event.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: "{% url 'active_user_page' request.user.pk %}",
+                success : function(data){
+                    count = data.count;
+                    if (count == 0){
+                        main_table = '<tr class="table">'+
+                            '<th scope="row"><a href="#">0</a></th>'+
+                            '<td><a href="#">----</a></td>'+
+                            '<td><a href="#">----</a></td>'+
+                            '<td><a href="#">----</a></td>'+
+                            '<td><a href="#">----</a></td>'+
+                            '</tr>';
+                    }else{
+                        main_table = "";
+                        number = 0
+                        for (i in data.user_list){
+                            this_data = data.user_list[i];
+                            status = this_data.status;
+                            number += 1;
+                            class_name = "";
+                            if(status == 'false'){
+                                class_name = "table-danger";
+                                var user_status = "Deactive";
+                            }else{
+                                class_name = "table-success";
+                                var user_status = "Active";
+                            }
+                            table = '<tr class= ' + class_name + ' data-user = "' + this_data.username +'">'+
+                                    '<th scope="row"><a href="#">' + number + '</a></th>'+
+                                    '<td><a href="#">' + this_data.username + '</a></td>'+
+                                    '<td><a href="#">' + this_data.email + '</a></td>'+
+                                    '<td><a href="#">' + this_data.phone_number + '</a></td>'+
+                                    '<td class="user-status-TF"><a href="#">' + user_status + '</a></td>'+
+                                    '</tr>'
+                            main_table += table
+
+                        }
+                    }
+                    $("#btn-Active").attr('class', 'active');
+                    $("#btn-Add").removeClass('active');
+                    $(".add-user-content").css("display", "none");
+                    $(".active-user-content").css("display", "inherit");
+                    $(".active-user-content").prepend('<table class="table table-hover" id="station-table-list">' +
+                        '<thead class="thead-dark">'+
+                        '<th scope="col">number</th>'+
+                        '<th scope="col">user name</th>'+
+                        '<th scope="col">email</th>'+
+                        '<th scope="col">phone number</th>'+
+                        '<th scope="col">status</th>'+
+                        '</tr>'+
+                        '</thead>'+
+                        '<tbody>'+ 
+                        main_table +
+                        '</tbody>'+
+                        '</table>'
+                        );
+                }
+            });
+        });
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        $(document).on('click', '.table-danger', function(event){
+            event.preventDefault();
+            var data_user = $(this).data("user");
+            var csrftoken = getCookie('csrftoken');
+            var method = "Active"
+            $.ajax({
+                type: "POST",
+                url: "{% url 'active_user_page' request.user.pk %}",
+                data: {
+                    csrfmiddlewaretoken: csrftoken,
+                    'UserName' : data_user,
+                    "Method": method
+                },
+                success: function(){
+                    var changed_user = $('.table-danger[data-user="' + data_user + '"]');
+                    changed_user.attr('class', 'table-success')
+                    changed_user.children(".user-status-TF").text("Active")
+                }
+            });
+        });
+        $(document).on('click', '.table-success', function(event){
+            event.preventDefault();
+            var data_user = $(this).data("user");
+            var csrftoken = getCookie('csrftoken');
+            var method = "Deactive"
+            $.ajax({
+                type: "POST",
+                url: "{% url 'active_user_page' request.user.pk %}",
+                data: {
+                    csrfmiddlewaretoken: csrftoken,
+                    'UserName' : data_user,
+                    "Method": method
+                },
+                success: function(data){
+                    var changed_user = $('.table-success[data-user="' + data_user + '"]');
+                    changed_user.attr('class', 'table-danger');
+                    changed_user.children(".user-status-TF").text("Deactive")
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

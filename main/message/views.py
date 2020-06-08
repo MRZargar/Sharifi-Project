@@ -81,7 +81,7 @@ def inbox(request, pk):
 	else:
 		user_inbox = Message.objects.filter(reciver = request.user)
 		number_of_inbox = user_inbox.count()
-		messages =[]
+		messages = []
 		for message in user_inbox:
 			messages.append({'title': message.title, 'date_message': message.date_message.strftime("%Y-%m-%d %H:%M:%S"),
 							 'urls' : message.get_absolute_url_inbox(), 'visualized':message.visualized, 'sender': message.sender.username})

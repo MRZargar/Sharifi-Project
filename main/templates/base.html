@@ -190,7 +190,7 @@
                                     <ul>
                                         <li>
                                             <a href="{% url 'signup' request.user.pk %}" aria-expanded="false"><i class="mdi mdi-account-plus"></i>
-                                                <span class="hide-menu">Add user</span>
+                                                <span class="hide-menu">users</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -216,6 +216,8 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
+                    {% block users %}
+                    {% endblock %}
                     <div class="col-5">
                         <h4 class="page-title">{% block pageName %}
                             <!-- page name -->{% endblock %}</h4>

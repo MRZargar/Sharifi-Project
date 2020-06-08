@@ -1,0 +1,82 @@
+/* Add a black background color to the top navigation */
+.topnav {
+  width: 100%;
+  position:relative;
+  overflow: hidden;
+  margin: 5px auto;
+  margin-bottom: -10px;
+}
+
+
+.buttons-add-active{
+  position: relative;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.buttons-add-active a {
+  background-color: #333;
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 15px 50px 15px 50px;
+  text-decoration: none;
+  font-size: 17px;
+  width: 50%;
+  letter-spacing: 1px;
+}
+
+
+.buttons-add-active a:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+.buttons-add-active a.active {
+  background-color: #2bbbad;
+  color: white;
+}
+
+.buttons-add-active a.active:hover {
+  color: black;
+}
+
+
+
+.add-user-content{
+  display: inherit;
+}
+
+.active-user-content{
+  display: none;
+}
+
+#station-table-list td a:hover{
+  color: black;
+}
+
+#station-table-list th a:hover{
+  color: black;
+}
+
+
+@media screen and (max-width:768px) {
+    .buttons-add-active{
+     width: 100%;
+    }
+    #station-table-list{
+      font-size: 9px;
+    }
+    #station-table-list td{
+      padding:0.5rem 0.1rem 0.5rem 0.1rem;
+      text-align: center;
+    }
+    #station-table-list th{
+      padding:0.5rem 0.1rem 0.5rem 0.1rem;
+      text-align: center;
+    }
+    .active-user-content{
+      margin-left: -7.5px;
+      margin-right: -7.5px;
+    }
+  }
