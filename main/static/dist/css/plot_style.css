@@ -173,32 +173,7 @@ tr:nth-child(even) {
     .map,
     .map-style {
         height: 300px;
-    }
-    #myTreeView {
-        height: 300px;
-    }
-}
-
-
-@media screen and (max-width: 680px) {
-    .row-map-main {
-        display: flex;
-        flex-direction: column-reverse;
-    }
-    .column-map-main {
-        padding: 10px;
-        float: none;
         width: 100%;
-    }
-    .column-map1 {
-        width: 17%;
-    }
-    .column-map3 {
-        width: 100%;
-    }
-    .map,
-    .map-style {
-        height: 300px;
     }
     #myTreeView {
         height: 300px;
@@ -224,5 +199,13 @@ tr:nth-child(even) {
         font-size: 2rem;
         padding-top: 5px !important;
     }
+    .ol-layer canvas{
+        display: inline-block;
+    }
+}
 
+@media screen and (max-width: 1600px) {
+    #main-wrapper[data-layout=vertical][data-sidebartype=full] .page-wrapper {
+    margin-left: 0 ;
+    }
 }
