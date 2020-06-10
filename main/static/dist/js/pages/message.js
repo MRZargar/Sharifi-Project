@@ -21,7 +21,7 @@ document.getElementById('id_title').addEventListener('keypress',function(e){
 });
 $("#id_title").bind("paste", function(e){
     var pastedData = e.originalEvent.clipboardData.getData('text');
-        isStringPersian(pastedData);
+        isStringPersian2(pastedData);
 } );
 
 function isEnglish(charCode){
@@ -33,7 +33,7 @@ function isPersian(key){
     return p.test(key) && key!=' ';
 }
 
-function isStringPersian(strings){
+function isStringPersian2(strings){
     for (i in strings){
         if (isPersian(strings[i])){
             $("#id_title").css("direction", 'rtl');
@@ -51,7 +51,7 @@ document.getElementById('id_send_content').addEventListener('keypress',function(
 });
 $("#id_send_content").bind("paste", function(e){
     var pastedData = e.originalEvent.clipboardData.getData('text');
-        isStringPersian(pastedData);
+        isStringPersian1(pastedData);
 } );
 
 function isEnglish(charCode){
@@ -63,7 +63,7 @@ function isPersian(key){
     return p.test(key) && key!=' ';
 }
 
-function isStringPersian(strings){
+function isStringPersian1(strings){
     for (i in strings){
         if (isPersian(strings[i])){
             $("#id_send_content").css("direction", 'rtl');
