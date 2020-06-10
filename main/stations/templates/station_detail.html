@@ -22,7 +22,7 @@
 				  <dt class="col-sm-3">Operator name</dt>
 				  <dd class="col-sm-9">{{station.operator_name}}</dd>
 				  <dt class="col-sm-3">Station Address</dt>
-				  <dd class="col-sm-9">{{station.address}}</dd>
+				  <dd class="col-sm-9" id="station_address_1">{{station.address}}</dd>
 				  <dt class="col-sm-3">Date</dt>
 				  <dd class="col-sm-9">{{station.date}}</dd>
 				</dl>
@@ -42,7 +42,7 @@
 				  <dt class="col-sm-3">Operator name</dt>
 				  <dd class="col-sm-9">{{station.operator_name}}</dd>
 				  <dt class="col-sm-3">Station Address</dt>
-				  <dd class="col-sm-9">{{station.address}}</dd>
+				  <dd class="col-sm-9" id="station_address_2">{{station.address}}</dd>
 				  <dt class="col-sm-3">Date</dt>
 				  <dd class="col-sm-9">{{station.date}}</dd>
 				</dl>
@@ -143,6 +143,22 @@
 	var string2 = $("#third-discription").text();
 	isStringPersian2(string2, "#third-discription")
 
+
+	function isStringPersian3(strings, id){
+		for (i in strings){
+			if (isPersian(strings[i])){
+				$(id).css("direction", 'rtl');
+				$(id).css("margin", '0');
+				break;
+			}
+		}
+	}
+
+	var string2 = $("#station_address_1").text();
+	isStringPersian3(string2, "#station_address_1")
+
+	var string2 = $("#station_address_2").text();
+	isStringPersian3(string2, "#station_address_2")
 
 
 
