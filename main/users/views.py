@@ -78,6 +78,13 @@ def active_user_page(request, pk):
         method = request.POST['Method']
         user = User.objects.get(username=username)
         if method == "Active":
+            subject = 'Your geolab account has been verified'
+            from_email = EMAIL_HOST_USER
+            message = render_to_string('account_acitvated.html', {'user': user,})
+            text_message = strip_tags(message)
+            msg = EmailMultiAlternatives(subject, text_message, from_email, [str(user.email)])
+            msg.attach_alternative(message, "text/html")
+            msg.send() 
             user.admin_confirmed = True
         elif method == "Deactive":
             user.admin_confirmed = False
