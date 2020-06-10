@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="{% static 'assets/libs/treeview/bootstrap-treeview.min.css' %}">
     <script src="{% static 'assets/libs/treeview/bootstrap-treeview.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'dist/css/plot_style.css' %}" type="text/css">
-
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+    <script src="https://unpkg.com/lz-string@1.4.4/libs/lz-string.min.js"></script>
 {% endblock %}
 {% block pageName %} Map {% endblock %}
 {% block content %}
@@ -287,4 +289,10 @@
     $('#input-search').on('keyup', search);
 </script>
 
+<script>
+    $(document).ready(function () {
+        
+    })
+
+</script>
 {% endblock %}

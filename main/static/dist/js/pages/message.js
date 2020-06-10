@@ -13,6 +13,68 @@ function replayFunction(get_absolute_url) {
 };
 
 
+document.getElementById('id_title').addEventListener('keypress',function(e){
+     if (isEnglish(e.charCode))
+       $("#id_title").css("direction", 'ltr');
+     else if(isPersian(e.key))
+       $("#id_title").css("direction", 'rtl');
+});
+$("#id_title").bind("paste", function(e){
+    var pastedData = e.originalEvent.clipboardData.getData('text');
+        isStringPersian(pastedData);
+} );
+
+function isEnglish(charCode){
+        return (charCode >= 97 && charCode <= 122) || (charCode>=65 && charCode<=90);
+}   
+
+function isPersian(key){
+    var p = /^[\u0600-\u06FF\s]+$/;    
+    return p.test(key) && key!=' ';
+}
+
+function isStringPersian(strings){
+    for (i in strings){
+        if (isPersian(strings[i])){
+            $("#id_title").css("direction", 'rtl');
+            break;
+        }
+    }
+}
+
+
+document.getElementById('id_send_content').addEventListener('keypress',function(e){
+     if (isEnglish(e.charCode))
+       $("#id_send_content").css("direction", 'ltr');
+     else if(isPersian(e.key))
+       $("#id_send_content").css("direction", 'rtl');
+});
+$("#id_send_content").bind("paste", function(e){
+    var pastedData = e.originalEvent.clipboardData.getData('text');
+        isStringPersian(pastedData);
+} );
+
+function isEnglish(charCode){
+        return (charCode >= 97 && charCode <= 122) || (charCode>=65 && charCode<=90);
+}   
+
+function isPersian(key){
+    var p = /^[\u0600-\u06FF\s]+$/;    
+    return p.test(key) && key!=' ';
+}
+
+function isStringPersian(strings){
+    for (i in strings){
+        if (isPersian(strings[i])){
+            $("#id_send_content").css("direction", 'rtl');
+            break;
+        }
+    }
+}
+
+
+
+
 
 
 

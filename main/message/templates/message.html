@@ -5,7 +5,7 @@
 <!-- Page Name -->
 {% block pageName %}send message{% endblock %} {% block css %}
 <link href="{% static 'dist/css/message.css' %}" rel="stylesheet">
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
 {% endblock %}
 {% block content %}
@@ -97,6 +97,7 @@
 
 
 <script type="text/javascript" charset="utf-8" async defer>
+    var test = 0;
     $(document).ready(function() {
     $.ajax({
         type: "GET",
@@ -268,6 +269,35 @@ function inboxFunction(get_absolute_url) {
                 '</form>' +
                 '</div>'
             )
+            document.getElementById('content').addEventListener('keypress',function(e){
+                 if (isEnglish(e.charCode))
+                   $("#content").css("direction", 'ltr');
+                 else if(isPersian(e.key))
+                   $("#content").css("direction", 'rtl');
+            });
+            $("#content").bind("paste", function(e){
+                var pastedData = e.originalEvent.clipboardData.getData('text');
+                    isStringPersian(pastedData);
+            } )
+
+            function isEnglish(charCode){
+                    return (charCode >= 97 && charCode <= 122) || (charCode>=65 && charCode<=90);
+            }   
+
+            function isPersian(key){
+                var p = /^[\u0600-\u06FF\s]+$/;    
+                return p.test(key) && key!=' ';
+            }
+
+            function isStringPersian(strings){
+                for (i in strings){
+                    if (isPersian(strings[i])){
+                        $("#content").css("direction", 'rtl');
+                        break;
+                    }
+                }
+            }
+
         }
     });
 };
@@ -293,8 +323,8 @@ function inboxFunction(get_absolute_url) {
             }
         });
     };
-</script>
 
+</script>
 
 <script src="{% static 'dist/js/pages/message.js' %}"></script>
 {% endblock %}

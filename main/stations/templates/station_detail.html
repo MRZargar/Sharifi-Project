@@ -117,6 +117,38 @@
 	{% endif %}
 
 
+<script>
+	document.getElementById('id_description').addEventListener('keypress',function(e){
+     if (isEnglish(e.charCode))
+       $("#id_description").css("direction", 'ltr');
+     else if(isPersian(e.key))
+       $("#id_description").css("direction", 'rtl');
+	});
+	$("#id_description").bind("paste", function(e){
+	    var pastedData = e.originalEvent.clipboardData.getData('text');
+	    	isStringPersian(pastedData);
+	} );id_description
+
+	function isEnglish(charCode){
+			return (charCode >= 97 && charCode <= 122) || (charCode>=65 && charCode<=90);
+	}	
+
+	function isPersian(key){
+		var p = /^[\u0600-\u06FF\s]+$/;    
+		return p.test(key) && key!=' ';
+	}
+
+	function isStringPersian(strings){
+		for (i in strings){
+			if (isPersian(strings[i])){
+				$("#id_description").css("direction", 'rtl');
+				break;
+			}
+		}
+	}
+
+</script>
+
 {% endblock %}
 
 
