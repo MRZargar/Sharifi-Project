@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 import  os
 from django.urls import reverse
+from users.models import CustomUser
 
 def station_directory_path(instance, filename):
 	base_name = os.path.basename(filename)
@@ -10,7 +11,7 @@ def station_directory_path(instance, filename):
 
 
 class Setup(models.Model):
-	operator_name = models.CharField(max_length=150, blank=False)
+	operator_name = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 	station_name = models.CharField(max_length=150, unique=True)
 	address = models.CharField(max_length=255, blank=False)
 	description = models.TextField(blank=False)

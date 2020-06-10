@@ -23,7 +23,7 @@ def station_setup(request):
 			latitude = form.cleaned_data['latitude']
 			longitude = form.cleaned_data['longitude']
 			description = form.cleaned_data['description']
-			operator_name = request.user.username
+			operator_name = request.user
 			station_obj = Setup.objects.create(station_name=station_name,
 						 address=address,
 						 description=description,
@@ -72,7 +72,6 @@ def station_detail(request, pk):
 	if request.method == "POST":
 		form = StationDeactivate(request.POST)
 		if form.is_valid():
-			print("test")
 			operator_name = request.user.username
 			station_name = Setup.objects.get(station_name = station.station_name)
 			description = form.cleaned_data['description']
