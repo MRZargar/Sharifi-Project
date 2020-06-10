@@ -3,7 +3,13 @@
 {% block title %}Station{% endblock %}
 
 <!-- Page Name -->
-{% block pageName %} Stations{% endblock %} {% block content %}
+{% block pageName %} Stations{% endblock %} 
+
+{% block css %}
+	<script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
 	
 	{% if station != Null %}
 		{% if deactive == Null %}
@@ -23,7 +29,7 @@
 			  </div>
 			  <dl id="description-detail" class="row">
 			  	<dt class="col-sum-3">Description:</dt>
-				    <p class="lead">{{station.description}}.</p>
+				    <p class="lead" dir="auto" id="first-discription">{{station.description}}.</p>
 			  <dl>
 			</div>
 		{% else %}
@@ -43,7 +49,7 @@
 			  </div>
 			  <dl id="description-detail" class="row">
 			  	<dt class="col-sum-3">Description:</dt>
-				    <p class="lead">{{station.description}}.</p>
+				    <p class="lead" dir="auto" id="second-discription">{{station.description}}.</p>
 			  <dl>
 			</div>
 			<div id= "card-detail-deactive" class="card text-center">
@@ -60,7 +66,7 @@
 			  </div>
 			  <dl id="description-detail" class="row">
 			  	<dt class="col-sum-3">Description:</dt>
-				    <p class="lead">{{station.description}}.</p>
+				    <p class="lead" dir="auto" id="third-discription">{{station.description}}.</p>
 			  <dl>
 			</div>
 		{% endif %}
@@ -118,6 +124,29 @@
 
 
 <script>
+
+	function isStringPersian2(strings, id){
+		for (i in strings){
+			if (isPersian(strings[i])){
+				$(id).css("text-align", 'right');
+				break;
+			}
+		}
+	}
+	var string2 = $("#first-discription").text();
+	isStringPersian2(string2, "#first-discription")
+
+	var string2 = $("#second-discription").text();
+	isStringPersian2(string2, "#second-discription")
+
+
+	var string2 = $("#third-discription").text();
+	isStringPersian2(string2, "#third-discription")
+
+
+
+
+
 	document.getElementById('id_description').addEventListener('keypress',function(e){
      if (isEnglish(e.charCode))
        $("#id_description").css("direction", 'ltr');
@@ -136,15 +165,6 @@
 	function isPersian(key){
 		var p = /^[\u0600-\u06FF\s]+$/;    
 		return p.test(key) && key!=' ';
-	}
-
-	function isStringPersian(strings){
-		for (i in strings){
-			if (isPersian(strings[i])){
-				$("#id_description").css("direction", 'rtl');
-				break;
-			}
-		}
 	}
 
 </script>

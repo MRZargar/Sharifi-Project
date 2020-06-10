@@ -11,7 +11,6 @@ from django.core.exceptions import PermissionDenied
 @login_required(login_url='signpage')
 def station_setup(request):
 	obj = request.user
-	print(obj.userType)
 	if obj.userType == 'is_user':
 		raise PermissionDenied
 
@@ -21,12 +20,16 @@ def station_setup(request):
 		if form.is_valid():
 			station_name = form.cleaned_data['station_name']
 			address = form.cleaned_data['address']
+			latitude = form.cleaned_data['latitude']
+			longitude = form.cleaned_data['longitude']
 			description = form.cleaned_data['description']
 			operator_name = request.user.username
 			station_obj = Setup.objects.create(station_name=station_name,
 						 address=address,
 						 description=description,
 						 operator_name=operator_name,
+						 latitude = latitude,
+						 longitude = longitude,
 						 status=True)
 			for f in files:
 				Image.objects.create(setup=station_obj, images=f)

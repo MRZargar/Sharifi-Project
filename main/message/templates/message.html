@@ -97,7 +97,14 @@
 
 
 <script type="text/javascript" charset="utf-8" async defer>
-    var test = 0;
+    function isStringPersian2(strings, id){
+    for (i in strings){
+        if (isPersian(strings[i])){
+            $(id).css("text-align", 'right');
+            break;
+            }
+        }
+    }
     $(document).ready(function() {
     $.ajax({
         type: "GET",
@@ -258,7 +265,7 @@ function inboxFunction(get_absolute_url) {
                 '<h4 class="message_time_inbox">' + data.message.date_message + '</h4>' +
                 '</div>' +
                 '<div class="message_content_inbox">' +
-                '<p>' + data.message.content_message + '</p>' +
+                '<p dir="auto" id="first-message">' + data.message.content_message + '</p>' +
                 '</div>' +
                 '</div>' +
                 '<div id="replay-form">' +
@@ -269,6 +276,8 @@ function inboxFunction(get_absolute_url) {
                 '</form>' +
                 '</div>'
             )
+            var string2 = $("#first-message").text();
+            isStringPersian2(string2, "#first-message")
             document.getElementById('content').addEventListener('keypress',function(e){
                  if (isEnglish(e.charCode))
                    $("#content").css("direction", 'ltr');
@@ -316,10 +325,12 @@ function inboxFunction(get_absolute_url) {
                     '<h4 class="message_time">' + data.message.date_message + '</h4>' +
                     '</div>' +
                     '<div class="message_content">' +
-                    '<p>' + data.message.content_message + '</p>' +
+                    '<p dir="auto" id="second-message">' + data.message.content_message + '</p>' +
                     '</div>' +
                     '</div>'
                 )
+                var string2 = $("#second-message").text();
+                isStringPersian2(string2, "#second-message")
             }
         });
     };
