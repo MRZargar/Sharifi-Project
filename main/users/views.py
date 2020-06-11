@@ -45,17 +45,18 @@ def SignUpView(request, pk):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False
-            user.admin_confirmed = True
+            user.is_active = True
+            password = form.cleaned_data['password1']
             user.save()
             current_site = get_current_site(request)
             subject = 'Activate Your Geolab Account'
             from_email = EMAIL_HOST_USER
-            message = render_to_string('account_activation_email.html', {
+            message = render_to_string('account_activation_email2.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
+                'password': password,
             })
             text_message = strip_tags(message)
             msg = EmailMultiAlternatives(subject, text_message, from_email, [str(user.email)])

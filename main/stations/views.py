@@ -50,7 +50,11 @@ def station_list(request):
 	if obj.userType == 'is_user':
 		raise PermissionDenied
 	elif request.method == "GET":
-		station_list = Setup.objects.all()
+		if obj.userType == 'is_operator':
+			station_list = Setup.objects.filter(operator_name = obj)
+		elif obj.userType == 'is_admin':
+			station_list = Setup.objects.all()
+			
 		return render(request, 'station_list.html', {'station_list':station_list})
 
 
