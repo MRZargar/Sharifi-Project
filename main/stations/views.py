@@ -5,6 +5,7 @@ from .models import Setup, Image, Deactivate
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 
 
 ### Setup station view ###
@@ -13,27 +14,30 @@ def station_setup(request):
 	obj = request.user
 	if obj.userType == 'is_user':
 		raise PermissionDenied
-
 	elif  request.method == 'POST':
 		form = StationSetup(request.POST, request.FILES)
 		files = request.FILES.getlist('images')
-		if form.is_valid():
-			station_name = form.cleaned_data['station_name']
-			address = form.cleaned_data['address']
-			latitude = form.cleaned_data['latitude']
-			longitude = form.cleaned_data['longitude']
-			description = form.cleaned_data['description']
-			operator_name = request.user
-			station_obj = Setup.objects.create(station_name=station_name,
-						 address=address,
-						 description=description,
-						 operator_name=operator_name,
-						 latitude = latitude,
-						 longitude = longitude,
-						 status=True)
-			for f in files:
-				Image.objects.create(setup=station_obj, images=f)
-			return redirect('station_list')
+		if len(files) == 0:
+			messages.error(request, "Wrong username or password")
+			return render(request, 'setupStation.html', {'form':form})
+		else:
+			if form.is_valid():
+				station_name = form.cleaned_data['station_name']
+				address = form.cleaned_data['address']
+				latitude = form.cleaned_data['latitude']
+				longitude = form.cleaned_data['longitude']
+				description = form.cleaned_data['description']
+				operator_name = request.user
+				station_obj = Setup.objects.create(station_name=station_name,
+							 address=address,
+							 description=description,
+							 operator_name=operator_name,
+							 latitude = latitude,
+							 longitude = longitude,
+							 status=True)
+				for f in files:
+					Image.objects.create(setup=station_obj, images=f)
+				return redirect('station_list')
 	else:
 		form = StationSetup()
 	return render(request, 'setupStation.html', {'form':form})

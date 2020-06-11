@@ -47,9 +47,9 @@
                                 </tr>
                                 {% if number_of_inbox == 0 %}
                                 <tr>
-                                    <td class="name">----</td>
-                                    <td class="subject">--------</td>
-                                    <td class="time">-----</td>
+                                    <td class="name"></td>
+                                    <td class="subject"></td>
+                                    <td class="time"></td>
                                 </tr>
                                 {% endif %} {% for message in messages %}
                                 <tr id="message_detail">
@@ -114,9 +114,9 @@
             $('#inbox_loader').html('<a href="#"><i class="fa fa-inbox"></i> Inbox(' + count + ') </a>')
             if (count == 0) {
                 main_table = '<tr>' +
-                    '<td class="name">----</td>' +
-                    '<td class="subject">--------</td>' +
-                    '<td class="time">-----</td>' +
+                    '<td class="name"></td>' +
+                    '<td class="subject"></td>' +
+                    '<td class="time"></td>' +
                     '</tr>';
             } else {
                 main_table = "";
@@ -163,9 +163,9 @@
             $('#inbox_loader').html('<a href="#"><i class="fa fa-inbox"></i> Inbox(' + count + ') </a>')
             if (count == 0) {
                 main_table = '<tr>' +
-                    '<td class="name">----</td>' +
-                    '<td class="subject">--------</td>' +
-                    '<td class="time">-----</td>' +
+                    '<td class="name"></td>' +
+                    '<td class="subject"></td>' +
+                    '<td class="time"></td>' +
                     '</tr>';
             } else {
                 main_table = "";
@@ -213,9 +213,9 @@ $('#message-active').click(function(event) {
             $('#message-active').html('<a href="#"><i class="mdi mdi-message"></i> Sent(' + count + ') </a>')
             if (count == 0) {
                 main_table = '<tr>' +
-                    '<td class="name">----</td>' +
-                    '<td class="subject">--------</td>' +
-                    '<td class="time">-----</td>' +
+                    '<td class="name"></td>' +
+                    '<td class="subject"></td>' +
+                    '<td class="time"></td>' +
                     '</tr>';
             } else {
                 main_table = ""

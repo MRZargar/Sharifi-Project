@@ -14,19 +14,15 @@ class Setup(models.Model):
 	operator_name = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 	station_name = models.CharField(max_length=150, unique=True)
 	address = models.CharField(max_length=255, blank=False)
-	description = models.TextField(blank=False)
+	description = models.TextField(blank=True, null=True)
 	date = models.DateTimeField(auto_now_add=True)
 	status = models.BooleanField(default=False)
 	sensor_type = models.CharField(max_length=50, null=True)
 	latitude = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
 	longitude = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
 	coordinate_system = models.CharField(max_length=50, null=True)
-	validation_1 = models.DecimalField(max_digits=20, decimal_places=10, null = True)
-	validation_2 = models.DecimalField(max_digits=20, decimal_places=10, null = True)
-	validation_3 = models.DecimalField(max_digits=20, decimal_places=10, null = True)
-	validation_4 = models.DecimalField(max_digits=20, decimal_places=10, null = True)
-	validation_5 = models.DecimalField(max_digits=20, decimal_places=10, null = True)
-	validation_6 = models.DecimalField(max_digits=20, decimal_places=10, null = True)
+	validation_1 = models.PositiveIntegerField(null = True)
+
 
 	def __str__(self):
 		return self.station_name
@@ -37,7 +33,7 @@ class Setup(models.Model):
 
 class Image(models.Model):
 	setup = models.ForeignKey(Setup, on_delete=models.CASCADE)
-	images = models.ImageField(upload_to=station_directory_path, null=True, blank=True)
+	images = models.ImageField(upload_to=station_directory_path, null=False, blank=False)
 
 
 	def __str__(self):

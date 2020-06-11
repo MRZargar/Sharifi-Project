@@ -16,13 +16,23 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %} {{ form|crispy }}
         <div class="form-group">
-	        <label for="note-image">Images</label>
+	        <label for="note-image">Images</label><span class="asteriskField">*</span>
 	        <input type="file" name="images" class="form-control-file" id="note-image" multiple>
+	        {% if messages %} {% for message in messages %}
+                <p id="error_1_note-image" class="file_upload_error"><string>{{ message }}.</string></p>
+            {% endfor %} {% endif %}
     	</div>
-        <button class="btn btn-success" type="submit">Setup</button>
+        <button class="btn btn-success" type="submit" id = "station_setup_button">Setup</button>
     </form>
 </div>
 
+
+
+
+
 <script src="{% static 'dist/js/pages/station_setup.js' %}"></script>
 
+
 {% endblock %}
+
+<!-- <p id="error_1_id_latitude" class="invalid-feedback"><strong>Ensure that there are no more than 20 digits in total.</strong></p>  -->
