@@ -76,10 +76,10 @@
                                                 {% csrf_token %} {{ form|crispy }}
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="message-discard" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
+                                            <button  type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
 											 Discard
 											</button>
-                                            <button id="message-send-message" type="submit" class="btn btn-primary pull-right" name="action1" value="send">
+                                            <button type="submit" class="btn btn-success pull-right" name="action1" value="send">
 												<i class="fa fa-envelope"></i> Send Message
 											</button>
                                             </form>

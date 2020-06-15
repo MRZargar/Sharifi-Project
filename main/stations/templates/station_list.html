@@ -23,7 +23,7 @@
 		    <tr class="table-success">
 		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
 		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
-		      <td><a href="{{ station.get_absolute_url }}">{{station.operator_name.username}}</a></td>
+		      <td><a href="{{ station.get_absolute_url }}">{{station.operator_name}}</a></td>
 		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
 		      <td><a href="{{ station.get_absolute_url }}">active</a></td>
 		    </tr>
@@ -31,7 +31,7 @@
 			<tr class="table-danger">
 		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
 		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
-		      <td><a href="{{ station.get_absolute_url }}">{{station.operator_name.username}}</a></td>
+		      <td><a href="{{ station.get_absolute_url }}">{{station.operator_name}}</a></td>
 		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
 		      <td><a href="{{ station.get_absolute_url }}">deactive</a></td>
 		    </tr>

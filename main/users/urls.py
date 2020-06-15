@@ -8,7 +8,8 @@ from .views import (
     account_activation_sent,
     activate,
     profile_view,
-    active_user_page
+    active_user_page,
+    access_station
 ) 
 from django.contrib.auth.decorators import login_required
 
@@ -17,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('signup/<int:pk>', SignUpView, name='signup'),
     path('active/users/<int:pk>', active_user_page, name="active_user_page"),
+    path('active/users/access/<int:pk>', access_station, name="access_station"),
     path('signup/sucess',success_signup ,name='success'),
     path('signup/user/', SignUpView2, name='signup2'),
     path('edit/<int:pk>', login_required(AuthorUpdate.as_view()), name="EditUserName"),

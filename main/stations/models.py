@@ -11,18 +11,18 @@ def station_directory_path(instance, filename):
 
 
 class Setup(models.Model):
-	operator_name = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+	operator_name = models.CharField(max_length=150, null=False)
+	operator_id = models.PositiveIntegerField(null=False)
 	station_name = models.CharField(max_length=150, unique=True)
-	address = models.CharField(max_length=255, blank=False)
+	address = models.CharField(max_length=300, blank=False)
 	description = models.TextField(blank=True, null=True)
 	date = models.DateTimeField(auto_now_add=True)
 	status = models.BooleanField(default=False)
-	sensor_type = models.CharField(max_length=50, null=True)
+	sensorTypes = (('type1', 'TYPE1'), ('type2', 'TYPE2'),)
+	sensor_type = models.CharField(max_length=50, choices = sensorTypes, default='type1')
 	latitude = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
 	longitude = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
-	coordinate_system = models.CharField(max_length=50, null=True)
-	validation_1 = models.PositiveIntegerField(null = True)
-
+	end_status = models.IntegerField(default=0)
 
 	def __str__(self):
 		return self.station_name
@@ -55,3 +55,10 @@ class Deactivate(models.Model):
 		return str(self.station_name) if self.station_name else ""
 
 
+class Access(models.Model):
+	station = models.ForeignKey(Setup, on_delete=models.CASCADE)
+	user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+
+	def __str__(self):
+		return self.station.station_name + "_Access"

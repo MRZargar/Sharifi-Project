@@ -6,7 +6,7 @@ class StationSetup(forms.ModelForm):
 
 	class Meta:
 		model =  Setup
-		fields = ['station_name', 'address', 'latitude', 'longitude', 'description']
+		fields = ['station_name', 'address', 'sensor_type', 'latitude', 'longitude', 'description']
 
 
 class SetupFullForm(forms.ModelForm):

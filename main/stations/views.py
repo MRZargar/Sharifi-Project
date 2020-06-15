@@ -18,7 +18,7 @@ def station_setup(request):
 		form = StationSetup(request.POST, request.FILES)
 		files = request.FILES.getlist('images')
 		if len(files) == 0:
-			messages.error(request, "Wrong username or password")
+			messages.error(request, "Please upload image or images")
 			return render(request, 'setupStation.html', {'form':form})
 		else:
 			if form.is_valid():
@@ -27,10 +27,12 @@ def station_setup(request):
 				latitude = form.cleaned_data['latitude']
 				longitude = form.cleaned_data['longitude']
 				description = form.cleaned_data['description']
-				operator_name = request.user
+				operator_id = request.user.id
+				operator_name = request.user.username
 				station_obj = Setup.objects.create(station_name=station_name,
 							 address=address,
 							 description=description,
+							 operator_id=operator_id,
 							 operator_name=operator_name,
 							 latitude = latitude,
 							 longitude = longitude,
@@ -51,9 +53,9 @@ def station_list(request):
 		raise PermissionDenied
 	elif request.method == "GET":
 		if obj.userType == 'is_operator':
-			station_list = Setup.objects.filter(operator_name = obj)
+			station_list = Setup.objects.filter(operator_id = obj.id).order_by('date').reverse()
 		elif obj.userType == 'is_admin':
-			station_list = Setup.objects.all()
+			station_list = Setup.objects.all().order_by('date').reverse()
 			
 		return render(request, 'station_list.html', {'station_list':station_list})
 
