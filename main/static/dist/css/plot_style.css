@@ -147,10 +147,6 @@ tr:nth-child(even) {
     height: 550px;
     overflow-y: scroll;
 }
-.popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in{
-    left:1600px !important;
-}
-
 
 /*######### mobile ###########*/
 
@@ -204,7 +200,7 @@ tr:nth-child(even) {
     }
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1169px) {
     #main-wrapper[data-layout=vertical][data-sidebartype=full] .page-wrapper {
     margin-left: 0 ;
     }

@@ -352,7 +352,19 @@
     });
 
 </script>
+<script>
+    var count = 0;
+    $(document).on('click', '#date2', function(event) {
+        if (count == 0){
+            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+            margin = parseInt(margin)
+            margin -= 230;
+            margin = margin.toString() +"px";
+            console.log(margin);
+            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+            count +=1;
+    }
+    });
+</script>
 
 {% endblock %}
-
-
