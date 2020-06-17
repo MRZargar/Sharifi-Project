@@ -94,7 +94,7 @@ def plot(request):
             'type': 'Feature',
             'properties': {
                 'ID': '1',
-                'Name': 'Shahid Beheshti',
+                'Name': 'station1',
                 'Operator': 'Mohammad Reza Zargar',
                 'Sensor Type': 'type 2',
                 'Address': 'Univesity of Tehran',
@@ -112,7 +112,7 @@ def plot(request):
             'type': 'Feature',
             'properties': {
                 'ID': '2',
-                'Name': 'Shahid Soleimani',
+                'Name': 'Station2',
                 'Operator': 'Mohammad Reza Zargar',
                 'Sensor Type': 'type 2',
                 'Address': 'Univesity of Tehran',
