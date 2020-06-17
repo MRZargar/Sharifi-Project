@@ -59,7 +59,58 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">WARNING</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body2">
+        Are you sure you want to delete this user?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success pull-right" id="delete_user">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
+
+    $(document).on('click', '#user_delete_button', function(event) {
+        event.preventDefault();
+        var data_user = $(this).data("user");
+        window.value = data_user;
+        $("#exampleModal").modal('show');
+    });
+
+    $(document).on('click', '#delete_user', function(event) {
+        event.preventDefault();
+        var data_user_delete = window.value;
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+            type: "POST",
+            url: "{% url 'user_delete' request.user.pk %}",
+            data: {
+                csrfmiddlewaretoken: csrftoken,
+                'UserName': data_user_delete
+            },
+            success: function() {
+                $("#exampleModal").modal('hide');
+                $('tr[data-user="' + data_user_delete + '"]').remove();
+            }
+        });
+    });
+
+
+
     $(document).on('click', '#user_access_change', function(event) {
         event.preventDefault();
         var my_data_user = window.value;
@@ -84,7 +135,7 @@
             }
         })
     });
-    $(document).on('click', '.user_access', function(event) {
+    $(document).on('click', '#user_access_model', function(event) {
         event.preventDefault();
         $(".modal-body").empty()
         var data_user = $(this).data("user");
@@ -170,6 +221,8 @@
                         '<td><a href="#"></a></td>' +
                         '<td><a href="#"></a></td>' +
                         '<td><a href="#"></a></td>' +
+                        '<td><a href="#"></a></td>' +
+                        '<td><a href="#"></a></td>' +
                         '</tr>';
                 } else {
                     main_table = "";
@@ -190,11 +243,13 @@
                             var user_status = "Active";
                         }
                         table = '<tr class= ' + class_name + ' data-user = "' + this_data.username + '">' +
-                            '<th scope="row" class="user_access" data-user = "' + this_data.username + '" ><a href="#">' + number + '</a></th>' +
-                            '<td><a href="#" class="user_access" data-user = "' + this_data.username + '">' + this_data.username + '<span class="userTypeIn_list">(<b>' + this_data.user_type + '</b>)</span> </a></td>' +
-                            '<td><a href="#" class="user_access" data-user = "' + this_data.username + '">' + this_data.email + '</a></td>' +
-                            '<td><a href="#" class="user_access" data-user = "' + this_data.username + '">' + this_data.phone_number + '</a></td>' +
-                            '<td class="user-status-TF" id=' + status_id + ' data-user = ' + this_data.username + '><a href="#" id="change_st">' + user_status + '</a></td>' +
+                            '<th scope="row" class="user_access">' + number + '</th>' +
+                            '<td>' + this_data.username + '<span class="userTypeIn_list">(<b>' + this_data.user_type + '</b>)</span> </td>' +
+                            '<td>' + this_data.email + '</td>' +
+                            '<td>' + this_data.phone_number + '</td>' +
+                            '<td class="user-status-TF" id=' + status_id + ' data-user = ' + this_data.username + '><button type="button" class="btn btn-secondary" id ="change_st"><a href="#" class="button_text">' + user_status + '</a></button></td>' +
+                            '<td id="user_access_model" data-user = ' + this_data.username + '><button type="button" class="btn btn-success"><a href="#" class="button_text">stations</a></button></td>' +
+                            '<td id="user_delete_button" data-user = ' + this_data.username + '><button type="button" class="btn btn-danger"><a href="#" class="button_text">delete</a></button></td>' +
                             '</tr>'
                         main_table += table
                     }
@@ -210,6 +265,8 @@
                     '<th scope="col">email</th>' +
                     '<th scope="col">phone number</th>' +
                     '<th scope="col">status</th>' +
+                    '<th scope="col">access</th>' +
+                    '<th scope="col">delete</th>' +
                     '</tr>' +
                     '</thead>' +
                     '<tbody>' +
@@ -220,7 +277,6 @@
             }
         });
     });
-
 
     function getCookie(name) {
         var cookieValue = null;

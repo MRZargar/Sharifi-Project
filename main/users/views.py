@@ -106,6 +106,17 @@ def active_user_page(request, pk):
         return JsonResponse({'user_list':user_list, 'count': count_of_user}, status=200)
 
 @login_required(login_url='signpage')
+def user_delete(request, pk):
+    obj = request.user
+    if obj.userType != 'is_admin':
+        raise PermissionDenied
+    if request.method == 'POST':
+        username = request.POST['UserName']
+        print(username)
+        User.objects.get(username=username).delete()
+        return JsonResponse({}, status=200)
+
+@login_required(login_url='signpage')
 def access_station(request, pk):
     obj = request.user
     if obj.userType != 'is_admin':
