@@ -188,15 +188,11 @@
 </script>
 
 <script>
-    // x = '';
-    x = {{ PlotData | safe }};
-    // document.getElementById("zargar").innerHTML = "<pre>" + x + "</pre>";
-        
         g = [];
         g.push(
             new Dygraph(
                 document.getElementById("myChart1"),
-                x,
+                {{ xPlotData | safe }},
                 {
                     // legend: "follow",
                     animatedZooms: true,
@@ -226,7 +222,7 @@
         g.push(
             new Dygraph(
                 document.getElementById("myChart2"),
-                x,
+                {{ yPlotData | safe }},
                 {
                     // legend: "follow",
                     // showRangeSelector: true,
@@ -254,7 +250,7 @@
         g.push(
             new Dygraph(
                 document.getElementById("myChart3"),
-                x,
+                {{ zPlotData | safe }},
                 {
                     // legend: "follow",
                     animatedZooms: true,
