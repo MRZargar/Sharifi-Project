@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib import auth
 from django.http import JsonResponse
 import json
+from .Functions import JSON
+from stations.models import Setup
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -75,61 +77,14 @@ def signout(request):
     return render(request,'Signin.html')
 
 
-def plot(request):
-    # # creating GeoJSON using DB datas ...
-    # from .Functions import GeoJSON
-    # geojson = GeoJSON.get()
+def plot(request, id):
+    stations = Setup.objects.all()
+    geojson = JSON.GetGeoJsonStations(stations)
     
-    # GeoJSON will created using DB datas...
-    geojson = """{
-        'type': 'FeatureCollection', 
-        'crs': {
-            'type': 'name',
-            'properties': {
-            'name': 'EPSG:4326'
-            }
-        },
-        'features': [
-            {
-            'type': 'Feature',
-            'properties': {
-                'ID': '1',
-                'Name': 'station1',
-                'Operator': 'Mohammad Reza Zargar',
-                'Sensor Type': 'type 2',
-                'Address': 'Univesity of Tehran',
-                'Status': 'Active',
-                'Start Time': '1398/01/01 10:52',
-                'End Time': '',
-                'Longitude': '35.6891',
-                'Latitude': '52.4146'
-            },
-            'geometry': {
-            'type': 'Point',
-            'coordinates': [52.4146, 35.6891]
-            }
-        }, {
-            'type': 'Feature',
-            'properties': {
-                'ID': '2',
-                'Name': 'Station2',
-                'Operator': 'Mohammad Reza Zargar',
-                'Sensor Type': 'type 2',
-                'Address': 'Univesity of Tehran',
-                'Status': 'Inactive',
-                'Start Time': '1398/01/01 10:52',
-                'End Time': '',
-                'Longitude': '35.6891',
-                'Latitude': '51.4146'
-            },
-            'geometry': {
-            'type': 'Point',
-            'coordinates': [51.4146, 35.6891]
-            }
-        }]
-        }"""
+    # ax, ay, az = JSON.GetPoltData(get from api)
+    # hist = JSON.GetHistData(get from api)
 
-    ddataTest = '''`t, value
+    d = '''`t, value
             501710.010203,0.69192
             501710.020204,0.65122
             501710.030204,0.66559
@@ -38731,7 +38686,7 @@ def plot(request):
             502095.990282,0.64165
             502096.000203,0.71108`'''
 
-    dddataTest = '''`Hours, Value
+    hist = '''`Hours, Value
             1, 10
             2, 20
             3, 5
@@ -38757,81 +38712,13 @@ def plot(request):
             23, 32
             24, 37`'''
 
-    return render(request, 'plot.html', dict(geojsonObject=geojson, PlotData=ddataTest, HistData=dddataTest))
-
-
-# def plot_page(request):
-#     try:
-#         print(request.GET['a'])
-#     except KeyError:
-#         pass
-#     from .Functions import simplePlot
-#     cwd = os.getcwd()
-#     script, div = simplePlot.plot_data(cwd)
-#     return render(request, 'plot.html', dict(script=script, div=div))
-
-
-# def plots_map_page(request):
-#     from .Functions import simplePlot
-#     cwd = os.getcwd()
-#     script, div = simplePlot.plot_map(cwd)
-#     return render(request, 'plot.html', dict(script=script, div=div))
-
+    return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=d, yPlotData=d, zPlotData=d, HistData=hist))
 
 
 def map(request):
-    # # creating GeoJSON using DB datas ...
-    # from .Functions import GeoJSON
-    # geojson = GeoJSON.get()
-    
-    # GeoJSON will created using DB datas...
-    geojson = """{
-        'type': 'FeatureCollection', 
-        'crs': {
-            'type': 'name',
-            'properties': {
-            'name': 'EPSG:4326'
-            }
-        },
-        'features': [
-            {
-            'type': 'Feature',
-            'properties': {
-                'ID': '1',
-                'Name': 'Station1',
-                'Operator': 'Mohammad Reza Zargar',
-                'Sensor Type': 'type 2',
-                'Address': 'Univesity of Tehran',
-                'Status': 'Active',
-                'Start Time': '1398/01/01 10:52',
-                'End Time': '',
-                'Longitude': '35.6891',
-                'Latitude': '52.4146'
-            },
-            'geometry': {
-            'type': 'Point',
-            'coordinates': [52.4146, 35.6891]
-            }
-        }, {
-            'type': 'Feature',
-            'properties': {
-                'ID': '2',
-                'Name': 'Station2',
-                'Operator': 'Mohammad Reza Zargar',
-                'Sensor Type': 'type 2',
-                'Address': 'Univesity of Tehran',
-                'Status': 'Inactive',
-                'Start Time': '1398/01/01 10:52',
-                'End Time': '',
-                'Longitude': '35.6891',
-                'Latitude': '51.4146'
-            },
-            'geometry': {
-            'type': 'Point',
-            'coordinates': [51.4146, 35.6891]
-            }
-        }]
-        }"""
+    stations = Setup.objects.all()
+    geojson = JSON.GetGeoJsonStations(stations)
+
     return render(request, 'map.html', dict(geojsonObject=geojson))
     
 # def my_handler404(request, exception):
