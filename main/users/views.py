@@ -112,7 +112,6 @@ def user_delete(request, pk):
         raise PermissionDenied
     if request.method == 'POST':
         username = request.POST['UserName']
-        print(username)
         User.objects.get(username=username).delete()
         return JsonResponse({}, status=200)
 

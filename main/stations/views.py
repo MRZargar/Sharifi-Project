@@ -133,3 +133,17 @@ def station_detail(request, pk):
 		return render(request, 'station_detail.html', {'form': form})
 
 
+@login_required(login_url='signpage')
+def delete_station(request, pk):
+	obj = request.user
+	if obj.userType != 'is_admin':
+		raise PermissionDenied
+
+	if request.method == "POST":
+		station_name = request.POST["StationName"]
+		print(station_name)
+		Setup.objects.get(station_name=station_name).delete()
+		return JsonResponse({}, status=200)
+
+
+
