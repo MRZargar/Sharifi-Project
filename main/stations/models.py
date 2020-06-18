@@ -70,4 +70,4 @@ class Raspberry(models.Model):
 	raspberryID = models.IntegerField(unique=True, blank=False, null=False)
 
 	def __str__(self):
-		return self.raspberryID
+		return str(self.raspberryID)
