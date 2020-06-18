@@ -67,6 +67,11 @@
     #station-table-list{
       font-size: 9px;
     }
+    button{
+      font-size: 9px !important;
+      text-transform: none !important;
+      padding: 0 !important;
+    }
     #station-table-list td{
       padding:0.5rem 0.1rem 0.5rem 0.1rem;
       text-align: center;
