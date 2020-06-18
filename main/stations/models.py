@@ -11,7 +11,8 @@ def station_directory_path(instance, filename):
 
 
 class Setup(models.Model):
-	operator_id = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
+	operator = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
+	table_name = models.CharField(max_length=50, null=True)
 	station_name = models.CharField(max_length=150, unique=True)
 	address = models.CharField(max_length=300, blank=False)
 	description = models.TextField(blank=True, null=True)
@@ -21,7 +22,7 @@ class Setup(models.Model):
 	sensor_type = models.CharField(max_length=50, choices = sensorTypes, default='type1')
 	latitude = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
 	longitude = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
-	end_status = models.IntegerField(default=0)
+	health = models.IntegerField(default=0)
 	raspberryID = models.IntegerField(blank=False, null=False)
 
 	def __str__(self):
@@ -41,7 +42,7 @@ class Image(models.Model):
 
 
 class Deactivate(models.Model):
-	operator_id = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
+	operator = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
 
 
 	station_name = models.ForeignKey(Setup,

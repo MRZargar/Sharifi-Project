@@ -47,11 +47,11 @@ def station_setup(request):
 				longitude = form.cleaned_data['longitude']
 				description = form.cleaned_data['description']
 				raspberryID = form.cleaned_data['raspberryID']
-				operator_id = request.user
+				operator = request.user
 				station_obj = Setup.objects.create(station_name=station_name,
 							 address=address,
 							 description=description,
-							 operator_id=operator_id,
+							 operator=operator,
 							 latitude = latitude,
 							 longitude = longitude,
 							 raspberryID = raspberryID,
@@ -117,12 +117,12 @@ def station_detail(request, pk):
 	if request.method == "POST":
 		form = StationDeactivate(request.POST)
 		if form.is_valid():
-			operator_id = request.user
+			operator = request.user
 			station_name = Setup.objects.get(station_name = station.station_name)
 			description = form.cleaned_data['description']
 
 			this_station = Setup.objects.get(id = station.id)
-			Deactivate.objects.create(operator_id=operator_id, 
+			Deactivate.objects.create(operator=operator, 
 					                  station_name=station_name,
 					                   description=description)
 			this_station.status = False
