@@ -1,11 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 class CustomUser(AbstractUser):
-    phone_number = models.PositiveIntegerField(null=False, blank=False, unique=True)
+    phone_number = models.CharField(max_length=10, validators=[MinLengthValidator(9)],null=False, blank=False, unique=True)
     email = models.EmailField(unique=True)
     email_confirmed = models.BooleanField(default=False)
     admin_confirmed = models.BooleanField(default=False)

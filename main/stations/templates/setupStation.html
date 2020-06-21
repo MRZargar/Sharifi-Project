@@ -14,12 +14,45 @@
 <h2 style="padding-left: 15px;">Setup</h2>
 <div class='card-body'>
     <form method="post" enctype="multipart/form-data">
-        {% csrf_token %} {{ form|crispy }}
+        {% csrf_token %}
+        <div class="fieldWrapper">
+            {{ form.station_name|as_crispy_field}}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.raspberryID|as_crispy_field }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.address|as_crispy_field}}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.sensor_type|as_crispy_field}}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.latitude|as_crispy_field}}
+            {% if messages %} {% for message in messages %}
+                {%if "lat" in message.tags %}
+                    <p id="error_1_id_latitude" class="invalid-feedback" style="display: block;"><strong>{{ message }}.</strong></p>
+                {% endif %}
+            {% endfor %} {% endif %}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.longitude|as_crispy_field}}
+            {% if messages %} {% for message in messages %}
+                {%if "lon" in message.tags %}
+                    <p id="error_1_id_longitude" class="invalid-feedback" style="display: block;"><strong>{{ message }}.</strong></p>
+                {% endif %}
+            {% endfor %} {% endif %}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.description|as_crispy_field}}
+        </div>
         <div class="form-group">
 	        <label for="note-image">Images</label><span class="asteriskField">*</span>
 	        <input type="file" name="images" class="form-control-file" id="note-image" multiple>
 	        {% if messages %} {% for message in messages %}
-                <p id="error_1_note-image" class="file_upload_error"><string>{{ message }}.</string></p>
+                {%if "image" in message.tags %}
+                    <p id="error_1_note-image" class="file_upload_error"><string>{{ message }}.</string></p>
+                {% endif %}
             {% endfor %} {% endif %}
     	</div>
         <button class="btn btn-success" type="submit" id = "station_setup_button">Setup</button>
@@ -36,3 +69,15 @@
 {% endblock %}
 
 <!-- <p id="error_1_id_latitude" class="invalid-feedback"><strong>Ensure that there are no more than 20 digits in total.</strong></p>  -->
+
+<!--         {% if messages %} {% for message in messages %}
+
+            {%if "lat" in message.tags %}
+            <div id="div_id_latitude" class="form-group">
+                <p id="error_1_id_latitude" class="invalid-feedback" style="display: block;"><strong>{{ message }}.</strong></p>
+            </div>
+            {% endif %}
+        {% endfor %} {% endif %} -->
+
+
+<!--         fields = ['station_name', 'raspberryID', 'address', 'sensor_type', 'latitude', 'longitude', 'description',] -->

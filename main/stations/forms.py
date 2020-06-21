@@ -1,7 +1,6 @@
 from django import forms
 from .models import Setup,Deactivate
 
-
 class StationSetup(forms.ModelForm):
 
 	class Meta:
@@ -21,6 +20,9 @@ class StationSetup2(forms.ModelForm):
 		new_choices = kwargs.pop('new_choices')
 		super().__init__(*args, **kwargs)
 		self.fields['raspberryID'] = forms.ChoiceField(choices=new_choices)
+		self.fields['latitude'].widget.attrs['placeholder'] = " number must be six decimal places '0.123456'"
+		self.fields['longitude'].widget.attrs['placeholder'] = " number must be six decimal places '0.123456' " 
+
 
 
 
@@ -37,3 +39,7 @@ class StationDeactivate(forms.ModelForm):
 	class Meta:
 		model = Deactivate
 		fields = ['description']
+	# def __init__(self, *args, **kwargs):
+ #        super(StationSetup2, self).__init__(*args, **kwargs)
+ #        self.fields['latitude'].widget.attrs['placeholder'] = 'username'
+ #        self.fields['longitude'].widget.attrs['placeholder'] = 'password'

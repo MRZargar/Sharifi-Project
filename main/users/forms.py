@@ -16,9 +16,10 @@ class CustomUserCreationForm3(UserCreationForm):
         widgets = {'userType': forms.Select()}
 
     def __init__(self, *args, **kwargs):
-    	new_choices = kwargs.pop('new_choices')
-    	super().__init__(*args, **kwargs)
-    	self.fields['userType'].choices = new_choices
+        new_choices = kwargs.pop('new_choices')
+        super().__init__(*args, **kwargs)
+        self.fields['userType'].choices = new_choices
+
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -32,4 +33,3 @@ class CustomUserCreationForm2(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = ('username', 'email', 'phone_number',)
-

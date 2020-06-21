@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from users.models import CustomUser
-
+from decimal import Decimal
 
 ### Setup station view ###
 @login_required(login_url='signpage')
@@ -33,11 +33,10 @@ def station_setup(request):
 				if temp:
 					id_list.append((Id.raspberryID, Id.raspberryID))
 		new_choices = tuple(id_list)
-		print(new_choices)
 		form = StationSetup2(request.POST, request.FILES , new_choices=new_choices)
 		files = request.FILES.getlist('images')
 		if len(files) == 0:
-			messages.error(request, "Please upload image or images")
+			messages.error(request, "Please upload image or images", extra_tags='image')
 			return render(request, 'setupStation.html', {'form':form})
 		else:
 			if form.is_valid():
@@ -48,6 +47,18 @@ def station_setup(request):
 				description = form.cleaned_data['description']
 				raspberryID = form.cleaned_data['raspberryID']
 				operator = request.user
+				lat = Decimal(str(latitude))
+				lon = Decimal(str(longitude))
+				if abs(lat.as_tuple().exponent) < 6 and abs(lon.as_tuple().exponent) < 6:
+					messages.error(request, "Your number must be six decimal places", extra_tags='lat')
+					messages.error(request, "Your number must be six decimal places", extra_tags='lon')
+					return render(request, 'setupStation.html', {'form':form})
+				elif abs(lat.as_tuple().exponent) < 6:
+					messages.error(request, "Your number must be six decimal places", extra_tags='lat')
+					return render(request, 'setupStation.html', {'form':form})
+				elif abs(lon.as_tuple().exponent) < 6:
+					messages.error(request, "Your number must be six decimal places", extra_tags='lon')
+					return render(request, 'setupStation.html', {'form':form})
 				station_obj = Setup.objects.create(station_name=station_name,
 							 address=address,
 							 description=description,
@@ -76,9 +87,9 @@ def station_setup(request):
 				if temp:
 					id_list.append((Id.raspberryID, Id.raspberryID))
 		new_choices = tuple(id_list)
-		print(new_choices)
 		form = StationSetup2(new_choices=new_choices)
-	return render(request, 'setupStation.html', {'form':form})
+	return render(request, "setupStation.html", {'form':form})
+
 
 new_choices=(('is_user', 'user'),('is_operator', 'operator'),)
 ### station list view ###
@@ -141,7 +152,6 @@ def delete_station(request, pk):
 
 	if request.method == "POST":
 		station_name = request.POST["StationName"]
-		print(station_name)
 		Setup.objects.get(station_name=station_name).delete()
 		return JsonResponse({}, status=200)
 
