@@ -39,7 +39,3 @@ class StationDeactivate(forms.ModelForm):
 	class Meta:
 		model = Deactivate
 		fields = ['description']
-	# def __init__(self, *args, **kwargs):
- #        super(StationSetup2, self).__init__(*args, **kwargs)
- #        self.fields['latitude'].widget.attrs['placeholder'] = 'username'
- #        self.fields['longitude'].widget.attrs['placeholder'] = 'password'

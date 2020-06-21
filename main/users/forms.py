@@ -19,6 +19,7 @@ class CustomUserCreationForm3(UserCreationForm):
         new_choices = kwargs.pop('new_choices')
         super().__init__(*args, **kwargs)
         self.fields['userType'].choices = new_choices
+        self.fields['phone_number'].widget.attrs['placeholder'] = "For example: '09123456789' or  '9123456789'"
 
 
 
@@ -33,3 +34,7 @@ class CustomUserCreationForm2(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = ('username', 'email', 'phone_number',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['phone_number'].widget.attrs['placeholder'] = "For example: '09123456789' or  '9123456789'"
