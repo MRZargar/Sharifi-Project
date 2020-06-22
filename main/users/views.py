@@ -128,7 +128,6 @@ def access_station(request, pk):
         user_access = all_staions.Access.objects.filter(user = my_user)
         if user_access.count() == 0:
             for i in range(int(count_of_access/2)):
-                # print([user_access_list[i*2], user_access_list[i*2 + 1]])
                 if user_access_list[i*2 + 1] == 'true':
                     my_station = all_staions.Setup.objects.get(station_name=user_access_list[i*2])
                     all_staions.Access.objects.create(user=my_user, station=my_station)

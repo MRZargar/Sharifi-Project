@@ -92,19 +92,42 @@ def station_setup(request):
 
 
 new_choices=(('is_user', 'user'),('is_operator', 'operator'),)
+
 ### station list view ###
 @login_required(login_url='signpage')
 def station_list(request):
 	obj = request.user
 	if obj.userType == 'is_user':
 		raise PermissionDenied
-	elif request.method == "GET":
-		if obj.userType == 'is_operator':
-			station_list = Setup.objects.filter(operator_id = obj.id).order_by('date').reverse()
-		elif obj.userType == 'is_admin':
-			station_list = Setup.objects.all().order_by('date').reverse()
-		return render(request, 'station_list.html', {'station_list':station_list})
+	if obj.userType == 'is_operator':
+		station_list = Setup.objects.filter(operator_id = obj.id).order_by('date').reverse()
+	elif obj.userType == 'is_admin':
+		station_list = Setup.objects.all().order_by('date').reverse()
+	form = StationDeactivate()
+	return render(request, 'station_list.html', {'station_list':station_list, 'form':form})
 
+
+@login_required(login_url='signpage')
+def station_deactive(request, pk):
+	obj = request.user
+	if obj.userType == 'is_user':
+		raise PermissionDenied
+	if request.method == "POST":
+		form = StationDeactivate(request.POST)
+		station_name = request.POST['StationName']
+		operator = request.user
+		description = request.POST['Discribtion']
+		if len(description) == 0 and obj.userType =='is_operator':
+			return JsonResponse({"error": ""}, status=400)
+		else:
+			this_station = Setup.objects.get(station_name=station_name)
+			Deactivate.objects.create(operator=operator, 
+					                  station_name=this_station,
+					                   description=description)
+			this_station.status = False
+			this_station.save()
+			MyUserType = obj.userType
+			return JsonResponse({"user_type": MyUserType}, status=200)
 
 
 ### station detail view ###
@@ -113,35 +136,15 @@ def station_detail(request, pk):
 	obj = request.user
 	if obj.userType == 'is_user':
 		raise PermissionDenied
-
-	if request.method == "GET":
-		global station
-		station = Setup.objects.get(pk = pk)
-		images = Image.objects.filter(setup_id = pk)
-		if station.status == False:
-			deactive = Deactivate.objects.get(station_name_id = pk)
-			return render(request, 'station_detail.html', {'station': station,
-													   'images': images, 'deactive':deactive})
-		else:
-			return render(request, 'station_detail.html', {'station': station,
-													   'images': images})
-	if request.method == "POST":
-		form = StationDeactivate(request.POST)
-		if form.is_valid():
-			operator = request.user
-			station_name = Setup.objects.get(station_name = station.station_name)
-			description = form.cleaned_data['description']
-
-			this_station = Setup.objects.get(id = station.id)
-			Deactivate.objects.create(operator=operator, 
-					                  station_name=station_name,
-					                   description=description)
-			this_station.status = False
-			this_station.save()
-			return redirect('station_list')
-		else:
-			form = StationDeactivate()
-		return render(request, 'station_detail.html', {'form': form})
+	station = Setup.objects.get(pk = pk)
+	images = Image.objects.filter(setup_id = pk)
+	if station.status == False:
+		deactive = Deactivate.objects.get(station_name_id = pk)
+		return render(request, 'station_detail.html', {'station': station,
+												   'images': images, 'deactive':deactive})
+	else:
+		return render(request, 'station_detail.html', {'station': station,
+												   'images': images})
 
 
 @login_required(login_url='signpage')

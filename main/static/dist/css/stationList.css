@@ -41,3 +41,8 @@ tr{
       text-align: center;
     }
   }
+
+#error_1_id_description{
+  display: none;
+  font-size: 16px;
+}

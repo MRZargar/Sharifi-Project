@@ -21,7 +21,6 @@
       <th scope="col">Operator</th>
       <th scope="col">Date</th>
       <th scope="col">status</th>
-      <th scope="col">delete</th>
     </tr>
   </thead>
   <tbody>
@@ -32,8 +31,7 @@
 		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
 		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
 		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
-		      <td><a href="{{ station.get_absolute_url }}">active</a></td>
-		      <td id="user_delete_button" data-station="{{station.station_name}}"><button type="button" class="btn btn-secondary"><a>DELETE</a></button></td>
+		      <td id = "station_deactive_button" data-station = "{{station.station_name}}"><button type="button" class = "btn btn-secondary"><a>active</a></td>
 		    </tr>
 		{% else %}
 			<tr class="table-danger" data-station="{{station.station_name}}">
@@ -41,8 +39,12 @@
 		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
 		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
 		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
-		      <td><a href="{{ station.get_absolute_url }}">deactive</a></td>
-		      <td id="user_delete_button" data-station="{{station.station_name}}"><button type="button" class="btn btn-secondary"><a>DELETE</a></button></td>
+          {% if request.user.userType == 'is_admin' %}
+              <td id="user_delete_button" data-station="{{station.station_name}}"><button type="button" class="btn btn-secondary"><a>DELETE</a></button></td>
+          {% else %}
+              <td><button type="button" class="btn btn-secondary"><a>deactive</a></button></td>
+          {% endif %}
+
 		    </tr>
 		{% endif %}
     {% endfor %}
@@ -71,38 +73,102 @@
   </div>
 </div>
 
-
-
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">WARNING</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body2">
+          <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="fieldWrapper">
+                  {{ form.description|as_crispy_field}}
+                  <p id="error_1_id_description" class="invalid-feedback"><strong>Please fill out this field</strong></p>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success pull-right" id="deactive_station">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
-	
-	function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+
+    $(document).on('click', '#station_deactive_button', function(event) {
+      event.preventDefault();
+      var data_station = $(this).data("station");
+      window.value = data_station;
+      $("#exampleModal2").modal('show');
+    });
+
+
+    $(document).on('click', '#deactive_station', function(event) {
+       event.preventDefault();
+        var data_station_deactive = window.value;
+        var csrftoken = getCookie('csrftoken');
+        var discribtion = $("#id_description").val()
+        $.ajax({
+          type: "POST",
+          url: "{% url 'deactive_station' request.user.pk %}",
+          data:{
+              csrfmiddlewaretoken: csrftoken,
+              'StationName' : data_station_deactive,
+              'Discribtion' : discribtion
+          },
+          success: function(data){
+              user_mode = data.user_type
+              $("#exampleModal2").modal('hide');
+              var changed_station = $('.table-success[data-station="' + data_station_deactive + '"]');
+              changed_station.attr('class', 'table-danger')
+              changed_station.children('#station_deactive_button').empty()
+              if (user_mode == 'is_admin'){
+                  changed_station.children('#station_deactive_button').append('<button type="button" class="btn btn-secondary"><a>DELETE</a></button>')
+                  changed_station.children('#station_deactive_button').attr('id', 'user_delete_button')
+                }else{
+                  changed_station.children('#station_deactive_button').append('<button type="button" class="btn btn-secondary"><a>deactive</a></button>')
+                  changed_station.children('#station_deactive_button').removeAttr('id')
                 }
+              },
+          error: function(data){
+              $('#error_1_id_description').css('display', 'block')
             }
-        }
-        return cookieValue;
-    }
+          });
+        });
+
+
+  	function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
 
 
     $(document).on('click', '#user_delete_button', function(event) {
-		event.preventDefault();
-		var data_station = $(this).data("station");
-		window.value = data_station;
-		$("#exampleModal").modal('show');
+  		event.preventDefault();
+  		var data_station = $(this).data("station");
+  		window.value = data_station;
+  		$("#exampleModal").modal('show');
     });
 
 
     $(document).on('click', '#delete_user', function(event) {
         event.preventDefault();
         var data_station_delete = window.value;
-        console.log(data_station_delete)
         var csrftoken = getCookie('csrftoken');
         $.ajax({
             type: "POST",
@@ -117,6 +183,38 @@
             }
         });
     });
+
+
+
+
+  function isStringPersian(strings){
+      for (i in strings){
+          if (isPersian(strings[i])){
+              $("#content").css("direction", 'rtl');
+              break;
+          }
+      }
+  }
+
+  document.getElementById('id_description').addEventListener('keypress',function(e){
+     if (isEnglish(e.charCode))
+       $("#id_description").css("direction", 'ltr');
+     else if(isPersian(e.key))
+       $("#id_description").css("direction", 'rtl');
+  });
+  $("#id_description").bind("paste", function(e){
+      var pastedData = e.originalEvent.clipboardData.getData('text');
+        isStringPersian(pastedData);
+  } );id_description
+
+  function isEnglish(charCode){
+      return (charCode >= 97 && charCode <= 122) || (charCode>=65 && charCode<=90);
+  } 
+
+  function isPersian(key){
+    var p = /^[\u0600-\u06FF\s]+$/;    
+    return p.test(key) && key!=' ';
+  }
 
 
 </script>
