@@ -12,45 +12,45 @@
 {% block pageName %} Stations{% endblock %}
 
 {% block content %}
+<div class="table_scroll_bar">
+  <table class="table table-hover" id="station-table-list">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">number</th>
+        <th scope="col">Station name</th>
+        <th scope="col">Operator</th>
+        <th scope="col">Date</th>
+        <th scope="col">status</th>
+      </tr>
+    </thead>
+    <tbody>
+  	{% for station in station_list %}
+  		{% if station.status == True %}
+  		    <tr class="table-success" data-station="{{station.station_name}}">
+  		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
+  		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
+  		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
+  		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
+  		      <td id = "station_deactive_button" data-station = "{{station.station_name}}"><button type="button" class = "btn btn-secondary"><a>active</a></td>
+  		    </tr>
+  		{% else %}
+  			<tr class="table-danger" data-station="{{station.station_name}}">
+  		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
+  		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
+  		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
+  		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
+            {% if request.user.userType == 'is_admin' %}
+                <td id="user_delete_button" data-station="{{station.station_name}}"><button type="button" class="btn btn-secondary"><a>DELETE</a></button></td>
+            {% else %}
+                <td><button type="button" class="btn btn-secondary"><a>deactive</a></button></td>
+            {% endif %}
 
-<table class="table table-hover" id="station-table-list">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">number</th>
-      <th scope="col">Station name</th>
-      <th scope="col">Operator</th>
-      <th scope="col">Date</th>
-      <th scope="col">status</th>
-    </tr>
-  </thead>
-  <tbody>
-	{% for station in station_list %}
-		{% if station.status == True %}
-		    <tr class="table-success" data-station="{{station.station_name}}">
-		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
-		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
-		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
-		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
-		      <td id = "station_deactive_button" data-station = "{{station.station_name}}"><button type="button" class = "btn btn-secondary"><a>active</a></td>
-		    </tr>
-		{% else %}
-			<tr class="table-danger" data-station="{{station.station_name}}">
-		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
-		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
-		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
-		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
-          {% if request.user.userType == 'is_admin' %}
-              <td id="user_delete_button" data-station="{{station.station_name}}"><button type="button" class="btn btn-secondary"><a>DELETE</a></button></td>
-          {% else %}
-              <td><button type="button" class="btn btn-secondary"><a>deactive</a></button></td>
-          {% endif %}
-
-		    </tr>
-		{% endif %}
-    {% endfor %}
-  </tbody>
-</a>
-</table>
+  		    </tr>
+  		{% endif %}
+      {% endfor %}
+    </tbody>
+  </a>
+  </table>
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

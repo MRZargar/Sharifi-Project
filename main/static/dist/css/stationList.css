@@ -25,19 +25,17 @@ tr{
      width: 100%;
     }
     #station-table-list{
-      font-size: 9px;
+      font-size: 12px;
     }
     button{
-      font-size: 9px !important;
-      text-transform: none !important;
-      padding: 0 !important;
+      font-size: 12px !important;
     }
     #station-table-list td{
-      padding:0.5rem 0.1rem 0.5rem 0.1rem;
+      padding:1rem;
       text-align: center;
     }
     #station-table-list th{
-      padding:0.5rem 0.1rem 0.5rem 0.1rem;
+      padding:1rem;
       text-align: center;
     }
   }
@@ -45,4 +43,9 @@ tr{
 #error_1_id_description{
   display: none;
   font-size: 16px;
+}
+
+.table_scroll_bar{
+  overflow-x : auto;
+  overflow-y : auto;
 }

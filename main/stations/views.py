@@ -118,7 +118,7 @@ def station_deactive(request, pk):
 		operator = request.user
 		description = request.POST['Discribtion']
 		if len(description) == 0 and obj.userType =='is_operator':
-			return JsonResponse({"error": ""}, status=400)
+			return JsonResponse({}, status=400)
 		else:
 			this_station = Setup.objects.get(station_name=station_name)
 			Deactivate.objects.create(operator=operator, 

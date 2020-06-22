@@ -258,7 +258,8 @@
                 $("#btn-Add").removeClass('active');
                 $(".add-user-content").css("display", "none");
                 $(".active-user-content").css("display", "inherit");
-                $(".active-user-content").prepend('<table class="table table-hover" id="station-table-list">' +
+                $(".active-user-content").prepend('<div class="table_scroll_bar">'+
+                    '<table class="table table-hover" id="station-table-list">' +
                     '<thead class="thead-dark">' +
                     '<th scope="col">number</th>' +
                     '<th scope="col">user name</th>' +
@@ -272,7 +273,8 @@
                     '<tbody>' +
                     main_table +
                     '</tbody>' +
-                    '</table>'
+                    '</table>' +
+                    '</div>'
                 );
             }
         });
