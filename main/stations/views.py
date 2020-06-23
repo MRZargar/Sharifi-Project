@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import StationSetup2, StationDeactivate
-from .models import Setup, Image, Deactivate, Raspberry
+from .models import Setup, Image, Deactivate, Raspberry, Access
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -67,6 +67,8 @@ def station_setup(request):
 							 longitude = longitude,
 							 raspberryID = raspberryID,
 							 status=True)
+				if obj.userType == 'is_operator':
+					Access.objects.create(user=obj, station=station_obj)
 				for f in files:
 					Image.objects.create(setup=station_obj, images=f)
 				return redirect('station_list')
@@ -100,7 +102,11 @@ def station_list(request):
 	if obj.userType == 'is_user':
 		raise PermissionDenied
 	if obj.userType == 'is_operator':
-		station_list = Setup.objects.filter(operator_id = obj.id).order_by('date').reverse()
+		station_access = Access.objects.filter(user_id = obj.id)
+		user_access = []
+		for station_q in station_access:
+			user_access.append(station_q.station_id)
+		station_list = Setup.objects.filter(id__in = user_access).order_by('date').reverse()
 	elif obj.userType == 'is_admin':
 		station_list = Setup.objects.all().order_by('date').reverse()
 	form = StationDeactivate()

@@ -18,6 +18,7 @@ from .views import(
     AdminProfile,
     plot,
     map,
+    inbox_message_view
 )
 urlpatterns = [
     path('', signpage, name='signpage'),
@@ -31,7 +32,8 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),
     path('map/', map, name='map'),
     path('stations/', include('stations.urls')),
-    path('message', include('message.urls'))
+    path('message', include('message.urls')),
+    path('inbox/message/<int:pk>', inbox_message_view, name='inbox_message_count')
 
 ]
 

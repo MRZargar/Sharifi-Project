@@ -12665,3 +12665,9 @@ ul.messagelist li.error {
     font-size: 80%;
     color: #f62d51
 }
+
+#message_inbox_count{
+    margin-left: 2px;
+    margin-bottom: -3px;
+    font-weight: bold;
+}

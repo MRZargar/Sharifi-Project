@@ -149,14 +149,12 @@
                 content.innerHTML = '<h5><b>' + feature.get('Name') + '</b></h5>'
                                     +'<font size="2">'
                                         +'<table>'
-                                            +'<tr>'
-                                                +'<td>ID:</td>'
-                                                +'<td>' + feature.get('ID') + '</td>'
-                                            +'</tr>'
+                                        {% if request.user.userType != 'is_user' %}
                                             +'<tr>'
                                                 +'<td>Operator:</td>'
                                                 +'<td>' + feature.get('Operator') + '</td>'
                                             +'</tr>'
+                                        {%endif %}
                                             +'<tr>'
                                                 +'<td>Sensor Type:</td>'
                                                 +'<td>' + feature.get('Sensor Type') + '</td>'
@@ -221,14 +219,12 @@
                             + '"Latitude": "' + feature.get('Latitude') + '", '
                             + (feature.get('Status') == 'Active' ? '"tags": ["Active"], ' : '')
                             + '"nodes":['
-                                + '{'
-                                    + '"text": "  ' + feature.get('ID') + '", '
-                                    + '"icon": "glyphicon glyphicon-info-sign"'
-                                + '}, '
+                            {% if request.user.userType != 'is_user' %}
                                 + '{'
                                     + '"text": "  ' + feature.get('Operator') + '", '
                                     + '"icon": "glyphicon glyphicon-user"'
                                 + '},'
+                            {% endif %}
                                 + '{'
                                     + '"text": "  ' + feature.get('Sensor Type') + '", '
                                     + '"icon": "glyphicon glyphicon-wrench"'
