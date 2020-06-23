@@ -22,7 +22,7 @@ def GetGeoJsonStations(stations, *args):
                 }},
                 'geometry': {{
                 'type': 'Point',
-                'coordinates': [{8}, {7}]
+                'coordinates': [{7}, {8}]
                 }}
             }},""".format(station.id,
                     station.station_name,
@@ -53,7 +53,7 @@ def GetGeoJsonStations(stations, *args):
                 }},
                 'geometry': {{
                 'type': 'Point',
-                'coordinates': [{9}, {8}]
+                'coordinates': [{8}, {9}]
                 }}
             }},""".format(station.id,
                     station.station_name,

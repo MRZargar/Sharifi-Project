@@ -134,7 +134,7 @@
                             <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'plot' %}" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Plot</span></a></li>
                             {% if request.user.userType == 'is_user' %}
                             <li class="sidebar-item" style="width: 155px;">
-                                <a href="{% url 'messages' request.user.pk %}" aria-expanded="false" class="sidebar-link waves-effect waves-dark sidebar-link" style="display: block;"><i class="ti-email m-r-5 m-l-5"></i><span class="hide-menu" style="margin-bottom: -5px;margin-left: 5px; position: absolute;">Message<span id = "message_inbox_count" style="font-size: 16px" class="hide-menu"></span></span></a>   
+                                <a href="{% url 'messages' request.user.pk %}" aria-expanded="false" class="sidebar-link waves-effect waves-dark sidebar-link" style="display: block;"><i class="ti-email m-r-5 m-l-5"></i><span class="hide-menu" style="margin-bottom: -5px;margin-left: 5px; position: absolute;">Inbox<span id = "message_inbox_count" style="font-size: 16px" class="hide-menu"></span></span></a>   
                             </li>
                             {% endif %} {% if request.user.userType == 'is_operator' %}
                             <div class="sidebar-menu-Admins">
@@ -158,7 +158,7 @@
                                         </div>
                                         <ul style="margin-top:60px;">
                                             <li style="width: 155px;">
-                                                <a href="{% url 'messages' request.user.pk %}" aria-expanded="false" style="display: block;"><i class="ti-email m-r-5 m-l-5"></i><span class="hide-menu" style="margin-top: 1px;margin-left: 5px; position: absolute;">Message<span id = "message_inbox_count" style="font-size: 16px" class="hide-menu"></span></span></a>                                            
+                                                <a href="{% url 'messages' request.user.pk %}" aria-expanded="false" style="display: block;"><i class="ti-email m-r-5 m-l-5"></i><span class="hide-menu" style="margin-top: 1px;margin-left: 5px; position: absolute;">Inbox<span id = "message_inbox_count" style="font-size: 16px" class="hide-menu"></span></span></a>                                            
                                             </li>
                                         </ul>
                                     </li>
@@ -197,7 +197,7 @@
                                 </ul>
                                 <ul style="margin-top:60px;">
                                     <li style="width: 155px; margin:auto;">
-                                        <a href="{% url 'messages' request.user.pk %}" aria-expanded="false" style="display: block;"><i class="ti-email m-r-5 m-l-5"></i><span class="hide-menu" style="margin-top: -1px;margin-left: 5px; position: absolute;">Message<span id = "message_inbox_count" style="font-size: 16px" class="hide-menu"></span></span></a>
+                                        <a href="{% url 'messages' request.user.pk %}" aria-expanded="false" style="display: block;"><i class="ti-email m-r-5 m-l-5"></i><span class="hide-menu" style="margin-top: -1px;margin-left: 5px; position: absolute;">Inbox<span id = "message_inbox_count" style="font-size: 16px" class="hide-menu"></span></span></a>
                                     </li>
                                 </ul>
                             </div>
