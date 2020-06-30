@@ -84,10 +84,13 @@ def signout(request):
 
 @login_required(login_url='signpage')
 def plot(request, *args):
+    #id, date, time
     for i in range(len(args)):
-        id = args[0]
-        date = args[1]
-        time = args[2]
+        station_id = args[0]
+        from_date = args[1]
+        to_date = args[2]
+        time = args[3]
+    #user access for tree view  
     obj = request.user
     if obj.userType == 'is_admin':
         stations = Setup.objects.all().order_by('date').reverse()

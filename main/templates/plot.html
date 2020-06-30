@@ -97,10 +97,85 @@
                 <h3 style="text-align: center; margin: 0; padding: 0;"id="histogram-label"><b>Histogram</b></h3>
             </ul>
         </div>
-        <div id='myHistogram' class="histogram_main" style="width: 98%;"></div>
+        <div id='myHistogram' class="histogram_main" style="width: 100%;">
+            <ul class="chart">
+              <li>
+                <span style="height:100%" title="1"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="2"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="3"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="4"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="5"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="6"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="7"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="8"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="9"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="10"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="11"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="12"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="13"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="14"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="15"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="16"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="17"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="18"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="19"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="20"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="21"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="22"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="23"></span>
+              </li>
+              <li>
+                <span style="height:100%" title="24"></span>
+              </li>
+            </ul>  
+
+        </div>
     </div>
 </div>
-
 <script>
     var VectorSource = ol.source.Vector;
     var GeoJSON = ol.format.GeoJSON;
@@ -316,23 +391,25 @@
 
     var dataHist = {{ HistData | safe }};
     
-    var Hist = new Dygraph(
-        document.getElementById("myHistogram"),
-        dataHist,
-        {
-            axes:{
-                y:{
-                    axisLineWidth: 2
-                }
-            },
-            plotter: barChartPlotter,
-            dateWindow: [0, 25],
-            includeZero: true,
-            ylabel: "ylabel",
-            // xlabel: "xlabel",
-            interactionModel: {}
-        }
-    );  
+    // var Hist = new Dygraph(
+    //     document.getElementById("myHistogram"),
+    //     dataHist,
+    //     {
+    //         axes:{
+    //             y:{
+    //                 axisLineWidth: 2
+    //             }
+    //         },
+    //         plotter: barChartPlotter,
+    //         dateWindow: [0, 25],
+    //         includeZero: true,
+    //         ylabel: "ylabel",
+    //         // xlabel: "xlabel",
+    //         interactionModel: {}
+    //     }
+    // ); 
+
+
 </script>
 <script type="text/javascript">
 
