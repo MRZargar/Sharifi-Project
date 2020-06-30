@@ -99,77 +99,77 @@
         </div>
         <div id='myHistogram' class="histogram_main" style="width: 100%;">
             <ul class="chart">
-              <li>
-                <span style="height:100%" title="1"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="1"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="2"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="2"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="3"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="3"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="4"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="4"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="5"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="5"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="6"></span>
+              <li class="bar_value">
+               <a href="#" ><span style="height:100%" title="6"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="7"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="7"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="8"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="8"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="9"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="9"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="10"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="10"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="11"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="11"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="12"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="12"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="13"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="13"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="14"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="14"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="15"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="15"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="16"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="16"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="17"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="17"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="18"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="18"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="19"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="19"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="20"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="20"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="21"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="21"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="22"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="22"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="23"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="23"></span></a>
               </li>
-              <li>
-                <span style="height:100%" title="24"></span>
+              <li class="bar_value">
+                <a href="#" ><span style="height:100%" title="24"></span></a>
               </li>
             </ul>  
 
@@ -177,6 +177,16 @@
     </div>
 </div>
 <script>
+    
+    $(document).on('click', '.bar_value', function(event) {
+    event.preventDefault();
+    var hour = $(this).find("span").attr("title");
+    alert(hour)
+    // var data_user = $(this).data("user");
+
+    });
+
+
     var VectorSource = ol.source.Vector;
     var GeoJSON = ol.format.GeoJSON;
 

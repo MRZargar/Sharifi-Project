@@ -199,7 +199,7 @@ tr:nth-child(even) {
         flex-direction: column-reverse;
     }
     .column-map-main {
-        padding: 10px;
+        margin-left: 10px;
         float: none;
         width: 100%;
     }
@@ -224,15 +224,24 @@ tr:nth-child(even) {
         width: 100%;
         padding: 10px;
         float: none;
+        margin-left: 20px;
     }
     .column-map1 {
         width: 17%;
+    }
+    .column-map2{
+        margin-left: -10px;
     }
     .column-map3 {
         width: 100%;
     }
     .treeView_main{
         width:auto;
+        margin-left: 30px;
+
+    }
+    .row-map1{
+        margin-left: 20px;
     }
     #histogram-label{
         font-size: 2rem;
