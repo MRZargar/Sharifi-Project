@@ -251,6 +251,6 @@ tr:nth-child(even) {
         margin: 0 0.2rem;
     }
     .chart span:before {
-        padding: 10px 0.2rem 0;
+        padding: 10px 0 0;
      }
 }
