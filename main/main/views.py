@@ -84,8 +84,10 @@ def signout(request):
 
 @login_required(login_url='signpage')
 def plot(request, *args):
-    for arg in args:
-        id = arg
+    for i in range(len(args)):
+        id = args[0]
+        date = args[1]
+        time = args[2]
     obj = request.user
     if obj.userType == 'is_admin':
         stations = Setup.objects.all().order_by('date').reverse()
