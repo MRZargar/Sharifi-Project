@@ -2,8 +2,9 @@ import os
 import zipfile
 import shutil
 
+path = "sent/"
+
 def zip_move(name):
-    path = "sent/"
     try:
         import zlib
         mode= zipfile.ZIP_DEFLATED
@@ -12,30 +13,25 @@ def zip_move(name):
     try:
         name = int(name[:-4])
     except Exception as ex:
-        print(ex)
+        print(">> move_and_zip / error:  Can not convert name file to integer.\n", ex)
     try:
         zipfile.ZipFile(str(name) + ".zip", 'w', mode).write(str(name) + ".txt")
         shutil.move(str(name) + ".zip", path + str(name) + ".zip")
         os.remove(str(name) + ".txt")
     except OSError:
         os.remove(str(name) + ".zip")
-        print(" Can not create zip file or move or remove %s file"% (str(name) +'.txt')) 
+        print(">> move_and_zip / error:  Can not create zip file or move or remove %s file"% (str(name) +'.txt')) 
 
 
-import os
-## make directory sented
-path = "sent"
-
-if os.path.isdir("sent"):
-    print("directory has exist")
-
+if os.path.isdir(path):
+    print(">> move_and_zip / info:  Directory has exist")
 else:
     try:
         os.mkdir(path)
     except OSError:
-        print ("Creation of the directory %s failed" % path)
+        print (">> move_and_zip / error:  Creation of the directory %s failed" % path)
     else:
-        print ("Successfully created the directory %s " % path)
+        print (">> move_and_zip / info:  Successfully created the directory %s " % path)
 
 ## create Zip file and move in sent directory
 
