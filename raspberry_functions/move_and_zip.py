@@ -8,16 +8,19 @@ import time
 from send_request.GeoLabAPI import GeoLabAPI
 from send_request.pgDB import pgDB
 
-
-path = "../sent/"
+obs_path = "../Obs/"
+sent_path = "../sent/"
 API = GeoLabAPI()
 DB = pgDB("localhost", "mydata", "postgres", "postgreut99")
 tableName = API.get_table_name(12345678)
 
 def get_file_name_toint(file):
+    return int(get_file_name(file))
+
+def get_file_name(file):
     filename_w_ext = os.path.basename(file)
     filename, file_extension = os.path.splitext(filename_w_ext)
-    return int(filename)
+    return filename
 
 def zip_move(name):
     try:
@@ -25,28 +28,27 @@ def zip_move(name):
         mode= zipfile.ZIP_DEFLATED
     except:
         mode= zipfile.ZIP_STORED
+    
+    name = get_file_name(name)
+
     try:
-        name = int(name[:-4])
-    except Exception as ex:
-        print(">> move_and_zip / error:  Can not convert name file to integer.\n", ex)
-    try:
-        zipfile.ZipFile(str(name) + ".zip", 'w', mode).write(str(name) + ".txt")
-        shutil.move(str(name) + ".zip", path + str(name) + ".zip")
-        os.remove(str(name) + ".txt")
+        zipfile.ZipFile(sent_path + name + ".zip", 'w', mode).write(obs_path + name + ".txt")
+        # shutil.move(obs_path + name + ".zip", sent_path + name + ".zip")
+        os.remove(obs_path + name + ".txt")
     except OSError:
         os.remove(str(name) + ".zip")
         print(">> move_and_zip / error:  Can not create zip file or move or remove %s file"% (str(name) +'.txt')) 
 
 
-if os.path.isdir(path):
+if os.path.isdir(sent_path):
     print(">> move_and_zip / info:  Directory has exist")
 else:
     try:
-        os.mkdir(path)
+        os.mkdir(sent_path)
     except OSError:
-        print (">> move_and_zip / error:  Creation of the directory %s failed" % path)
+        print (">> move_and_zip / error:  Creation of the directory %s failed" % sent_path)
     else:
-        print (">> move_and_zip / info:  Successfully created the directory %s " % path)
+        print (">> move_and_zip / info:  Successfully created the directory %s " % sent_path)
 
 
 
@@ -54,10 +56,10 @@ Loop = True
 temp_size = 0
 while Loop:
     try:
-        files = glob.glob("../Obs/*.txt")
+        files = glob.glob(obs_path + "*.txt")
         if len(files) != 0:
             name = max(list(map(get_file_name_toint, files)))
-            current_file = str(name) + ".txt"
+            current_file = obs_path + str(name) + ".txt"
             for file in files:
                 if file == current_file: continue
 
@@ -85,6 +87,11 @@ while Loop:
                 print(">> move_and_zip / error:  send data faild.\n" ,ex)
             else:
                 print(">> move_and_zip / info:  %d from datas sent." % data_count)
+            
+            try:
+                pass
+            except expression as identifier:
+                pass
             
             time.sleep(5)
         else:

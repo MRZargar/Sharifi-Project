@@ -3,6 +3,8 @@ import os
 import time
 from send_request.GeoLabAPI import GeoLabAPI
 
+obs_path = "../Obs/"
+
 def get_file_name_toint(file):
     filename_w_ext = os.path.basename(file)
     filename, file_extension = os.path.splitext(filename_w_ext)
@@ -16,10 +18,10 @@ Loop = True
 temp_size = 0
 while Loop:
     try:
-        files = glob.glob("../Obs/*.txt")
+        files = glob.glob(obs_path + "*.txt")
         if len(files) != 0:
             name = max(list(map(get_file_name_toint, files)))
-            file_name = str(name) + ".txt"
+            file_name = obs_path + str(name) + ".txt"
             size = os.stat(file_name).st_size
             if size > temp_size:
                 try:
