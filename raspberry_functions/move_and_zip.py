@@ -63,12 +63,11 @@ while Loop:
             for file in files:
                 if file == current_file: continue
 
-                f = pd.read_csv(file, sep=' ', header=["T", "AX", "AY", "AZ", "TEMP"])
-                for counter in range(3):
                     try:
                         query = ""
-                        for inx, data in f.iterrows():
-                            query += "insert into data(t, a_x, a_y, a_z, temp) values ({},{},{},{},{});\n".format(data["T"], data["AX"], data["AY"], data["AZ"], data["TEMP"])
+                        with open(file) as fp:
+                            for cnt, data in enumerate(fp):
+                                query += "insert into data(t, a_x, a_y, a_z, temp) values ({});\n".format(data.replace(' ', ','))
 
                         DB.setQuery(query)
                     except Exception as ex:
@@ -87,11 +86,6 @@ while Loop:
                 print(">> move_and_zip / error:  send data faild.\n" ,ex)
             else:
                 print(">> move_and_zip / info:  %d from datas sent." % data_count)
-            
-            try:
-                pass
-            except expression as identifier:
-                pass
             
             time.sleep(5)
         else:

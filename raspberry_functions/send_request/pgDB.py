@@ -50,7 +50,7 @@ class pgDB:
 
             self.__commit()
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            raise error
         finally:
             self.__disconnect()
 
@@ -75,7 +75,7 @@ class pgDB:
             return dataTable
         except (Exception, psycopg2.DatabaseError) as error:
             self.__disconnect()
-            print(error)
+            raise error
     
     def dblink_get(self, sql, AS):
         connstr = self.__dblink_get_connstr()
