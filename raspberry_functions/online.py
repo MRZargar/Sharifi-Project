@@ -3,8 +3,10 @@ import os
 import time
 from send_request.GeoLabAPI import GeoLabAPI
 
-def name_to_number(name):
-    return int(name[:-4])
+def get_file_name_toint(file):
+    filename_w_ext = os.path.basename(file)
+    filename, file_extension = os.path.splitext(filename_w_ext)
+    return int(filename)
 
 API = GeoLabAPI()
 
@@ -14,9 +16,9 @@ Loop = True
 temp_size = 0
 while Loop:
     try:
-        files = glob.glob("*.txt")
+        files = glob.glob("../Obs/*.txt")
         if len(files) != 0:
-            name = max(list(map(name_to_number, files)))
+            name = max(list(map(get_file_name_toint, files)))
             file_name = str(name) + ".txt"
             size = os.stat(file_name).st_size
             if size > temp_size:

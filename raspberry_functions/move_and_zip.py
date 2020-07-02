@@ -9,13 +9,15 @@ from send_request.GeoLabAPI import GeoLabAPI
 from send_request.pgDB import pgDB
 
 
-path = "sent/"
+path = "../sent/"
 API = GeoLabAPI()
 DB = pgDB("localhost", "mydata", "postgres", "postgreut99")
 tableName = API.get_table_name(12345678)
 
-def name_to_number(name):
-    return int(name[:-4])
+def get_file_name_toint(file):
+    filename_w_ext = os.path.basename(file)
+    filename, file_extension = os.path.splitext(filename_w_ext)
+    return int(filename)
 
 def zip_move(name):
     try:
@@ -52,9 +54,9 @@ Loop = True
 temp_size = 0
 while Loop:
     try:
-        files = glob.glob("*.txt")
+        files = glob.glob("../Obs/*.txt")
         if len(files) != 0:
-            name = max(list(map(name_to_number, files)))
+            name = max(list(map(get_file_name_toint, files)))
             current_file = str(name) + ".txt"
             for file in files:
                 if file == current_file: continue
