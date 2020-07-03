@@ -25,7 +25,7 @@ while Loop:
             size = os.stat(file_name).st_size
             if size > temp_size:
                 try:
-                    API.send_health_status(table_name, 1)
+                    API.send_health_status(tableName, 1)
                 except Exception as ex:
                     print(">> online / error:  health code (1) don't sent. The file size has changed\n", ex)
                 print(">> online / info:  health code (1) sent. The file size has changed")
