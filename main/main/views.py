@@ -38739,7 +38739,6 @@ def plot(request, *args):
             22, 28
             23, 32
             24, 37`'''
-
     return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=d, yPlotData=d, zPlotData=d, HistData=hist))
 
 @login_required(login_url='signpage')
@@ -38767,3 +38766,22 @@ def map(request):
     
 # def my_handler404(request, exception):
 #     return render(request, '404.html', status=404)
+
+@login_required(login_url='signpage')
+def download(request, pk):
+    if request.method == "POST":
+        pass
+    elif request.method == "GET":
+        obj = request.user
+        if obj.userType == "is_admin":
+            stations = Setup.objects.all().order_by('date').reverse()
+        else:
+            station_access = Access.objects.filter(user_id = obj.id)
+            user_access = []
+            for station_q in station_access:
+                user_access.append(station_q.station_id)
+            stations = Setup.objects.filter(id__in = user_access).order_by('date').reverse()
+        station_list = []
+        for station in stations:
+            station_list.append(station.station_name)
+    return JsonResponse({'stations_list': station_list}, status=200)

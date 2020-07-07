@@ -190,6 +190,58 @@ tr:nth-child(even) {
 
 
 
+button{
+  border-radius: 5px !important;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+tr{
+  text-align: center;
+}
+
+.modal-body2 {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1rem
+}
+
+.table_scroll_bar{
+  overflow-x : auto;
+  overflow-y : auto;
+}
+ 
+#download_change_buttons{
+    display: table;
+    margin: 0 auto;
+}
+
+
+#download_button{
+    background-color: #2d8180;
+    width: 140px;
+    text-transform: uppercase;
+    border-radius: 5px;
+
+}
+
+#download_button:hover{
+    color: #000;
+}
+
+#download_button:focus{
+    color: #fff;
+    outline: none;
+}
+
+#this_station_download{
+    padding-left: 22.5px;
+    padding-right: 22.5px;
+}
+
+
+
 
 /*######### mobile ###########*/
 

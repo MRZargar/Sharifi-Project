@@ -86,13 +86,16 @@
     <div class="histogram_and_calender">
         <div class="calendar_main">
             <ul class="ul-plot-toolbar">
-                <li class="li-plot-toolbar" style="width: 160px; padding: 0;">
+                <li class="li-plot-toolbar" style="width: 140px; padding: 0;">
                     <div class="input-group">
                         <input type="text" id="inputDate2" class="form-control" placeholder="Gregorian Calendar" aria-label="date2" aria-describedby="date2">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date2"></span>
                         </span>
                     </div>
+                </li>
+                <li style="float: left;">
+                    <button type="button" class="btn btn-secondary" id = "download_button" data-toggle="modal" data-target=".bd-example-modal-lg">download</button>
                 </li>
                 <h3 style="text-align: center; margin: 0; padding: 0;"id="histogram-label"><b>Histogram</b></h3>
             </ul>
@@ -175,17 +178,227 @@
 
         </div>
     </div>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><b>DOWNLOAD</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body2">
+                <div class="overflow-auto">
+                    <div class="modal-body">
+
+                    </div>
+                </div>
+                <hr>
+                 <div class="container">
+                    <div class="row">
+                        <div class="col" style="flex-grow:0.1">
+                            <p style="margin-top:7.5px; margin-left: 15px;">START TIME :</p>
+                        </div>
+                        <div class="col"  style="flex-grow:0.30">
+                            <div class="calendar" style="width: 150px;">
+                                <div class="input-group">
+                                    <input type="text" id="inputDate3" class="form-control" placeholder="Gregorian Calendar" aria-label="date3" aria-describedby="date3">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date3"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" style="flex-grow:0.1">
+                            <p style="margin-top:7.5px; margin-left: 15px;">END TIME :</p>
+                        </div>
+                        <div class="col" style="flex-grow:0.30">
+                            <div class="calendar" style="width: 150px;">
+                                <div class="input-group">
+                                    <input type="text" id="inputDate4" class="form-control" placeholder="Gregorian Calendar" aria-label="date4" aria-describedby="date4">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date4"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div id="download_this_day">
+                     <div id='myHistogram' class="histogram_main" style="width: 100%;">
+                        <ul class="chart">
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="1"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="2"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="3"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="4"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="5"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                           <a href="#" ><span style="height:100%" title="6"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="7"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="8"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="9"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="10"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="11"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="12"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="13"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="14"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="15"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="16"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="17"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="18"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="19"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="20"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="21"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="22"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="23"></span></a>
+                          </li>
+                          <li class="bar_value2">
+                            <a href="#" ><span style="height:100%" title="24"></span></a>
+                          </li>
+                        </ul>  
+                    </div>
+                </div>
+                <div id="download_all_day">
+
+
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger"data-dismiss="modal" style ="background-color: #f20a34">Close</button>
+            <button type="button" class="btn btn-success pull-right" id="download_end" style ="background-color: #36bea6">download</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>
+
+
 <script>
     
     $(document).on('click', '.bar_value', function(event) {
     event.preventDefault();
     var hour = $(this).find("span").attr("title");
+    if (window.value !== undefined)
+        window.value.css("background", "#2d8180")
+    var hist_bar = $(this).find("span")
+    window.value = hist_bar;
+    $(this).find("span").css("background", "#545b62");
     alert(hour)
-    // var data_user = $(this).data("user");
 
     });
 
+
+    $(document).on('click', '.bar_value2', function(event) {
+    event.preventDefault();
+    var hour = $(this).find("span").attr("title");
+    if  ($(this).find("span").css("background")[4]==2){
+        $(this).find("span").css("background", "#2d8180");
+    }else{
+        $(this).find("span").css("background", "#f20a34");
+    }
+    });
+
+    $(document).on('click', "#download_button", function(event){
+        $(".bar_value2").find('span').css("background", "#2d8180");
+        event.preventDefault();
+        $(".modal-body").empty()
+        $.ajax({
+            type: "GET",
+            url: "{% url 'downloads_files' request.user.pk %}",
+            success: function(data) {
+                console.log(data)
+                count = data.count;
+                main = "";
+                if (count == 0) {
+                    temp = "No station has been registered yet";
+                } else {
+                    for (i in data.stations_list) {
+                        this_station_name = data.stations_list[i];
+                        if (i % 2 == 0 && i != 0) {
+                            console.log(i)
+                            column = '<div class="w-100" style="height:15px;"></div>';
+                        } else {
+                            column = "";
+                        }
+                        if (true) {
+                            temp =
+                                '<div class="col" style="flex-grow:0.3">' +
+                                '<div class="form-check">' +
+                                '<input class="form-check-input" type="checkbox" value="'+ this_station_name +'" id="defaultCheck1" name="station" style="margin-left:-18px">' +
+                                '<label class="form-check-label" for="defaultCheck1">' +
+                                this_station_name +
+                                '</label>' +
+                                '</div>' +
+                                '</div>' +
+                                column 
+                        } else {
+                            temp =
+                                '<div class="col" style="flex-grow:0.3">' +
+                                '<div class="form-check">' +
+                                '<input class="form-check-input" type="checkbox" value="'+ this_station_name +'" id="defaultCheck1" checked="true" name="station" style="margin-left:-18px">' +
+                                '<label class="form-check-label" for="defaultCheck1">' +
+                                this_station_name +
+                                '</label>' +
+                                '</div>' +
+                                '</div>' +
+                                column 
+                        };
+
+                        main += temp;
+                    };
+                };
+                final = '<div class="container">' + '<div class="row">' + main + '</div>'
+                $('.modal-body').prepend(final);
+            }
+        });
+    });
 
     var VectorSource = ol.source.Vector;
     var GeoJSON = ol.format.GeoJSON;
@@ -431,18 +644,58 @@
         align: 'right',
         autoclose: true
     });
-
+    $('#date3').MdPersianDateTimePicker({
+        targetTextSelector: '#inputDate3',
+        selectedDate: new Date(),
+        isGregorian: true,
+        placement: 'bottom',
+        align: 'right',
+        autoclose: true
+    });
+    $('#date4').MdPersianDateTimePicker({
+        targetTextSelector: '#inputDate4',
+        selectedDate: new Date(),
+        isGregorian: true,
+        placement: 'bottom',
+        align: 'right',
+        autoclose: true
+    });
 </script>
 <script>
-    var count = 0;
+    var count1 = 0;
+    var count2 = 0;
+    var count3 = 0;
+
     $(document).on('click', '#date2', function(event) {
-        if (count == 0){
+        if (count1 == 0){
             var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
             margin = parseInt(margin)
             margin -= 230;
             margin = margin.toString() +"px";
             $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
-            count +=1;
+            count1 +=1;
+    }
+    });
+
+    $(document).on('click', '#date3', function(event) {
+        if (count2 == 0){
+            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+            margin = parseInt(margin)
+            margin -= 230;
+            margin = margin.toString() +"px";
+            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+            count2 +=1;
+    }
+    });
+
+    $(document).on('click', '#date4', function(event) {
+        if (count3 == 0){
+            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+            margin = parseInt(margin)
+            margin -= 230;
+            margin = margin.toString() +"px";
+            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+            count3 +=1;
     }
     });
 </script>

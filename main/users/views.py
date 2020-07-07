@@ -176,6 +176,7 @@ def access_station(request, pk):
         count_of_station = len(stations_names)
         return JsonResponse({'stations_name': stations_names, 'access':all_access, 'count': count_of_station}, status=200)
 
+
 @login_required(login_url='signpage')
 def profile_view(request, pk):
     return render(request, 'profile.html', {})
