@@ -86,13 +86,16 @@
     <div class="histogram_and_calender">
         <div class="calendar_main">
             <ul class="ul-plot-toolbar">
-                <li class="li-plot-toolbar" style="width: 160px; padding: 0;">
+                <li class="li-plot-toolbar" style="width: 140px; padding: 0;">
                     <div class="input-group">
                         <input type="text" id="inputDate2" class="form-control" placeholder="Gregorian Calendar" aria-label="date2" aria-describedby="date2">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date2"></span>
                         </span>
                     </div>
+                </li>
+                <li style="float: left;">
+                    <button type="button" class="btn btn-secondary" id = "download_button" data-toggle="modal" data-target=".bd-example-modal-lg">download</button>
                 </li>
                 <h3 style="text-align: center; margin: 0; padding: 0;"id="histogram-label"><b>Histogram</b></h3>
             </ul>
@@ -175,18 +178,132 @@
 
         </div>
     </div>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">DOWNLOAD</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body2">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons" id="download_change_buttons">
+                  <label class="btn btn-secondary active" id="this_station_download">
+                    <input type="radio" name="options" autocomplete="off" checked > This Station
+                  </label>
+                  <label class="btn btn-secondary" id="another_stations_download">
+                    <input type="radio" name="options" autocomplete="off"> Another Station
+                  </label>
+                </div>
+                <hr>
+                <div id="download_this_day">
+                     <div id='myHistogram' class="histogram_main" style="width: 100%;">
+                        <ul class="chart">
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="1"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="2"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="3"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="4"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="5"></span></a>
+                          </li>
+                          <li class="bar_value">
+                           <a href="#" ><span style="height:100%" title="6"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="7"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="8"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="9"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="10"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="11"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="12"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="13"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="14"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="15"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="16"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="17"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="18"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="19"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="20"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="21"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="22"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="23"></span></a>
+                          </li>
+                          <li class="bar_value">
+                            <a href="#" ><span style="height:100%" title="24"></span></a>
+                          </li>
+                        </ul>  
+                    </div>
+                </div>
+                <div id="download_all_day">
+
+
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger"data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success pull-right" id="delete_user">download</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>
+
+
 <script>
     
     $(document).on('click', '.bar_value', function(event) {
     event.preventDefault();
     var hour = $(this).find("span").attr("title");
+    if (window.value !== undefined)
+        window.value.css("background", "#2d8180")
+    var hist_bar = $(this).find("span")
+    window.value = hist_bar;
+    $(this).find("span").css("background", "red");
     alert(hour)
-    // var data_user = $(this).data("user");
 
     });
-
-
     var VectorSource = ol.source.Vector;
     var GeoJSON = ol.format.GeoJSON;
 
