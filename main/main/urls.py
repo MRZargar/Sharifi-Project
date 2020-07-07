@@ -18,7 +18,8 @@ from .views import(
     AdminProfile,
     plot,
     map,
-    inbox_message_view
+    inbox_message_view,
+    download
 )
 urlpatterns = [
     path('', signpage, name='signpage'),
@@ -33,7 +34,8 @@ urlpatterns = [
     path('map/', map, name='map'),
     path('stations/', include('stations.urls')),
     path('message', include('message.urls')),
-    path('inbox/message/<int:pk>', inbox_message_view, name='inbox_message_count')
+    path('inbox/message/<int:pk>', inbox_message_view, name='inbox_message_count'),
+    path("download/<int:pk>", download, name="downloads_files"),
 
 ]
 
