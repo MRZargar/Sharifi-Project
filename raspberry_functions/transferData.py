@@ -57,13 +57,21 @@ def create_sent_directory(path):
         else:
             log.log("Successfully created the directory %s " % path, messageType.INFO)
 
-def import_to_db(query, cnt):
+def import_to_db(query, cnt, file_name):
     for i in range(3):
         try:
             DB.setQuery(query)
         except Exception as ex:
             log.log("%d. The %d row from %s don't saved on local database.\n%s" % (i+1, cnt, file_name, ex), messageType.ERROR)
-            # ???
+            
+            queries = query.split(';')
+            for q in queries:
+                try:
+                    DB.setQuery(q)
+                except IntegrityError:
+                    continue
+                except Exception as ex:
+                    log.log("{{ %s }} from %s file don't saved.\n%s" % (q, file_name, ex), messageType.ERROR)
         else:
             log.log("%d. The %d row from %s saved on local database." % (i+1, cnt, file_name), messageType.INFO)
             break
@@ -76,12 +84,12 @@ def save_data_on_db(file_name):
             query += "insert into data(t, a_x, a_y, a_z, temp) values ({});\n".format(data.replace(' ', ','))
             
             if cnt % one_min_data_count == 0:
-                import_to_db(query, cnt - temp_cnt)
+                import_to_db(query, cnt - temp_cnt, file_name)
                 temp_cnt = cnt
                 query = ""
         
         if query != "":
-            import_to_db(query, cnt - temp_cnt)
+            import_to_db(query, cnt - temp_cnt, file_name)
 
 def save_data(files):
     if len(files) == 0:
@@ -100,21 +108,24 @@ def save_data(files):
             log.log("The %s saved on local database" % file, messageType.INFO)
             zip_move(file)            
 
+def delete_data
+
 def submit_data(datas):
-    query = "update data set is_sent = TRUE where "
+    query = "update data set is_sent = TRUE"
 
+    where = "where "
     for inx, data in datas.iterrows():
-        query += "t = " + str(data.t) + " OR "
+        where += "t = " + str(data.t) + " OR "
 
-    query += query[:-3] + ";"
+    where += where[:-3] + ";"
 
     for i in range(3):
         try:
-            DB.setQuery(query)
+            DB.setQuery(query + where)
         except Exception as ex:
             log.log("%d. Faild for submit %d row.\n%s" % (i+1, len(datas), ex), messageType.ERROR)
             # if i == 2:
-            #     ??? 
+                # delete data from server
         else:
             log.log("%d. submited %d row" % (i+1, len(datas)), messageType.INFO)
             break
