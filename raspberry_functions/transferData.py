@@ -7,12 +7,17 @@ import glob
 import time
 from send_request.GeoLabAPI import GeoLabAPI
 from send_request.pgDB import pgDB
+from send_request.log import log, messageType
 
 obs_path = "../Obs/"
 sent_path = "../sent/"
-one_min_data_count = 60*100
-API = GeoLabAPI()
+log_path = "./Log/transferData.txt"
 DB = pgDB("localhost", "mydata", "postgres", "postgreADXL99")
+
+one_min_to_sec = 60
+one_min_data_count = one_min_to_sec * 100
+API = GeoLabAPI()
+log = log(log_path)
 tableName = API.get_table_name(12345678)
 
 def get_file_name_toint(file):
@@ -37,31 +42,39 @@ def zip_move(name):
         os.remove(obs_path + name + ".txt")
     except OSError:
         os.remove(str(name) + ".zip")
-        print(">> move_and_zip / error:  Can not create zip file or move or remove %s file"% (str(name) +'.txt')) 
+        log.log("Can not create zip file or move or remove %s file" % (str(name) +'.txt'), messageType.ERROR)
     else:
-        print(">> move_and_zip / info:  created and moved zip file and then remove %s file"% (str(name) +'.txt')) 
+        log.log("created and moved zip file and then remove %s file" % (str(name) +'.txt'), messageType.INFO)
 
 
 def create_sent_directory(path):
     if os.path.isdir(path):
-        print(">> move_and_zip / info:  Directory has exist")
+        log.log("Directory has exist", messageType.INFO)
     else:
         try:
             os.mkdir(path)
         except OSError:
-            print (">> move_and_zip / error:  Creation of the directory %s failed" % path)
+            log.log("Creation of the directory %s failed" % path, messageType.ERROR)
         else:
-            print (">> move_and_zip / info:  Successfully created the directory %s " % path)
+            log.log("Successfully created the directory %s " % path, messageType.INFO)
 
-def import_to_db(query, cnt):
+def import_to_db(query, cnt, file_name):
     for i in range(3):
         try:
             DB.setQuery(query)
         except Exception as ex:
-            print(">> move_and_zip / error: %d. The %d row from %s don't saved on local database.\n" % (i+1, cnt, file_name), ex)
-            # ------------------------------------------
+            log.log("%d. The %d row from %s don't saved on local database.\n%s" % (i+1, cnt, file_name, ex), messageType.ERROR)
+            
+            queries = query.split(';')
+            for q in queries:
+                try:
+                    DB.setQuery(q)
+                except IntegrityError:
+                    continue
+                except Exception as ex:
+                    log.log("{{ %s }} from %s file don't saved.\n%s" % (q, file_name, ex), messageType.ERROR)
         else:
-            print(">> move_and_zip / info: %d. The %d row from %s saved on local database." % (i+1, cnt, file_name))
+            log.log("%d. The %d row from %s saved on local database." % (i+1, cnt, file_name), messageType.INFO)
             break
 
 def save_data_on_db(file_name):
@@ -72,12 +85,12 @@ def save_data_on_db(file_name):
             query += "insert into data(t, a_x, a_y, a_z, temp) values ({});\n".format(data.replace(' ', ','))
             
             if cnt % one_min_data_count == 0:
-                import_to_db(query, cnt - temp_cnt)
+                import_to_db(query, cnt - temp_cnt, file_name)
                 temp_cnt = cnt
                 query = ""
         
         if query != "":
-            import_to_db(query, cnt - temp_cnt)
+            import_to_db(query, cnt - temp_cnt, file_name)
 
 def save_data(files):
     if len(files) == 0:
@@ -91,28 +104,32 @@ def save_data(files):
         try:
             save_data_on_db(file)
         except Exception as ex:
-            print(">> move_and_zip / error:  Can't read The %s.\n" % file ,ex)
+            log.log("Can't read The %s.\n%s" % (file, ex), messageType.ERROR)
         else:
-            print(">> move_and_zip / info:  The %s saved on local database." % file)
+            log.log("The %s saved on local database" % file, messageType.INFO)
             zip_move(file)            
 
+def delete_data
+
 def submit_data(datas):
-    query = "update data set is_sent = TRUE where "
+    query = "update data set is_sent = TRUE"
 
+    where = "where "
     for inx, data in datas.iterrows():
-        query += "t = " + str(data.t) + " OR "
+        where += "t = " + str(data.t) + " OR "
 
-    query += query[:-3] + ";"
+    where += where[:-3] + ";"
 
     for i in range(3):
         try:
-            DB.setQuery(query)
+            DB.setQuery(query + where)
         except Exception as ex:
-            print(">> move_and_zip / error: %d. Faild for submit %d row.\n" % (i+1, len(datas)), ex)
-            # if i == 2:
-            #     pass
+            log.log("%d. Faild for submit %d row.\n%s" % (i+1, len(datas), ex), messageType.ERROR)
+            if i == 2:
+                # delete data from server
+                log.log("------------------------PLEASE-CHECK-ERROR------------------------",message_type.ERROR)
         else:
-            print(">> move_and_zip / error: %d. submited %d row.\n" % (i+1, len(datas)))
+            log.log("%d. submited %d row" % (i+1, len(datas)), messageType.INFO)
             break
 
 def send_data(data):
@@ -121,9 +138,9 @@ def send_data(data):
             API.send_data(tableName, data)
             submit_data(data)
         except Exception as ex:
-            print(">> move_and_zip / error: %d. %d from datas don't sent." % (i+1, len(data)))
+            log.log("%d. %d from datas don't sent.\n%s" % (i+1, len(data), ex), messageType.ERROR)
         else:
-            print(">> move_and_zip / info: %d. %d from datas sent." % (i+1, len(data)))
+            log.log("%d. %d from datas sent" % (i+1, len(data)), messageType.INFO)
             break
 
 # --------------------------------------------------------------------------
@@ -136,12 +153,19 @@ while True:
     try:
         save_data(files)
     except Exception as ex:
-        print(">> move_and_zip / error:  read files faild\n" ,ex)
+        log.log("read files faild.\n%s" % ex, messageType.ERROR)
 
-    while True:
+    t1 = time.time()
+    dt = 0
+    # ???
+    while dt < 3 * one_min_to_sec: 
         dontSentData = DB.getQuery("select * from data where not is_sent limit " + str(one_min_data_count))
         if len(dontSentData) == 0 : break
 
         send_data(dontSentData)
+        
+        t2 = time.time()
+        dt = t2 - t1
+
     
     time.sleep(5)
