@@ -1,11 +1,17 @@
 endl = '\n'
 import sys
+import datetime
 sys.path.append("...")
 from stations.models import Deactivate
 def GetGeoJsonStations(stations, *args):
     features = ""
     if args == ('user',):
         for station in stations:
+            time = datetime.datetime.now() - station.health_time
+            if time.total_seconds() > 10:
+                helath = 2
+            else:
+                helath = station.helath
             features += """
             {{
                 'type': 'Feature',
@@ -19,6 +25,7 @@ def GetGeoJsonStations(stations, *args):
                     'End Time': '{6}',
                     'Longitude': '{7}',
                     'Latitude': '{8}'
+                    'Health': '{9}'
                 }},
                 'geometry': {{
                 'type': 'Point',
@@ -32,10 +39,16 @@ def GetGeoJsonStations(stations, *args):
                     station.date,
                     '' if station.status == True else Deactivate.objects.get(station_name_id = station.pk),
                     station.longitude,
-                    station.latitude)
+                    station.latitude,
+                    helath)
         features = features[:-1]
     else:
-        for station in stations:
+        for station in stations:          
+            time = datetime.datetime.now() - station.health_time
+            if time.total_seconds() > 10:
+                helath = 2
+            else:
+                helath = station.helath
             features += """
             {{
                 'type': 'Feature',
@@ -49,7 +62,8 @@ def GetGeoJsonStations(stations, *args):
                     'Start Time': '{6}',
                     'End Time': '{7}',
                     'Longitude': '{8}',
-                    'Latitude': '{9}'
+                    'Latitude': '{9}',
+                    'Health' : {10}
                 }},
                 'geometry': {{
                 'type': 'Point',
@@ -64,7 +78,8 @@ def GetGeoJsonStations(stations, *args):
                     station.date,
                     '' if station.status == True else Deactivate.objects.get(station_name_id = station.pk),
                     station.longitude,
-                    station.latitude)
+                    station.latitude,
+                    helath)
         features = features[:-1]
 
     geojson = """{
