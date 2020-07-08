@@ -10,12 +10,19 @@ log_path = "./Log/online.txt"
 API = GeoLabAPI()
 log = log(log_path)
 
-tableName = API.get_table_name(12345678)
+def get_table_name(id):
+    while True:
+        try:
+            return API.get_table_name(id)
+        except Exception as ex:
+            continue
 
 def get_file_name_toint(file):
     filename_w_ext = os.path.basename(file)
     filename, file_extension = os.path.splitext(filename_w_ext)
     return int(filename)
+
+tableName = get_table_name(12345678)
 
 Loop = True
 temp_size = 0
@@ -29,15 +36,15 @@ while Loop:
             if size > temp_size:
                 try:
                     API.send_health_status(tableName, 1)
+                    log.log("health code (1) sent. The file size has changed", messageType.INFO)
                 except Exception as ex:
                     log.log("health code (1) don't sent. The file size has changed\n%s" % ex, messageType.ERROR)
-                log.log("health code (1) sent. The file size has changed", messageType.INFO)
             else:
                 try:
                     API.send_health_status(table_name, 2)
+                    log.log("health code (2) sent. The file size has not changed", messageType.INFO)
                 except Exception as ex:
                     log.log("health code (2) don't sent. The file size has not changed\n%s" % ex, messageType.ERROR)
-                log.log("health code (2) sent. The file size has not changed", messageType.INFO)
             temp_size = size
             time.sleep(5)
         else:

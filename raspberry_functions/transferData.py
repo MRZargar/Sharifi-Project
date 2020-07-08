@@ -127,7 +127,7 @@ def submit_data(datas):
             log.log("%d. Faild for submit %d row.\n%s" % (i+1, len(datas), ex), messageType.ERROR)
             if i == 2:
                 # delete data from server
-                log.log("------------------------PLEASE-CHECK-ERROR------------------------",message_type.ERROR)
+                log.log("------------------------PLEASE-CHECK-ERROR------------------------",messageType.ERROR)
         else:
             log.log("%d. submited %d row" % (i+1, len(datas)), messageType.INFO)
             break
