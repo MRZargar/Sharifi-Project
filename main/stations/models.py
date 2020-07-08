@@ -24,6 +24,7 @@ class Setup(models.Model):
 	longitude = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
 	health = models.IntegerField(default=0)
 	raspberryID = models.IntegerField(blank=False, null=False)
+	health_time = models.DateTimeField(null = True)
 
 	def __str__(self):
 		return self.station_name
