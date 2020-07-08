@@ -14,7 +14,8 @@ sent_path = "../sent/"
 log_path = "./Log/transferData.txt"
 DB = pgDB("localhost", "mydata", "postgres", "postgreADXL99")
 
-one_min_data_count = 60*100
+one_min_to_sec = 60
+one_min_data_count = one_min_to_sec * 100
 API = GeoLabAPI()
 log = log(log_path)
 tableName = API.get_table_name(12345678)
@@ -124,8 +125,9 @@ def submit_data(datas):
             DB.setQuery(query + where)
         except Exception as ex:
             log.log("%d. Faild for submit %d row.\n%s" % (i+1, len(datas), ex), messageType.ERROR)
-            # if i == 2:
+            if i == 2:
                 # delete data from server
+                log.log("------------------------PLEASE-CHECK-ERROR------------------------",message_type.ERROR)
         else:
             log.log("%d. submited %d row" % (i+1, len(datas)), messageType.INFO)
             break
@@ -153,10 +155,17 @@ while True:
     except Exception as ex:
         log.log("read files faild.\n%s" % ex, messageType.ERROR)
 
-    while True: # ???
+    t1 = time.time()
+    dt = 0
+    # ???
+    while dt < 3 * one_min_to_sec: 
         dontSentData = DB.getQuery("select * from data where not is_sent limit " + str(one_min_data_count))
         if len(dontSentData) == 0 : break
 
         send_data(dontSentData)
+        
+        t2 = time.time()
+        dt = t2 - t1
+
     
     time.sleep(5)
