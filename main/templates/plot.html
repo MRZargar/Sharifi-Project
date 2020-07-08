@@ -410,8 +410,18 @@
     function myTreeData() {
             var json = '[';
             vectorS.forEachFeature(function (feature) {
+                health = feature.get('Health');
+                if (health == 0){
+                    name = "<span style='color:red'> " + feature.get('Name')+ "</span>";
+                }
+                else if (health == 1){
+                    name = "<span style='color:green'>" + feature.get('Name')+ "</span>";
+                }
+                else{
+                    name = "<span style='color:orange'> " + feature.get('Name')+ " </span>";
+                }
                 json = json + "{"
-                            + '"text": "' + feature.get('Name') + '", '
+                            + '"text": "' + name + '", '
                             + '"color": "#234b6e", '
                             + '"Longitude": "' + feature.get('Longitude') + '", '
                             + '"Latitude": "' + feature.get('Latitude') + '", '

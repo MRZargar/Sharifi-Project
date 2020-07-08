@@ -146,52 +146,69 @@
             if (feature) {
                 var coordinates = feature.getGeometry().getCoordinates();
                 overlay.setPosition(coordinates);
-                content.innerHTML = '<h5><b>' + feature.get('Name') + '</b></h5>'
+                health = feature.get('Health');
+                if (health == 0){
+                    circle_id = "circle_red";
+                    health_status = "<span style='color:red'> OFFLINE </span>";
+                }
+                else if (health == 1){
+                    circle_id = "circle_green";
+                    health_status = "<span style='color:green'> ONLINE </span>";
+                }
+                else{
+                    circle_id = "circle_orange";
+                    health_status = "<span style='color:orange'> Check client data logger </span>";
+                }
+                content.innerHTML = '<h5><div id='+circle_id+'></div><b>' + health_status + '</b></h5>'
                                     +'<font size="2">'
                                         +'<table>'
+                                            +'<tr>'
+                                                +'<td style="width: 35%;">Station name:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('Name') + '</td>'
+                                            +'</tr>'
                                         {% if request.user.userType != 'is_user' %}
                                             +'<tr>'
-                                                +'<td>Operator:</td>'
-                                                +'<td>' + feature.get('Operator') + '</td>'
+                                                +'<td style="width: 35%">Operator:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('Operator') + '</td>'
                                             +'</tr>'
                                         {%endif %}
                                             +'<tr>'
-                                                +'<td>Sensor Type:</td>'
-                                                +'<td>' + feature.get('Sensor Type') + '</td>'
+                                                +'<td style="width: 35%">Sensor Type:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('Sensor Type') + '</td>'
                                             +'</tr>'
                                             +'<tr>'
-                                                +'<td>Address:</td>'
-                                                +'<td>' + feature.get('Address') + '</td>'
+                                                +'<td style="width: 35%">Address:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('Address') + '</td>'
                                             +'</tr>'
                                             +'<tr>'
-                                                +'<td>Status:</td>'
-                                                +'<td><b>'
+                                                +'<td style="width: 35%">Status:</td>'
+                                                +'<td style="padding-left: 5px;"><b>'
                                                     +'<font color="' + (feature.get('Status') == 'Active' ? 'green' : 'red') + '">'
                                                         + feature.get('Status')
                                                     +'</font>'
                                                 +'</b></td>'
                                             +'</tr>'
                                             +'<tr>'
-                                                +'<td>Start Time:</td>'
-                                                +'<td>' + feature.get('Start Time') + '</td>'
+                                                +'<td style="width: 35%">Start Time:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('Start Time') + '</td>'
                                             +'</tr>'
                                             +'<tr>'
-                                                +'<td>End Time:</td>'
-                                                +'<td>' + feature.get('End Time') + '</td>'
+                                                +'<td style="width: 35%">End Time:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('End Time') + '</td>'
                                             +'</tr>'
                                             +'<tr>'
-                                                +'<td>Longitude:</td>'
-                                                +'<td>' + feature.get('Longitude') + '</td>'
+                                                +'<td style="width: 35%">Longitude:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('Longitude') + '</td>'
                                             +'</tr>'
                                             +'<tr>'
-                                                +'<td>Latitude:</td>'
-                                                +'<td>' + feature.get('Latitude') + '</td>'
+                                                +'<td style="width: 35%">Latitude:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('Latitude') + '</td>'
                                             +'</tr>'
                                         +'</table>'
                                     +'</font>'
-                                    +'<form action="\\plot" method="GET" target="_blank">'
+                                    +'<form action="\\plot" method="GET" target="_blank" >'
                                         +'<input type="hidden" id="siteID" name="siteID" value=' + feature.get('ID') + '>'
-                                        +'<input class="btn" type="submit" value="Show Data">'
+                                        +'<input class="btn" type="submit" value="Show Data" style="font-size:13px;">'
                                     +'</form>';
             }
         }
@@ -212,8 +229,18 @@
         function myTreeData() {
             var json = '[';
             vectorS.forEachFeature(function (feature) {
+                health = feature.get('Health');
+                if (health == 0){
+                    name = "<span style='color:red'> " + feature.get('Name')+ "</span>";
+                }
+                else if (health == 1){
+                    name = "<span style='color:green'>" + feature.get('Name')+ "</span>";
+                }
+                else{
+                    name = "<span style='color:orange'> " + feature.get('Name')+ " </span>";
+                }
                 json = json + "{"
-                            + '"text": "' + feature.get('Name') + '", '
+                            + '"text": "' + name + '", '
                             + '"color": "#234b6e", '
                             + '"Longitude": "' + feature.get('Longitude') + '", '
                             + '"Latitude": "' + feature.get('Latitude') + '", '
