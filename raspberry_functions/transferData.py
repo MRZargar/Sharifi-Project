@@ -18,7 +18,13 @@ one_min_to_sec = 60
 one_min_data_count = one_min_to_sec * 100
 API = GeoLabAPI()
 log = log(log_path)
-tableName = API.get_table_name(12345678)
+
+def get_table_name(id):
+    while True:
+        try:
+            return API.get_table_name(id)
+        except Exception as ex:
+            continue
 
 def get_file_name_toint(file):
     return int(get_file_name(file))
@@ -109,8 +115,6 @@ def save_data(files):
             log.log("The %s saved on local database" % file, messageType.INFO)
             zip_move(file)            
 
-def delete_data
-
 def submit_data(datas):
     query = "update data set is_sent = TRUE"
 
@@ -126,7 +130,6 @@ def submit_data(datas):
         except Exception as ex:
             log.log("%d. Faild for submit %d row.\n%s" % (i+1, len(datas), ex), messageType.ERROR)
             if i == 2:
-                # delete data from server
                 log.log("------------------------PLEASE-CHECK-ERROR------------------------",messageType.ERROR)
         else:
             log.log("%d. submited %d row" % (i+1, len(datas)), messageType.INFO)
@@ -144,6 +147,7 @@ def send_data(data):
             break
 
 # --------------------------------------------------------------------------
+tableName = API.get_table_name(12345678)
 
 create_sent_directory(sent_path)
 
@@ -159,7 +163,7 @@ while True:
     dt = 0
     # ???
     while dt < 3 * one_min_to_sec: 
-        dontSentData = DB.getQuery("select * from data where not is_sent limit " + str(one_min_data_count))
+        dontSentData = DB.getQuery("select * from data where not is_sent order by t desc limit " + str(one_min_data_count))
         if len(dontSentData) == 0 : break
 
         send_data(dontSentData)
