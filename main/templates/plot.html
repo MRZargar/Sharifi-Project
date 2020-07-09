@@ -182,7 +182,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><b>DOWNLOAD</b></h5>
+            <h5 class="modal-title" id="exampleModalLabel"><b style="position: absolute; margin-top: 9px;">DOWNLOAD</b></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -330,8 +330,8 @@
     var hist_bar = $(this).find("span")
     window.value = hist_bar;
     $(this).find("span").css("background", "#545b62");
-    alert(hour)
-
+    var date = $('#inputDate2').val()
+    alert("date : " + date + "  hour : " + hour)
     });
 
 
