@@ -134,7 +134,10 @@ def plot(request, stationID):
     if stationID != 12345698722222222222254654879874102587932:
         station_name = Setup.objects.get(pk=stationID).station_name
     else :
-        station_name = stations[0].station_name
+        if len(stations) > 1:
+            station_name = stations[0].station_name
+        else:
+            station_name = "This is for test"
     
     # ax, ay, az = JSON.GetPoltData(get from api)
     # hist = JSON.GetHistData(get from api)
