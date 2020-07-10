@@ -19,7 +19,8 @@ from .views import(
     plot,
     map,
     inbox_message_view,
-    download
+    download,
+    plot_update
 )
 urlpatterns = [
     path('', signpage, name='signpage'),
@@ -28,7 +29,7 @@ urlpatterns = [
     path('users/2/<int:pk>', OperatorProfile, name='OperatorProfile'),
     path('users/3/<int:pk>', AdminProfile, name='AdminProfile'),
     path('signout', signout, name='signout'),
-    path('plot/', plot, name='plot'),
+    path("plot/<int:stationID>", plot, name='plot'),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('map/', map, name='map'),
@@ -36,6 +37,7 @@ urlpatterns = [
     path('message', include('message.urls')),
     path('inbox/message/<int:pk>', inbox_message_view, name='inbox_message_count'),
     path("download/<int:pk>", download, name="downloads_files"),
+    path("plot/update/", plot_update, name="update_plot"),
 
 ]
 
