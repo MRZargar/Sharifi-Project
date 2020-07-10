@@ -16,7 +16,21 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from message.models import Message
+from datetime import datetime, timedelta
+from gwpy.time import tconvert, to_gps
+
 User = get_user_model()
+
+
+
+# Convet time to gps week and seconds
+def cleander_to_gps(year, month, day, hour, minute, second):
+    time = datetime(int(year), int(month), int(day), int(hour), int(minute), int(second))
+    all_seconds = to_gps(time) - 18
+    week = int(all_seconds/604800)
+    second = all_seconds % 604800
+    return (week, second)
+
 
 def home_page(request):
     return render(request, "Signin.html")
@@ -83,13 +97,20 @@ def signout(request):
     return render(request,'Signin.html')
 
 @login_required(login_url='signpage')
-def plot(request, *args):
-    #id, date, time
-    for i in range(len(args)):
-        station_id = args[0]
-        from_date = args[1]
-        to_date = args[2]
-        time = args[3]
+def plot_update(request):
+        station_name = request.GET['StationName']
+        station = Setup.objects.get(station_name=station_name)
+        date = request.GET['Date']
+        to_date = int(request.GET['Hour'])
+        from_date = to_date - 1
+        date = date.split("/")
+        from_week, from_second = cleander_to_gps(date[0], date[1], date[2], from_date, 0, 0)
+        to_week, to_second = from_week ,from_second + 3600
+        station_id = station.pk
+        return JsonResponse({}, status=200)
+
+@login_required(login_url='signpage')
+def plot(request, stationID):
     #user access for tree view  
     obj = request.user
     if obj.userType == 'is_admin':
@@ -109,6 +130,14 @@ def plot(request, *args):
             user_access.append(station_q.station_id)
         stations = Setup.objects.filter(id__in = user_access).order_by('date').reverse()
         geojson = JSON.GetGeoJsonStations(stations, 'user')
+
+    if stationID != 12345698722222222222254654879874102587932:
+        station_name = Setup.objects.get(pk=stationID).station_name
+    else :
+        if len(stations) > 1:
+            station_name = stations[0].station_name
+        else:
+            station_name = "This is for test"
     
     # ax, ay, az = JSON.GetPoltData(get from api)
     # hist = JSON.GetHistData(get from api)
@@ -38739,7 +38768,8 @@ def plot(request, *args):
             22, 28
             23, 32
             24, 37`'''
-    return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=d, yPlotData=d, zPlotData=d, HistData=hist))
+
+    return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=d, yPlotData=d, zPlotData=d, HistData=hist, StationName=station_name))
 
 @login_required(login_url='signpage')
 def map(request):
@@ -38769,9 +38799,7 @@ def map(request):
 
 @login_required(login_url='signpage')
 def download(request, pk):
-    if request.method == "POST":
-        pass
-    elif request.method == "GET":
+    if request.method == "GET" and request.GET['method'] == "give station name":
         obj = request.user
         if obj.userType == "is_admin":
             stations = Setup.objects.all().order_by('date').reverse()
@@ -38784,4 +38812,34 @@ def download(request, pk):
         station_list = []
         for station in stations:
             station_list.append(station.station_name)
-    return JsonResponse({'stations_list': station_list}, status=200)
+        return JsonResponse({'stations_list': station_list}, status=200)
+
+    elif request.method == "GET" and request.GET['method'] == "download":
+        stations_name = request.GET.getlist('StaionsName[]')
+        hours = request.GET.getlist('Hours[]')
+        from_date = request.GET['StartTime']
+        to_date = request.GET['EndTime']
+        from_date = from_date.split("/")
+        to_date = to_date.split("/")
+        from_time = (datetime(int(from_date[0]), int(from_date[1]), int(from_date[2]))) 
+        to_time = (datetime(int(to_date[0]), int(to_date[1]), int(to_date[2]))) 
+        if (to_time - from_time).total_seconds() < 0:
+            return JsonResponse({}, status=400)
+        else:
+            delta = to_time - from_time
+            stations = []
+            for station in stations_name:
+                stations.append(Setup.objects.get(station_name=station))
+            for d_station in stations:
+                station_id = d_station.pk
+                for i in range(delta.days + 1):
+                    date = from_time + timedelta(days=i)
+                    for j in hours:
+                        from_week, from_second = cleander_to_gps(date.strftime("%Y"), date.strftime("%m"), date.strftime("%d"), (int(j)-1), 0, 0)
+                        to_week, to_second = from_week, from_second + 3600
+                        print("station_id : ", station_id)
+                        print("from_week : ", from_week)
+                        print("from_second : ", from_second)
+                        print("to_week : ", to_week)
+                        print("to_second : ", to_second)
+            return JsonResponse({}, status=200)

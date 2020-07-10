@@ -63,6 +63,7 @@
     <div id='myChart1' class="line_graph_1" ></div>
     <div id='myChart2' class="line_graph_2" ></div>
     <div id='myChart3' class="line_graph_3" ></div>
+    <div id='myChart4' class="line_graph_4" ></div>
 </div>
 <div class="histogram_and_treeView">
     <div class="treeView_main">
@@ -182,7 +183,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><b>DOWNLOAD</b></h5>
+            <h5 class="modal-title" id="exampleModalLabel"><b style="position: absolute; margin-top: 9px;">DOWNLOAD</b></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -212,7 +213,7 @@
                         <div class="col" style="flex-grow:0.1">
                             <p style="margin-top:7.5px; margin-left: 15px;">END TIME :</p>
                         </div>
-                        <div class="col" style="flex-grow:0.30">
+                        <div class="col" style="flex-grow:0.30; margin-left: -15px;">
                             <div class="calendar" style="width: 150px;">
                                 <div class="input-group">
                                     <input type="text" id="inputDate4" class="form-control" placeholder="Gregorian Calendar" aria-label="date4" aria-describedby="date4">
@@ -224,7 +225,9 @@
                         </div>
                     </div>
                 </div>
-
+                <div class = "time_error">
+                    <p id="error_2_id_description" class="invalid-feedback"><strong>The start time could not be greater than the end time</strong></p>
+                </div>
                 <hr>
                 <div id="download_this_day">
                      <div id='myHistogram' class="histogram_main" style="width: 100%;">
@@ -324,16 +327,65 @@
     
     $(document).on('click', '.bar_value', function(event) {
     event.preventDefault();
+    var station_name = "{{StationName}}";
     var hour = $(this).find("span").attr("title");
     if (window.value !== undefined)
         window.value.css("background", "#2d8180")
     var hist_bar = $(this).find("span")
     window.value = hist_bar;
     $(this).find("span").css("background", "#545b62");
-    alert(hour)
-
+    var date = $('#inputDate2').val()
+    $.ajax({
+        type: "GET",
+        data: {
+            'StationName' : station_name,
+            'Date' : date,
+            'Hour' : hour,
+        },
+        url : "{% url 'update_plot' %}",
+        success: function(){
+          console.log("ok")
+        }
+      })
     });
 
+
+    $(document).on('click', "#download_end", function(event){
+        event.preventDefault();
+        var stations = [];
+        var hours = [];
+        var start_time = $('#inputDate3').val()
+        var end_time = $('#inputDate4').val()
+        $.each($("input[name='station']:checked"), function(){            
+            stations.push($(this).val());
+        });
+        $.each($(".bar_value2"), function(){
+            if ($(this).find("span").css("background")[4]==4)
+                hours.push($(this).find("span").attr("title"));
+        })
+        $.ajax({
+          type: "GET",
+          data: {
+            'StaionsName': stations,
+            'Hours' : hours,
+            'StartTime' : start_time,
+            'EndTime': end_time,
+            'method' : "download"
+          },
+          url: "{% url 'downloads_files' request.user.pk %}",
+          success: function(data) {
+            $('#error_2_id_description').css('display', 'none')
+            console.log("worked")
+          },
+          error: function(data) {
+              $('#error_2_id_description').css('display', 'block')
+          }
+
+        })
+        
+
+
+    });
 
     $(document).on('click', '.bar_value2', function(event) {
     event.preventDefault();
@@ -345,15 +397,21 @@
     }
     });
 
+
+
+
     $(document).on('click', "#download_button", function(event){
+      var station_name = "{{StationName}}";
         $(".bar_value2").find('span').css("background", "#2d8180");
         event.preventDefault();
         $(".modal-body").empty()
         $.ajax({
             type: "GET",
+            data: {
+                 'method' : "give station name"
+            },
             url: "{% url 'downloads_files' request.user.pk %}",
             success: function(data) {
-                console.log(data)
                 count = data.count;
                 main = "";
                 if (count == 0) {
@@ -367,18 +425,7 @@
                         } else {
                             column = "";
                         }
-                        if (true) {
-                            temp =
-                                '<div class="col" style="flex-grow:0.3">' +
-                                '<div class="form-check">' +
-                                '<input class="form-check-input" type="checkbox" value="'+ this_station_name +'" id="defaultCheck1" name="station" style="margin-left:-18px">' +
-                                '<label class="form-check-label" for="defaultCheck1">' +
-                                this_station_name +
-                                '</label>' +
-                                '</div>' +
-                                '</div>' +
-                                column 
-                        } else {
+                        if (this_station_name == station_name) {
                             temp =
                                 '<div class="col" style="flex-grow:0.3">' +
                                 '<div class="form-check">' +
@@ -389,8 +436,18 @@
                                 '</div>' +
                                 '</div>' +
                                 column 
-                        };
-
+                        }else{
+                            temp =
+                                '<div class="col" style="flex-grow:0.3">' +
+                                '<div class="form-check">' +
+                                '<input class="form-check-input" type="checkbox" value="'+ this_station_name +'" id="defaultCheck1" name="station" style="margin-left:-18px">' +
+                                '<label class="form-check-label" for="defaultCheck1">' +
+                                this_station_name +
+                                '</label>' +
+                                '</div>' +
+                                '</div>' +
+                                column 
+                        }
                         main += temp;
                     };
                 };
@@ -407,18 +464,22 @@
         features: (new GeoJSON()).readFeatures({{ geojsonObject | safe }})
     });
 
+
     function myTreeData() {
             var json = '[';
             vectorS.forEachFeature(function (feature) {
                 health = feature.get('Health');
+                var st_id = feature.get('ID');
+                var  url = "{%url 'plot' '0' %}".replace('0', st_id);
+                console.log(url)
                 if (health == 0){
-                    name = "<span style='color:red'> " + feature.get('Name')+ "</span>";
+                    name = "<span style='color:red'> <a href="+ url +" style='color:red;'> " + feature.get('Name')+ "</a></span>";
                 }
                 else if (health == 1){
-                    name = "<span style='color:green'>" + feature.get('Name')+ "</span>";
+                    name = "<span style='color:green'> <a href="+ url +" style='color:green;'> " + feature.get('Name')+ "</a></span>";
                 }
-                else{
-                    name = "<span style='color:orange'> " + feature.get('Name')+ " </span>";
+                else{ 
+                    name = "<span style='color:orange'><a href="+ url +" style='color:orange;'> " + feature.get('Name')+ "</a></span>";
                 }
                 json = json + "{"
                             + '"text": "' + name + '", '
@@ -460,22 +521,11 @@
         expandIcon: 'glyphicon glyphicon-chevron-right',
         collapseIcon: 'glyphicon glyphicon-chevron-down',
         highlightSelected: true,
-        levels: 1,
+        levels: 1,  
         showTags: true,
+        enableLinks: true,
         searchResultColor: "#ffffff",
         searchResultBackColor: "#aaaaaa",
-        onNodeSelected: function(event, node) {
-            var view = new View({
-                projection: 'EPSG:4326',
-                center: [node.Latitude, node.Longitude],
-                zoom: map.getView().getZoom()
-                });
-            if (node.Longitude){
-                map.setView(view);
-                var pixel = map.getPixelFromCoordinate([node.Latitude, node.Longitude]);
-                ContentOfPopup(pixel);
-            }
-        }
     });
 
     var search = function(e) {
@@ -510,7 +560,7 @@
                     axisLineWidth: 2,
                     // axisLabelWidth: 10,
                     ylabel: "<b>`a_x`</b>",
-                    title: "Station Name",
+                    title: "{{StationName}}",
                     axes:{
                         'x':{
                             axisLabelFontSize: 0
@@ -560,13 +610,36 @@
                 {
                     // legend: "follow",
                     animatedZooms: true,
+                    // showRangeSelector: true,
+                    // rangeSelectorPlotFillColor: "#FFF",
+                    drawPoints: true,
+                    pointSize: 3,
+                    axisLineWidth: 2,
+                    // axisLabelWidth: 10,
+                    ylabel: "<b>`a_z`</b>",
+                    interactionModel: {                    
+                        'mousedown' : downV3,
+                        'mousemove' : moveV3,
+                        'mouseup' : upV3,
+                        'dblclick' : dblClickV4,
+                    }
+                }
+            )
+        );
+        g.push(
+            new Dygraph(
+                document.getElementById("myChart4"),
+                {{ zPlotData | safe }},
+                {
+                    // legend: "follow",
+                    animatedZooms: true,
                     showRangeSelector: true,
                     rangeSelectorPlotFillColor: "#FFF",
                     drawPoints: true,
                     pointSize: 3,
                     axisLineWidth: 2,
                     // axisLabelWidth: 10,
-                    ylabel: "<b>`a_z`</b>",
+                    ylabel: "<b>`temp`</b>",
                     interactionModel: {                    
                         'mousedown' : downV3,
                         'mousemove' : moveV3,
@@ -593,36 +666,36 @@
       // This function draws bars for a single series. See
       // multiColumnBarPlotter below for a plotter which can draw multi-series
       // bar charts.
-      function barChartPlotter(e) {
-        var ctx = e.drawingContext;
-        var points = e.points;
-        var y_bottom = e.dygraph.toDomYCoord(0);
+      // function barChartPlotter(e) {
+      //   var ctx = e.drawingContext;
+      //   var points = e.points;
+      //   var y_bottom = e.dygraph.toDomYCoord(0);
 
-        ctx.fillStyle = darkenColor(e.color);
+      //   ctx.fillStyle = darkenColor(e.color);
 
-        // Find the minimum separation between x-values.
-        // This determines the bar width.
-        var min_sep = Infinity;
-        for (var i = 1; i < points.length; i++) {
-          var sep = points[i].canvasx - points[i - 1].canvasx;
-          if (sep < min_sep) min_sep = sep;
-        }
-        var bar_width = Math.floor(2.0 / 3 * min_sep);
+      //   // Find the minimum separation between x-values.
+      //   // This determines the bar width.
+      //   var min_sep = Infinity;
+      //   for (var i = 1; i < points.length; i++) {
+      //     var sep = points[i].canvasx - points[i - 1].canvasx;
+      //     if (sep < min_sep) min_sep = sep;
+      //   }
+      //   var bar_width = Math.floor(2.0 / 3 * min_sep);
 
-        // Do the actual plotting.
-        for (var i = 0; i < points.length; i++) {
-          var p = points[i];
-          var center_x = p.canvasx;
+      //   // Do the actual plotting.
+      //   for (var i = 0; i < points.length; i++) {
+      //     var p = points[i];
+      //     var center_x = p.canvasx;
 
-          ctx.fillRect(center_x - bar_width / 2, p.canvasy,
-              bar_width, y_bottom - p.canvasy);
+      //     ctx.fillRect(center_x - bar_width / 2, p.canvasy,
+      //         bar_width, y_bottom - p.canvasy);
 
-          ctx.strokeRect(center_x - bar_width / 2, p.canvasy,
-              bar_width, y_bottom - p.canvasy);
-        }
-      };
+      //     ctx.strokeRect(center_x - bar_width / 2, p.canvasy,
+      //         bar_width, y_bottom - p.canvasy);
+      //   }
+      // };
 
-    var dataHist = {{ HistData | safe }};
+    // var dataHist = {{ HistData | safe }};
     
     // var Hist = new Dygraph(
     //     document.getElementById("myHistogram"),
