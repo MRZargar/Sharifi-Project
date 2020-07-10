@@ -1,0 +1,21 @@
+$ sudo apt install postgresql libpq-dev postgresql-client postgresql-client-common -y
+$ sudo su postgres
+$ createuser pi -P --interactive
+postgreADXLpi2020
+$ psql
+# create database mydata;
+# \q
+$ exit
+$ psql mydata
+# create table data
+(
+	WEEK INTEGER NOT NULL,
+	T DOUBLE PRECISION NOT NULL,
+	A_X DOUBLE PRECISION NOT NULL,
+	A_Y DOUBLE PRECISION NOT NULL,
+	A_Z DOUBLE PRECISION NOT NULL,
+	TEMP DOUBLE PRECISION,
+	IS_SENT BOOL,
+	PRIMARY KEY (WEEK, T)
+);
+# 
