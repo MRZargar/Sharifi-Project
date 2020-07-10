@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import glob
 import os
 import time
@@ -15,6 +17,8 @@ def get_table_name(id):
         try:
             return API.get_table_name(id)
         except Exception as ex:
+            log.log("get table name faild", messageType.ERROR)
+            time.sleep(0.5)
             continue
 
 def get_file_name_toint(file):

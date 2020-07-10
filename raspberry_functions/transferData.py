@@ -1,8 +1,10 @@
+#!/usr/bin/python3
+
 import os
 import zipfile
 import shutil
 import pandas as pd
-
+import psycopg2
 import glob
 import time
 from send_request.GeoLabAPI import GeoLabAPI
@@ -24,6 +26,8 @@ def get_table_name(id):
         try:
             return API.get_table_name(id)
         except Exception as ex:
+            log.log("get table name faild", messageType.ERROR)
+            time.sleep(0.5)
             continue
 
 def get_file_name_toint(file):
@@ -48,9 +52,9 @@ def zip_move(name):
         os.remove(obs_path + name + ".txt")
     except OSError:
         os.remove(str(name) + ".zip")
-        log.log("Can not create zip file or move or remove %s file" % (str(name) +'.txt'), messageType.ERROR)
+        log.log("Can not create zip file or move or remove [%s] file" % (str(name) +'.txt'), messageType.ERROR)
     else:
-        log.log("created and moved zip file and then remove %s file" % (str(name) +'.txt'), messageType.INFO)
+        log.log("created and moved zip file and then remove [%s] file" % (str(name) +'.txt'), messageType.INFO)
 
 
 def create_sent_directory(path):
@@ -60,9 +64,9 @@ def create_sent_directory(path):
         try:
             os.mkdir(path)
         except OSError:
-            log.log("Creation of the directory %s failed" % path, messageType.ERROR)
+            log.log("Creation of the directory [%s] failed" % path, messageType.ERROR)
         else:
-            log.log("Successfully created the directory %s " % path, messageType.INFO)
+            log.log("Successfully created the directory [%s]" % path, messageType.INFO)
 
 def import_to_db(query, cnt, file_name):
     for i in range(3):
@@ -75,20 +79,21 @@ def import_to_db(query, cnt, file_name):
             for q in queries:
                 try:
                     DB.setQuery(q)
-                except IntegrityError:
+                except psycopg2.IntegrityError:
                     continue
                 except Exception as ex:
-                    log.log("{{ %s }} from %s file don't saved.\n%s" % (q, file_name, ex), messageType.ERROR)
+                    log.log("{{ %s }} from [%s] file don't saved.\n%s" % (q, file_name, ex), messageType.ERROR)
         else:
-            log.log("%d. The %d row from %s saved on local database." % (i+1, cnt, file_name), messageType.INFO)
+            log.log("%d. The %d row from [%s] saved on local database." % (i+1, cnt, file_name), messageType.INFO)
             break
 
 def save_data_on_db(file_name):
     query = ""
     temp_cnt = 0
+    week = file_name[:-6]
     with open(file_name) as fp:
         for cnt, data in enumerate(fp):
-            query += "insert into data(t, a_x, a_y, a_z, temp) values ({});\n".format(data.replace(' ', ','))
+            query += "insert into data(week, t, a_x, a_y, a_z, temp) values ({}, {});\n".format(week, data.replace(' ', ','))
             
             if cnt % one_min_data_count == 0:
                 import_to_db(query, cnt - temp_cnt, file_name)
@@ -110,17 +115,17 @@ def save_data(files):
         try:
             save_data_on_db(file)
         except Exception as ex:
-            log.log("Can't read The %s.\n%s" % (file, ex), messageType.ERROR)
+            log.log("Can't read The [%s].\n%s" % (file, ex), messageType.ERROR)
         else:
-            log.log("The %s saved on local database" % file, messageType.INFO)
+            log.log("The [%s] saved on local database" % file, messageType.INFO)
             zip_move(file)            
 
 def submit_data(datas):
-    query = "update data set is_sent = TRUE"
+    query = "update data set is_sent = TRUE "
 
     where = "where "
     for inx, data in datas.iterrows():
-        where += "t = " + str(data.t) + " OR "
+        where += "(t = " + str(data.t) + "AND week =" + str(data.week) + ")" + " OR "
 
     where += where[:-3] + ";"
 
@@ -147,7 +152,7 @@ def send_data(data):
             break
 
 # --------------------------------------------------------------------------
-tableName = API.get_table_name(12345678)
+tableName = get_table_name(12345678)
 
 create_sent_directory(sent_path)
 
@@ -163,7 +168,7 @@ while True:
     dt = 0
     # ???
     while dt < 3 * one_min_to_sec: 
-        dontSentData = DB.getQuery("select * from data where not is_sent order by t desc limit " + str(one_min_data_count))
+        dontSentData = DB.getQuery("select * from data where not is_sent order by week desc, t desc limit " + str(one_min_data_count))
         if len(dontSentData) == 0 : break
 
         send_data(dontSentData)

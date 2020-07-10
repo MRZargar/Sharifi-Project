@@ -5,6 +5,18 @@ import serial
 import os
 import os.path
 
+def send_id(id):
+    from send_request.GeoLabAPI import GeoLabAPI
+    API = GeoLabAPI()
+    while True:
+        try:
+            return API.send_raspberry_id(id)
+        except Exception as ex:
+            time.sleep(0.5)
+            continue
+
+send_id(12345678)
+
 ser = serial.Serial(
         port='/dev/ttyAMA1',    #ttyAMA1 for uart4
         baudrate = 203125,
