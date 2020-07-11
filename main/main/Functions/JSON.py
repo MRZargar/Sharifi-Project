@@ -7,7 +7,8 @@ def GetGeoJsonStations(stations, *args):
     features = ""
     if args == ('user',):
         for station in stations:
-            time = datetime.datetime.now() - station.health_time
+            db_time = datetime.datetime(station.health_time.year, station.health_time.month, station.health_time.day, station.health_time.hour, station.health_time.minute, station.health_time.second)      
+            time = datetime.datetime.now() - db_time
             if time.total_seconds() > 10:
                 helath = 2
             else:
@@ -43,12 +44,15 @@ def GetGeoJsonStations(stations, *args):
                     helath)
         features = features[:-1]
     else:
-        for station in stations:          
-            time = datetime.datetime.now() - station.health_time
+        for station in stations: 
+            db_time = datetime.datetime(station.health_time.year, station.health_time.month, station.health_time.day, station.health_time.hour, station.health_time.minute, station.health_time.second)      
+            time = datetime.datetime.now() - db_time
             if time.total_seconds() > 10:
                 helath = 2
             else:
                 helath = station.helath
+
+            print(helath)
             features += """
             {{
                 'type': 'Feature',

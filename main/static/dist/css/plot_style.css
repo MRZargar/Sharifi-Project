@@ -296,12 +296,48 @@ tr{
         margin-left: 20px;
     }
     #histogram-label{
-        font-size: 2rem;
-        padding-top: 5px !important;
+        font-size: 1.4rem;
+        padding-top: 10px !important;
     }
     .ol-layer canvas{
         display: inline-block;
     }
+    .input-group-addon{
+        padding: 6px 6px ;
+    }
+    .form-control{
+        font-size: 10px;
+    }
+    .li-plot-toolbar{
+        width: 102px !important;
+    }
+    #download_button{
+        width: 90px;
+        font-size: 11px;
+        padding: 8px;
+    }
+    .chart span:before {
+        padding: 10px 0 0;
+        font-size: 9px;
+     }
+     #inputDate3{
+        font-size: 9px;
+        padding: 3px;
+     }
+    #inputDate4{
+        font-size: 9px;
+        padding: 3px;
+     }
+     .calendar{
+        width: 85px ! important;
+     }
+     .time_for_cleander{
+        margin: 0 !important;
+        font-size: 10px;
+     }
+     #left_cleander{
+        margin-left: 0 !important;
+     }
 }
 
 @media screen and (max-width: 1169px) {
@@ -313,6 +349,12 @@ tr{
     }
     .chart span:before {
         padding: 10px 0 0;
+     }
+     #right_cleander{
+        flex-grow:0.4 !important;
+     }
+     #left_cleander{
+        flex-grow: 0.4 !important;
      }
 }
 

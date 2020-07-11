@@ -90,7 +90,7 @@
                 <li class="li-plot-toolbar" style="width: 140px; padding: 0;">
                     <div class="input-group">
                         <input type="text" id="inputDate2" class="form-control" placeholder="Gregorian Calendar" aria-label="date2" aria-describedby="date2">
-                        <span class="input-group-addon">
+                        <span class="input-group-addon" id="main_cleander">
                             <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date2"></span>
                         </span>
                     </div>
@@ -103,78 +103,11 @@
         </div>
         <div id='myHistogram' class="histogram_main" style="width: 100%;">
             <ul class="chart">
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="1"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="2"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="3"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="4"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="5"></span></a>
-              </li>
-              <li class="bar_value">
-               <a href="#" ><span style="height:100%" title="6"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="7"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="8"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="9"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="10"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="11"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="12"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="13"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="14"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="15"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="16"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="17"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="18"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="19"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="20"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="21"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="22"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="23"></span></a>
-              </li>
-              <li class="bar_value">
-                <a href="#" ><span style="height:100%" title="24"></span></a>
-              </li>
+              {% for date in hist_date %}
+                  <li class="bar_value">
+                    <a href="#" ><span style="height:{{date}}%" title="{{ forloop.counter }}"></span></a>
+                  </li>
+              {% endfor %}
             </ul>  
 
         </div>
@@ -197,10 +130,10 @@
                 <hr>
                  <div class="container">
                     <div class="row">
-                        <div class="col" style="flex-grow:0.1">
-                            <p style="margin-top:7.5px; margin-left: 15px;">START TIME :</p>
+                        <div class="col" style="flex-grow:0.11">
+                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">START TIME</p>
                         </div>
-                        <div class="col"  style="flex-grow:0.30">
+                        <div  id="right_cleander" class="col"  style="flex-grow:0.30">
                             <div class="calendar" style="width: 150px;">
                                 <div class="input-group">
                                     <input type="text" id="inputDate3" class="form-control" placeholder="Gregorian Calendar" aria-label="date3" aria-describedby="date3">
@@ -210,10 +143,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col" style="flex-grow:0.1">
-                            <p style="margin-top:7.5px; margin-left: 15px;">END TIME :</p>
+                        <div class="col" style="flex-grow:0.11">
+                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">END TIME</p>
                         </div>
-                        <div class="col" style="flex-grow:0.30; margin-left: -15px;">
+                        <div  id="left_cleander" class="col" style="flex-grow:0.30; margin-left: -15px;">
                             <div class="calendar" style="width: 150px;">
                                 <div class="input-group">
                                     <input type="text" id="inputDate4" class="form-control" placeholder="Gregorian Calendar" aria-label="date4" aria-describedby="date4">
@@ -232,78 +165,11 @@
                 <div id="download_this_day">
                      <div id='myHistogram' class="histogram_main" style="width: 100%;">
                         <ul class="chart">
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="1"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="2"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="3"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="4"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="5"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                           <a href="#" ><span style="height:100%" title="6"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="7"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="8"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="9"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="10"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="11"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="12"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="13"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="14"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="15"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="16"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="17"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="18"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="19"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="20"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="21"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="22"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="23"></span></a>
-                          </li>
-                          <li class="bar_value2">
-                            <a href="#" ><span style="height:100%" title="24"></span></a>
-                          </li>
+                          {% for hist in hist_date %}
+                              <li class="bar_value2">
+                                <a href="#" ><span style="height:100%" title="{{ forloop.counter }}"></span></a>
+                              </li>
+                           {% endfor %}
                         </ul>  
                     </div>
                 </div>
@@ -322,11 +188,17 @@
 
 </div>
 
-
 <script>
-    
+    $(".table table-sm table-striped table-borderless").click(function(event){
+        event.preventDefault();
+        var date = $('#inputDate2').val()
+        console.log(date)
+    });
+
+
     $(document).on('click', '.bar_value', function(event) {
     event.preventDefault();
+    $(".line_graph_main").css("opacity", 0.5)
     var station_name = "{{StationName}}";
     var hour = $(this).find("span").attr("title");
     if (window.value !== undefined)
@@ -343,11 +215,121 @@
             'Hour' : hour,
         },
         url : "{% url 'update_plot' %}",
-        success: function(){
-          console.log("ok")
-        }
-      })
-    });
+        success: function(data){
+            g = [];
+            g.push(
+                new Dygraph(
+                    document.getElementById("myChart1"),
+                    data.xPlotData,
+                    {
+                        // legend: "follow",
+                        animatedZooms: true,
+                        drawPoints: true,
+                        pointSize: 3,
+                        // showRangeSelector: true,
+                        // rangeSelectorPlotFillColor: "#FFF",
+                        // highlightCircleSize: 3,
+                        axisLineWidth: 2,
+                        // axisLabelWidth: 10,
+                        ylabel: "<b>`a_x`</b>",
+                        title: "{{StationName}}",
+                        axes:{
+                            'x':{
+                                axisLabelFontSize: 0
+                            }
+                        },
+                        interactionModel: {                    
+                            'mousedown' : downV3,
+                            'mousemove' : moveV3,
+                            'mouseup' : upV3,
+                            'dblclick' : dblClickV4
+                        },
+                    }
+                )
+            );
+            g.push(
+                new Dygraph(
+                    document.getElementById("myChart2"),
+                    data.yPlotData,
+                    {
+                        // legend: "follow",
+                        // showRangeSelector: true,
+                        animatedZooms: true,
+                        drawPoints: true,
+                        pointSize: 3,
+                        // rangeSelectorPlotFillColor: "#FFF",
+                        axisLineWidth: 2,
+                        // axisLabelWidth: 10,
+                        ylabel: "<b>`a_y`</b>",
+                        axes:{
+                            'x':{
+                                axisLabelFontSize: 0
+                            }
+                        },
+                        interactionModel: {                    
+                            'mousedown' : downV3,
+                            'mousemove' : moveV3,
+                            'mouseup' : upV3,
+                            'dblclick' : dblClickV4
+                        }
+                    }
+                )
+            );
+            g.push(
+                new Dygraph(
+                    document.getElementById("myChart3"),
+                    data.zPlotData,
+                    {
+                        // legend: "follow",
+                        animatedZooms: true,
+                        // showRangeSelector: true,
+                        // rangeSelectorPlotFillColor: "#FFF",
+                        drawPoints: true,
+                        pointSize: 3,
+                        axisLineWidth: 2,
+                        // axisLabelWidth: 10,
+                        ylabel: "<b>`a_z`</b>",
+                        interactionModel: {                    
+                            'mousedown' : downV3,
+                            'mousemove' : moveV3,
+                            'mouseup' : upV3,
+                            'dblclick' : dblClickV4,
+                        }
+                    }
+                )
+            );
+            g.push(
+                new Dygraph(
+                    document.getElementById("myChart4"),
+                    data.tempPlotData,
+                    {
+                        // legend: "follow",
+                        animatedZooms: true,
+                        showRangeSelector: true,
+                        rangeSelectorPlotFillColor: "#FFF",
+                        drawPoints: true,
+                        pointSize: 3,
+                        axisLineWidth: 2,
+                        // axisLabelWidth: 10,
+                        ylabel: "<b>`temp`</b>",
+                        interactionModel: {                    
+                            'mousedown' : downV3,
+                            'mousemove' : moveV3,
+                            'mouseup' : upV3,
+                            'dblclick' : dblClickV4,
+                        }
+                    }
+                )
+            );
+            var sync = Dygraph.synchronize(g);
+            $(".line_graph_main").css("opacity", 1)
+            },
+            error: function(){
+              $(".line_graph_main").css("opacity", 1)
+              alert("Error")
+            }
+          })
+        });
 
 
     $(document).on('click', "#download_end", function(event){
@@ -375,7 +357,6 @@
           url: "{% url 'downloads_files' request.user.pk %}",
           success: function(data) {
             $('#error_2_id_description').css('display', 'none')
-            console.log("worked")
           },
           error: function(data) {
               $('#error_2_id_description').css('display', 'block')
@@ -420,7 +401,6 @@
                     for (i in data.stations_list) {
                         this_station_name = data.stations_list[i];
                         if (i % 2 == 0 && i != 0) {
-                            console.log(i)
                             column = '<div class="w-100" style="height:15px;"></div>';
                         } else {
                             column = "";
@@ -471,15 +451,14 @@
                 health = feature.get('Health');
                 var st_id = feature.get('ID');
                 var  url = "{%url 'plot' '0' %}".replace('0', st_id);
-                console.log(url)
                 if (health == 0){
-                    name = "<span style='color:red'> <a href="+ url +" style='color:red;'> " + feature.get('Name')+ "</a></span>";
+                    name = "<span style='color:orange'> <a href="+ url +" style='color:orange;'> " + feature.get('Name')+ "</a></span>";
                 }
                 else if (health == 1){
                     name = "<span style='color:green'> <a href="+ url +" style='color:green;'> " + feature.get('Name')+ "</a></span>";
                 }
                 else{ 
-                    name = "<span style='color:orange'><a href="+ url +" style='color:orange;'> " + feature.get('Name')+ "</a></span>";
+                    name = "<span style='color:red'><a href="+ url +" style='color:red;'> " + feature.get('Name')+ "</a></span>";
                 }
                 json = json + "{"
                             + '"text": "' + name + '", '
@@ -663,62 +642,9 @@
         return 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
     }
 
-      // This function draws bars for a single series. See
-      // multiColumnBarPlotter below for a plotter which can draw multi-series
-      // bar charts.
-      // function barChartPlotter(e) {
-      //   var ctx = e.drawingContext;
-      //   var points = e.points;
-      //   var y_bottom = e.dygraph.toDomYCoord(0);
-
-      //   ctx.fillStyle = darkenColor(e.color);
-
-      //   // Find the minimum separation between x-values.
-      //   // This determines the bar width.
-      //   var min_sep = Infinity;
-      //   for (var i = 1; i < points.length; i++) {
-      //     var sep = points[i].canvasx - points[i - 1].canvasx;
-      //     if (sep < min_sep) min_sep = sep;
-      //   }
-      //   var bar_width = Math.floor(2.0 / 3 * min_sep);
-
-      //   // Do the actual plotting.
-      //   for (var i = 0; i < points.length; i++) {
-      //     var p = points[i];
-      //     var center_x = p.canvasx;
-
-      //     ctx.fillRect(center_x - bar_width / 2, p.canvasy,
-      //         bar_width, y_bottom - p.canvasy);
-
-      //     ctx.strokeRect(center_x - bar_width / 2, p.canvasy,
-      //         bar_width, y_bottom - p.canvasy);
-      //   }
-      // };
-
-    // var dataHist = {{ HistData | safe }};
-    
-    // var Hist = new Dygraph(
-    //     document.getElementById("myHistogram"),
-    //     dataHist,
-    //     {
-    //         axes:{
-    //             y:{
-    //                 axisLineWidth: 2
-    //             }
-    //         },
-    //         plotter: barChartPlotter,
-    //         dateWindow: [0, 25],
-    //         includeZero: true,
-    //         ylabel: "ylabel",
-    //         // xlabel: "xlabel",
-    //         interactionModel: {}
-    //     }
-    // ); 
-
-
 </script>
-<script type="text/javascript">
 
+<script type="text/javascript">
     $('#date2').MdPersianDateTimePicker({
         targetTextSelector: '#inputDate2',
         selectedDate: new Date(),
@@ -744,43 +670,83 @@
         autoclose: true
     });
 </script>
+
 <script>
-    var count1 = 0;
-    var count2 = 0;
-    var count3 = 0;
+    var media = window.matchMedia("(max-width: 700px)")
+    if (media.matches == false){
+        var count1 = 0;
+        var count2 = 0;
+        var count3 = 0;
+        $(document).on('click', '#date2', function(event) {
+            if (count1 == 0){
+                var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                margin = parseInt(margin)
+                margin -= 230;
+                margin = margin.toString() +"px";
+                $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                count1 +=1;
+        }
+        });
 
-    $(document).on('click', '#date2', function(event) {
-        if (count1 == 0){
-            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
-            margin = parseInt(margin)
-            margin -= 230;
-            margin = margin.toString() +"px";
-            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
-            count1 +=1;
-    }
-    });
+        $(document).on('click', '#date3', function(event) {
+            if (count2 == 0){
+                var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                margin = parseInt(margin)
+                margin -= 168;
+                margin = margin.toString() +"px";
+                $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                count2 +=1;
+        }
+        });
 
-    $(document).on('click', '#date3', function(event) {
-        if (count2 == 0){
-            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
-            margin = parseInt(margin)
-            margin -= 230;
-            margin = margin.toString() +"px";
-            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
-            count2 +=1;
-    }
-    });
+        $(document).on('click', '#date4', function(event) {
+            if (count3 == 0){
+                var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                margin = parseInt(margin)
+                margin -= 168;
+                margin = margin.toString() +"px";
+                $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                count3 +=1;
+        }
+        });
+      }else{
+          var count1 = 0;
+          var count2 = 0;
+          var count3 = 0;
+          $(document).on('click', '#date2', function(event) {
+              if (count1 == 0){
+                  var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                  margin = parseInt(margin)
+                  margin -= 266.492;
+                  margin = margin.toString() +"px";
+                  $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                  count1 +=1;
+          }
+          });
 
-    $(document).on('click', '#date4', function(event) {
-        if (count3 == 0){
-            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
-            margin = parseInt(margin)
-            margin -= 230;
-            margin = margin.toString() +"px";
-            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
-            count3 +=1;
-    }
-    });
+          $(document).on('click', '#date3', function(event) {
+              if (count2 == 0){
+                  var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                  margin = parseInt(margin)
+                  margin -= 151.18;
+                  margin = margin.toString() +"px";
+                  $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                  count2 +=1;
+          }
+          });
+
+          $(document).on('click', '#date4', function(event) {
+              if (count3 == 0){
+                  var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                  margin = parseInt(margin)
+                  margin -= 250.805;
+                  margin = margin.toString() +"px";
+                  $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                  count3 +=1;
+          }
+          });
+
+      }
 </script>
 
 {% endblock %}

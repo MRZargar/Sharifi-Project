@@ -148,16 +148,16 @@
                 overlay.setPosition(coordinates);
                 health = feature.get('Health');
                 if (health == 0){
-                    circle_id = "circle_red";
-                    health_status = "<span style='color:red'> OFFLINE </span>";
+                    circle_id = "circle_orange";
+                    health_status = "<span style='color:orange'> OFFLINE </span>";
                 }
                 else if (health == 1){
                     circle_id = "circle_green";
                     health_status = "<span style='color:green'> ONLINE </span>";
                 }
                 else{
-                    circle_id = "circle_orange";
-                    health_status = "<span style='color:orange'> Check client data logger </span>";
+                    circle_id = "circle_red";
+                    health_status = "<span style='color:red'> Check client data logger </span>";
                 }
                 content.innerHTML = '<h5><div id='+circle_id+'></div><b>' + health_status + '</b></h5>'
                                     +'<font size="2">'
@@ -231,13 +231,13 @@
             vectorS.forEachFeature(function (feature) {
                 health = feature.get('Health');
                 if (health == 0){
-                    name = "<span style='color:red'> " + feature.get('Name')+ "</span>";
+                    name = "<span style='color:orange'> " + feature.get('Name')+ "</span>";
                 }
                 else if (health == 1){
                     name = "<span style='color:green'>" + feature.get('Name')+ "</span>";
                 }
                 else{
-                    name = "<span style='color:orange'> " + feature.get('Name')+ " </span>";
+                    name = "<span style='color:red'> " + feature.get('Name')+ " </span>";
                 }
                 json = json + "{"
                             + '"text": "' + name + '", '
