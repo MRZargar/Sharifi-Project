@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 import  os
 from django.urls import reverse
 from users.models import CustomUser
-
+import datetime
 def station_directory_path(instance, filename):
 	base_name = os.path.basename(filename)
 	name,ext = os.path.splitext(base_name)
@@ -16,7 +16,7 @@ class Setup(models.Model):
 	station_name = models.CharField(max_length=150, unique=True)
 	address = models.CharField(max_length=300, blank=False)
 	description = models.TextField(blank=True, null=True)
-	date = models.DateTimeField(auto_now_add=True)
+	date = models.DateTimeField(default=datetime.datetime.now())
 	status = models.BooleanField(default=False)
 	sensorTypes = (('type1', 'TYPE1'), ('type2', 'TYPE2'),)
 	sensor_type = models.CharField(max_length=50, choices = sensorTypes, default='type1')
@@ -24,7 +24,7 @@ class Setup(models.Model):
 	longitude = models.DecimalField(max_digits=20, decimal_places=10, blank=False)
 	health = models.IntegerField(default=0)
 	raspberryID = models.IntegerField(blank=False, null=False)
-	health_time = models.DateTimeField(null = True)
+	health_time = models.DateTimeField(default=datetime.datetime.now())
 
 	def __str__(self):
 		return self.station_name

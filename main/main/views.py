@@ -99,15 +99,20 @@ def signout(request):
 @login_required(login_url='signpage')
 def plot_update(request):
         station_name = request.GET['StationName']
+        print(station_name)
         station = Setup.objects.get(station_name=station_name)
+        print(3)
         date = request.GET['Date']
         to_date = int(request.GET['Hour'])
         from_date = to_date - 1
         date = date.split("/")
+        print(4)
         from_week, from_second = cleander_to_gps(date[0], date[1], date[2], from_date, 0, 0)
         to_week, to_second = from_week ,from_second + 3600
         station_id = station.pk
-        return JsonResponse({}, status=200)
+        print(5)
+        x, y ,z, temp = 0, 0, 0, 0
+        return JsonResponse({'xPlotData':x, 'yPlotData':y, 'zPlotData':z, 'tempPlotData':temp}, status=200)
 
 @login_required(login_url='signpage')
 def plot(request, stationID):
@@ -134,7 +139,7 @@ def plot(request, stationID):
     if stationID != 12345698722222222222254654879874102587932:
         station_name = Setup.objects.get(pk=stationID).station_name
     else :
-        if len(stations) > 1:
+        if len(stations) >= 1:
             station_name = stations[0].station_name
         else:
             station_name = "This is for test"
@@ -38768,8 +38773,9 @@ def plot(request, stationID):
             22, 28
             23, 32
             24, 37`'''
+    hist_date = [100, 100, 100, 70, 50, 100, 100, 100, 20, 100, 40, 10, 100, 100, 100, 0, 50, 100, 100, 100, 20, 100, 40, 10]
 
-    return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=d, yPlotData=d, zPlotData=d, HistData=hist, StationName=station_name))
+    return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=d, yPlotData=d, zPlotData=d, HistData=hist, StationName=station_name, hist_date = hist_date))
 
 @login_required(login_url='signpage')
 def map(request):
