@@ -90,7 +90,7 @@ def import_to_db(query, cnt, file_name):
 def save_data_on_db(file_name):
     query = ""
     temp_cnt = 0
-    week = file_name[:-6]
+    week = str(get_file_name_toint(file_name))[:-6]
     with open(file_name) as fp:
         for cnt, data in enumerate(fp):
             query += "insert into data(week, t, a_x, a_y, a_z, temp) values ({}, {});\n".format(week, data.replace(' ', ','))
