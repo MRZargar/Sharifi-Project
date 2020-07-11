@@ -452,13 +452,13 @@
                 var st_id = feature.get('ID');
                 var  url = "{%url 'plot' '0' %}".replace('0', st_id);
                 if (health == 0){
-                    name = "<span style='color:red'> <a href="+ url +" style='color:red;'> " + feature.get('Name')+ "</a></span>";
+                    name = "<span style='color:orange'> <a href="+ url +" style='color:orange;'> " + feature.get('Name')+ "</a></span>";
                 }
                 else if (health == 1){
                     name = "<span style='color:green'> <a href="+ url +" style='color:green;'> " + feature.get('Name')+ "</a></span>";
                 }
                 else{ 
-                    name = "<span style='color:orange'><a href="+ url +" style='color:orange;'> " + feature.get('Name')+ "</a></span>";
+                    name = "<span style='color:red'><a href="+ url +" style='color:red;'> " + feature.get('Name')+ "</a></span>";
                 }
                 json = json + "{"
                             + '"text": "' + name + '", '
