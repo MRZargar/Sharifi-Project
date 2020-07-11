@@ -197,10 +197,10 @@
                 <hr>
                  <div class="container">
                     <div class="row">
-                        <div class="col" style="flex-grow:0.1">
-                            <p style="margin-top:7.5px; margin-left: 15px;">START TIME :</p>
+                        <div class="col" style="flex-grow:0.11">
+                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">START TIME</p>
                         </div>
-                        <div class="col"  style="flex-grow:0.30">
+                        <div  id="right_cleander" class="col"  style="flex-grow:0.30">
                             <div class="calendar" style="width: 150px;">
                                 <div class="input-group">
                                     <input type="text" id="inputDate3" class="form-control" placeholder="Gregorian Calendar" aria-label="date3" aria-describedby="date3">
@@ -210,10 +210,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col" style="flex-grow:0.1">
-                            <p style="margin-top:7.5px; margin-left: 15px;">END TIME :</p>
+                        <div class="col" style="flex-grow:0.11">
+                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">END TIME</p>
                         </div>
-                        <div class="col" style="flex-grow:0.30; margin-left: -15px;">
+                        <div  id="left_cleander" class="col" style="flex-grow:0.30; margin-left: -15px;">
                             <div class="calendar" style="width: 150px;">
                                 <div class="input-group">
                                     <input type="text" id="inputDate4" class="form-control" placeholder="Gregorian Calendar" aria-label="date4" aria-describedby="date4">
@@ -663,60 +663,8 @@
         return 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
     }
 
-      // This function draws bars for a single series. See
-      // multiColumnBarPlotter below for a plotter which can draw multi-series
-      // bar charts.
-      // function barChartPlotter(e) {
-      //   var ctx = e.drawingContext;
-      //   var points = e.points;
-      //   var y_bottom = e.dygraph.toDomYCoord(0);
-
-      //   ctx.fillStyle = darkenColor(e.color);
-
-      //   // Find the minimum separation between x-values.
-      //   // This determines the bar width.
-      //   var min_sep = Infinity;
-      //   for (var i = 1; i < points.length; i++) {
-      //     var sep = points[i].canvasx - points[i - 1].canvasx;
-      //     if (sep < min_sep) min_sep = sep;
-      //   }
-      //   var bar_width = Math.floor(2.0 / 3 * min_sep);
-
-      //   // Do the actual plotting.
-      //   for (var i = 0; i < points.length; i++) {
-      //     var p = points[i];
-      //     var center_x = p.canvasx;
-
-      //     ctx.fillRect(center_x - bar_width / 2, p.canvasy,
-      //         bar_width, y_bottom - p.canvasy);
-
-      //     ctx.strokeRect(center_x - bar_width / 2, p.canvasy,
-      //         bar_width, y_bottom - p.canvasy);
-      //   }
-      // };
-
-    // var dataHist = {{ HistData | safe }};
-    
-    // var Hist = new Dygraph(
-    //     document.getElementById("myHistogram"),
-    //     dataHist,
-    //     {
-    //         axes:{
-    //             y:{
-    //                 axisLineWidth: 2
-    //             }
-    //         },
-    //         plotter: barChartPlotter,
-    //         dateWindow: [0, 25],
-    //         includeZero: true,
-    //         ylabel: "ylabel",
-    //         // xlabel: "xlabel",
-    //         interactionModel: {}
-    //     }
-    // ); 
-
-
 </script>
+
 <script type="text/javascript">
 
     $('#date2').MdPersianDateTimePicker({
@@ -744,43 +692,85 @@
         autoclose: true
     });
 </script>
+
 <script>
-    var count1 = 0;
-    var count2 = 0;
-    var count3 = 0;
+    var media = window.matchMedia("(max-width: 700px)")
+    if (media.matches == false){
+        var count1 = 0;
+        var count2 = 0;
+        var count3 = 0;
+        $(document).on('click', '#date2', function(event) {
+            if (count1 == 0){
+                var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                margin = parseInt(margin)
+                margin -= 230;
+                margin = margin.toString() +"px";
+                $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                count1 +=1;
+        }
+        });
 
-    $(document).on('click', '#date2', function(event) {
-        if (count1 == 0){
-            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
-            margin = parseInt(margin)
-            margin -= 230;
-            margin = margin.toString() +"px";
-            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
-            count1 +=1;
-    }
-    });
+        $(document).on('click', '#date3', function(event) {
+            if (count2 == 0){
+                var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                margin = parseInt(margin)
+                margin -= 168;
+                margin = margin.toString() +"px";
+                $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                count2 +=1;
+        }
+        });
 
-    $(document).on('click', '#date3', function(event) {
-        if (count2 == 0){
-            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
-            margin = parseInt(margin)
-            margin -= 230;
-            margin = margin.toString() +"px";
-            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
-            count2 +=1;
-    }
-    });
+        $(document).on('click', '#date4', function(event) {
+            if (count3 == 0){
+                var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                margin = parseInt(margin)
+                margin -= 168;
+                margin = margin.toString() +"px";
+                $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                count3 +=1;
+        }
+        });
+      }else{
+          var count1 = 0;
+          var count2 = 0;
+          var count3 = 0;
+          $(document).on('click', '#date2', function(event) {
+              if (count1 == 0){
+                  var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                  margin = parseInt(margin)
+                  margin -= 266.492;
+                  margin = margin.toString() +"px";
+                  $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                  count1 +=1;
+          }
+          });
 
-    $(document).on('click', '#date4', function(event) {
-        if (count3 == 0){
-            var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
-            margin = parseInt(margin)
-            margin -= 230;
-            margin = margin.toString() +"px";
-            $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
-            count3 +=1;
-    }
-    });
+          $(document).on('click', '#date3', function(event) {
+              if (count2 == 0){
+                  var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                  margin = parseInt(margin)
+                  margin -= 151.18;
+                  margin = margin.toString() +"px";
+                  $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                  count2 +=1;
+          }
+          });
+
+          $(document).on('click', '#date4', function(event) {
+              if (count3 == 0){
+                  var margin = $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left")
+                  margin = parseInt(margin)
+                  console.log(margin)
+                  console.log(count3)
+                  margin -= 250.805;
+                  margin = margin.toString() +"px";
+                  $(".popover.mds-bootstrap-persian-datetime-picker-popover.fade.bottom.in").css("left", margin)
+                  count3 +=1;
+          }
+          });
+
+      }
 </script>
 
 {% endblock %}
