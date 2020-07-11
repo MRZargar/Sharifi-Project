@@ -93,7 +93,7 @@ def save_data_on_db(file_name):
     week = str(get_file_name_toint(file_name))[:-6]
     with open(file_name) as fp:
         for cnt, data in enumerate(fp):
-            query += "insert into data(week, t, a_x, a_y, a_z, temp) values ({}, {});\n".format(week, data.replace(' ', ','))
+            query += "insert into data values ({}, {}, false);\n".format(week, data.replace(' ', ','))
             
             if cnt % one_min_data_count == 0:
                 import_to_db(query, cnt - temp_cnt, file_name)
@@ -125,7 +125,7 @@ def submit_data(datas):
 
     where = "where "
     for inx, data in datas.iterrows():
-        where += "(t = " + str(data.t) + "AND week =" + str(data.week) + ")" + " OR "
+        where += "(t = " + str(data.t) + " AND week = " + str(data.week) + ")" + " OR "
 
     where += where[:-3] + ";"
 
