@@ -127,7 +127,7 @@ def submit_data(datas):
     for inx, data in datas.iterrows():
         where += "(t = " + str(data.t) + " AND week = " + str(data.week) + ")" + " OR "
 
-    where += where[:-3] + ";"
+    where = where[:-3] + ";"
 
     for i in range(3):
         try:
