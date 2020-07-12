@@ -129,9 +129,9 @@ def submit_data(datas):
         tWhere = '' 
         for _, data in datas[datas.week == week].iterrows():
             tWhere += 't = {} OR '.format(data.t)
-        tWhere = tWhere[-3] + ')'
+        tWhere = tWhere[:-3]
         where += '(week = {} AND ({})) OR '.format(week, tWhere)
-    where = where[-3] + ';'
+    where = where[:-3] + ';'
 
     for i in range(3):
         try:
