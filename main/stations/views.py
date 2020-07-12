@@ -131,6 +131,7 @@ def station_deactive(request, pk):
 					                  station_name=this_station,
 					                   description=description)
 			this_station.status = False
+			Raspberry.objects.get(raspberryID=this_station.raspberryID).delete()
 			this_station.save()
 			MyUserType = obj.userType
 			return JsonResponse({"user_type": MyUserType}, status=200)
