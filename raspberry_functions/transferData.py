@@ -124,10 +124,14 @@ def submit_data(datas):
     query = "update data set is_sent = TRUE "
 
     where = "where "
-    for inx, data in datas.iterrows():
-        where += "(t = " + str(data.t) + " AND week = " + str(data.week) + ")" + " OR "
-
-    where = where[:-3] + ";"
+    weeks = datas['week'].unique()
+    for week in weeks:
+        tWhere = '' 
+        for _, data in datas[datas.week == week].iterrows():
+            tWhere += 't = {} OR '.format(data.t)
+        tWhere = tWhere[-3] + ')'
+        where += '(week = {} AND ({})) OR '.format(week, tWhere)
+    where = where[-3] + ';'
 
     for i in range(3):
         try:
