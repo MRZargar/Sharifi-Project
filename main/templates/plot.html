@@ -103,9 +103,9 @@
         </div>
         <div id='myHistogram' class="histogram_main" style="width: 100%;">
             <ul class="chart">
-              {% for date in hist_date %}
+              {% for data in hist_data %}
                   <li class="bar_value">
-                    <a href="#" ><span style="height:{{date}}%" title="{{ forloop.counter }}"></span></a>
+                    <a href="#" ><span style="height:{{data}}%" title="{{ forloop.counter }}"></span></a>
                   </li>
               {% endfor %}
             </ul>  
@@ -165,7 +165,7 @@
                 <div id="download_this_day">
                      <div id='myHistogram' class="histogram_main" style="width: 100%;">
                         <ul class="chart">
-                          {% for hist in hist_date %}
+                          {% for hist in hist_data %}
                               <li class="bar_value2">
                                 <a href="#" ><span style="height:100%" title="{{ forloop.counter }}"></span></a>
                               </li>
@@ -187,14 +187,47 @@
     </div>
 
 </div>
-
 <script>
-    $(".table table-sm table-striped table-borderless").click(function(event){
+    var hist_bar_update = false;
+    $(document).on('click', '#date2', function(event){
         event.preventDefault();
-        var date = $('#inputDate2').val()
-        console.log(date)
-    });
+        hist_bar_update = true;
+    })
 
+    $(document).on('click', '.mds-bootstrap-persian-datetime-picker-container .table > tbody > tr > td[data-day]', function(event){
+        event.preventDefault();
+        if (hist_bar_update){
+            var date = $('#inputDate2').val()
+            var station_name = "{{StationName}}";
+            $("#myHistogram").css("opacity", 0.5)
+            $.ajax({
+                type: "GET",
+                data: {
+                    'StationName' : station_name,
+                    'Date' : date
+                },
+                url : "{% url 'update_histogram' %}",
+                success: function(data){
+                    var hist = '<ul class="chart">';
+                    for (i in data.hist_data){
+                        bar = '<li class="bar_value">'+
+                            '<a href="#" ><span style="height:' + data.hist_data[i]+'%' + '" title="'+ i + '"></span></a>' + 
+                        '</li>';
+                        hist += bar;
+                    }
+                    $("#myHistogram").empty();
+                    $("#myHistogram").prepend(hist)
+                    $("#myHistogram").css("opacity", 1)
+                    hist_bar_update = false;
+                },
+                error: function(date){
+                    console.log("error")
+                    $("#myHistogram").css("opacity", 1)
+                    hist_bar_update = false;
+                }
+            });
+        };
+    });
 
     $(document).on('click', '.bar_value', function(event) {
     event.preventDefault();
@@ -641,13 +674,21 @@
         color.b = Math.floor((255 + color.b) / 2);
         return 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
     }
-
 </script>
 
+
 <script type="text/javascript">
+    var start_time_d = {{start_time}}
+    var end_time_d = "{{end_time}}"
+    var start_time = new Date(start_time_d[0], start_time_d[1]-1, start_time_d[2])
+    if (end_time_d == "Now"){
+        var end_time = new Date();
+    }else{
+        var end_time = new Date(end_time_d[0], end_time_d[1]-1, end_time_d[2])
+    }
     $('#date2').MdPersianDateTimePicker({
         targetTextSelector: '#inputDate2',
-        selectedDate: new Date(),
+        selectedDate: end_time,
         isGregorian: true,
         placement: 'bottom',
         align: 'right',
@@ -655,7 +696,7 @@
     });
     $('#date3').MdPersianDateTimePicker({
         targetTextSelector: '#inputDate3',
-        selectedDate: new Date(),
+        selectedDate: start_time,
         isGregorian: true,
         placement: 'bottom',
         align: 'right',
@@ -663,7 +704,7 @@
     });
     $('#date4').MdPersianDateTimePicker({
         targetTextSelector: '#inputDate4',
-        selectedDate: new Date(),
+        selectedDate: end_time,
         isGregorian: true,
         placement: 'bottom',
         align: 'right',

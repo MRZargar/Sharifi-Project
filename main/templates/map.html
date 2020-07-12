@@ -149,7 +149,7 @@
                 health = feature.get('Health');
                 if (health == 0){
                     circle_id = "circle_orange";
-                    health_status = "<span style='color:orange'> OFFLINE </span>";
+                    health_status = "<span style='color:orange'> Check client data logger </span>";
                 }
                 else if (health == 1){
                     circle_id = "circle_green";
@@ -157,7 +157,7 @@
                 }
                 else{
                     circle_id = "circle_red";
-                    health_status = "<span style='color:red'> Check client data logger </span>";
+                    health_status = "<span style='color:red'> OFFLINE </span>";
                 }
                 content.innerHTML = '<h5><div id='+circle_id+'></div><b>' + health_status + '</b></h5>'
                                     +'<font size="2">'
@@ -286,12 +286,12 @@
         onNodeSelected: function(event, node) {
             var view = new View({
                 projection: 'EPSG:4326',
-                center: [node.Latitude, node.Longitude],
+                center: [node.Longitude, node.Latitude],
                 zoom: map.getView().getZoom()
                 });
             if (node.Longitude){
                 map.setView(view);
-                var pixel = map.getPixelFromCoordinate([node.Latitude, node.Longitude]);
+                var pixel = map.getPixelFromCoordinate([node.Longitude, node.Latitude]);
                 ContentOfPopup(pixel);
             }
         }
