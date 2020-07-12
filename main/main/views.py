@@ -99,20 +99,32 @@ def signout(request):
 @login_required(login_url='signpage')
 def plot_update(request):
         station_name = request.GET['StationName']
-        print(station_name)
         station = Setup.objects.get(station_name=station_name)
-        print(3)
         date = request.GET['Date']
         to_date = int(request.GET['Hour'])
         from_date = to_date - 1
         date = date.split("/")
-        print(4)
         from_week, from_second = cleander_to_gps(date[0], date[1], date[2], from_date, 0, 0)
         to_week, to_second = from_week ,from_second + 3600
         station_id = station.pk
-        print(5)
         x, y ,z, temp = 0, 0, 0, 0
         return JsonResponse({'xPlotData':x, 'yPlotData':y, 'zPlotData':z, 'tempPlotData':temp}, status=200)
+
+@login_required(login_url='signpage')
+def histogram_update(request):
+    if request.method == "GET":
+        station_name = request.GET['StationName']
+        from_date = request.GET['Date']
+        station = Setup.objects.get(station_name=station_name)
+        from_date = from_date.split("/")
+        from_time = (datetime(int(from_date[0]), int(from_date[1]), int(from_date[2]))) 
+        to_time = from_time + timedelta(days=1)
+
+        hist_data = [100, 100, 100, 70, 50, 100, 100, 0, 20, 100, 40, 10, 100, 100, 100, 0, 30, 40, 50, 60, 70, 80, 90, 100]
+        return JsonResponse({'hist_data':hist_data}, status=200)
+    else:
+        return JsonResponse({}, status=400)
+
 
 @login_required(login_url='signpage')
 def plot(request, stationID):

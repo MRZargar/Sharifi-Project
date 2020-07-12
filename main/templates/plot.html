@@ -187,14 +187,47 @@
     </div>
 
 </div>
-
 <script>
-    $(".table table-sm table-striped table-borderless").click(function(event){
+    var hist_bar_update = false;
+    $(document).on('click', '#date2', function(event){
         event.preventDefault();
-        var date = $('#inputDate2').val()
-        console.log(date)
-    });
+        hist_bar_update = true;
+    })
 
+    $(document).on('click', '.mds-bootstrap-persian-datetime-picker-container .table > tbody > tr > td[data-day]', function(event){
+        event.preventDefault();
+        if (hist_bar_update){
+            var date = $('#inputDate2').val()
+            var station_name = "{{StationName}}";
+            $("#myHistogram").css("opacity", 0.5)
+            $.ajax({
+                type: "GET",
+                data: {
+                    'StationName' : station_name,
+                    'Date' : date
+                },
+                url : "{% url 'update_histogram' %}",
+                success: function(data){
+                    var hist = '<ul class="chart">';
+                    for (i in data.hist_data){
+                        bar = '<li class="bar_value">'+
+                            '<a href="#" ><span style="height:' + data.hist_data[i]+'%' + '" title="'+ i + '"></span></a>' + 
+                        '</li>';
+                        hist += bar;
+                    }
+                    $("#myHistogram").empty();
+                    $("#myHistogram").prepend(hist)
+                    $("#myHistogram").css("opacity", 1)
+                    hist_bar_update = false;
+                },
+                error: function(date){
+                    console.log("error")
+                    $("#myHistogram").css("opacity", 1)
+                    hist_bar_update = false;
+                }
+            });
+        };
+    });
 
     $(document).on('click', '.bar_value', function(event) {
     event.preventDefault();
