@@ -41,6 +41,7 @@ def station_setup(request):
 		else:
 			if form.is_valid():
 				station_name = form.cleaned_data['station_name']
+				for_character_id = form.cleaned_data['for_character_id']
 				address = form.cleaned_data['address']
 				latitude = form.cleaned_data['latitude']
 				longitude = form.cleaned_data['longitude']
@@ -60,6 +61,7 @@ def station_setup(request):
 					messages.error(request, "Your number must be six decimal places", extra_tags='lon')
 					return render(request, 'setupStation.html', {'form':form})
 				station_obj = Setup.objects.create(station_name=station_name,
+							for_character_id=for_character_id,
 							 address=address,
 							 description=description,
 							 operator=operator,

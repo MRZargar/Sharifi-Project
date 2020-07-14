@@ -13,7 +13,7 @@ class StationSetup2(forms.ModelForm):
 
 	class Meta:
 		model =  Setup
-		fields = ['station_name', 'raspberryID', 'address', 'sensor_type', 'latitude', 'longitude', 'description',]
+		fields = ['station_name', 'for_character_id', 'raspberryID', 'address', 'sensor_type', 'latitude', 'longitude', 'description',]
 		widgets = {'raspberryID': forms.Select()}
 
 	def __init__(self, *args, **kwargs):

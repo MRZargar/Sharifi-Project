@@ -4,6 +4,8 @@ import  os
 from django.urls import reverse
 from users.models import CustomUser
 import datetime
+from django.core.validators import MinLengthValidator
+
 def station_directory_path(instance, filename):
 	base_name = os.path.basename(filename)
 	name,ext = os.path.splitext(base_name)
@@ -14,6 +16,7 @@ class Setup(models.Model):
 	operator = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
 	table_name = models.CharField(max_length=50, null=True)
 	station_name = models.CharField(max_length=150, unique=True)
+	for_character_id = models.CharField(max_length=4, validators=[MinLengthValidator(4)], unique=True)
 	address = models.CharField(max_length=300, blank=False)
 	description = models.TextField(blank=True, null=True)
 	date = models.DateTimeField(default=datetime.datetime.now())

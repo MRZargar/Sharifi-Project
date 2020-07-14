@@ -19,7 +19,6 @@ from .views import(
     plot,
     map,
     inbox_message_view,
-    download,
     plot_update,
     histogram_update
 )
@@ -37,9 +36,9 @@ urlpatterns = [
     path('stations/', include('stations.urls')),
     path('message', include('message.urls')),
     path('inbox/message/<int:pk>', inbox_message_view, name='inbox_message_count'),
-    path("download/<int:pk>", download, name="downloads_files"),
     path("plot/update/", plot_update, name="update_plot"),
     path("histogram/update/", histogram_update, name="update_histogram"),
+    path('download/', include('download.urls')),
 
 ]
 

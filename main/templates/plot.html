@@ -112,7 +112,7 @@
 
         </div>
     </div>
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="download_all">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -367,6 +367,7 @@
 
     $(document).on('click', "#download_end", function(event){
         event.preventDefault();
+        $("#download_all").css("opacity", 0.5)
         var stations = [];
         var hours = [];
         var start_time = $('#inputDate3').val()
@@ -389,9 +390,12 @@
           },
           url: "{% url 'downloads_files' request.user.pk %}",
           success: function(data) {
-            $('#error_2_id_description').css('display', 'none')
+              $('#error_2_id_description').css('display', 'none')
+              $("#download_all").css("opacity", 1)
+              window.open(data.link)
           },
           error: function(data) {
+              $("#download_all").css("opacity", 1)
               $('#error_2_id_description').css('display', 'block')
           }
 
@@ -432,7 +436,8 @@
                     temp = "No station has been registered yet";
                 } else {
                     for (i in data.stations_list) {
-                        this_station_name = data.stations_list[i];
+                        this_station_char = data.stations_list[i];
+                        this_station_name = data.station_name[i];
                         if (i % 2 == 0 && i != 0) {
                             column = '<div class="w-100" style="height:15px;"></div>';
                         } else {
@@ -442,9 +447,9 @@
                             temp =
                                 '<div class="col" style="flex-grow:0.3">' +
                                 '<div class="form-check">' +
-                                '<input class="form-check-input" type="checkbox" value="'+ this_station_name +'" id="defaultCheck1" checked="true" name="station" style="margin-left:-18px">' +
+                                '<input class="form-check-input" type="checkbox" value="'+ this_station_char +'" id="defaultCheck1" checked="true" name="station" style="margin-left:-18px">' +
                                 '<label class="form-check-label" for="defaultCheck1">' +
-                                this_station_name +
+                                this_station_char +
                                 '</label>' +
                                 '</div>' +
                                 '</div>' +
@@ -453,9 +458,9 @@
                             temp =
                                 '<div class="col" style="flex-grow:0.3">' +
                                 '<div class="form-check">' +
-                                '<input class="form-check-input" type="checkbox" value="'+ this_station_name +'" id="defaultCheck1" name="station" style="margin-left:-18px">' +
+                                '<input class="form-check-input" type="checkbox" value="'+ this_station_char +'" id="defaultCheck1" name="station" style="margin-left:-18px">' +
                                 '<label class="form-check-label" for="defaultCheck1">' +
-                                this_station_name +
+                                this_station_char +
                                 '</label>' +
                                 '</div>' +
                                 '</div>' +

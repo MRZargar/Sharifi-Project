@@ -18,8 +18,24 @@ from django.core.exceptions import PermissionDenied
 from message.models import Message
 from datetime import datetime, timedelta
 from gwpy.time import tconvert, to_gps
-
+import requests
 User = get_user_model()
+
+def update_hist(table_name, gps_week, second):
+    table_name = 'STATION15'
+    url = 'http://84.241.62.31:8080/api/Data/Histogram/{}?week={}&t={}'.format(table_name, gps_week, second)
+    r = requests.get(url, verify=False)
+    if r.status_code not in range(200,300):
+        raise Exception(r.status_code)
+    return [int(i) for i in r.text[1:-1].split(',')]
+
+def get_data(table_name, from_week, from_second, to_week, to_second):
+    url = 'http://84.241.62.31:8080/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format('STATION15', from_week, from_second, to_week, to_second)
+    r = requests.get(url, verify=False)
+    if r.status_code not in range(200,300):
+        raise Exception(r.status_code)
+    return r.text
+
 
 
 
@@ -116,12 +132,10 @@ def histogram_update(request):
         station_name = request.GET['StationName']
         from_date = request.GET['Date']
         station = Setup.objects.get(station_name=station_name)
+        station_table = station.table_name
         from_date = from_date.split("/")
-        from_time = (datetime(int(from_date[0]), int(from_date[1]), int(from_date[2]))) 
-        to_time = from_time + timedelta(days=1)
-        from_week, from_second = cleander_to_gps(from_time.year, from_time.month, from_time.day, 0, 0, 0)
-        to_week, to_second = cleander_to_gps(to_time.year, to_time.month, to_time.day, 0, 0, 0)
-        hist_data = [100, 100, 100, 70, 50, 100, 100, 0, 20, 100, 40, 10, 100, 100, 100, 0, 30, 40, 50, 60, 70, 80, 90, 100]
+        gps_week, second = cleander_to_gps(int(from_date[0]), int(from_date[1]), int(from_date[2]), 0, 0, 0)
+        hist_data = update_hist(station_table, gps_week, second)
         return JsonResponse({'hist_data':hist_data}, status=200)
     else:
         return JsonResponse({}, status=400)
@@ -154,19 +168,43 @@ def plot(request, stationID):
         station = Setup.objects.get(pk=stationID)
         station_name = station.station_name
         station_status = station.status
+        station_table = station.table_name
         if station_status:
             start_time = [station.date.year, station.date.month, station.date.day]
             end_time = "Now"
+            end_time_p = datetime.now()
+            gps_week, second = cleander_to_gps(end_time_p.year, end_time_p.month, end_time_p.day, 0, 0, 0)
         else:
             start_time = [station.date.year, station.date.month, station.date.day]
             end_time = Deactivate.objects.get(station_name_id = station.pk).date
             end_time = [end_time.year, end_time.month, end_time.day]
+            gps_week, second = cleander_to_gps(end_time.year, end_time.month, end_time.day, 0, 0, 0)
 
         d = '''`t, value
                 0,0`'''
-        hist_data = [100, 100, 100, 70, 50, 100, 100, 100, 20, 100, 40, 10, 100, 100, 100, 0, 50, 100, 100, 100, 20, 100, 40, 10]
-        xPlotData, yPlotData ,zPlotData, tempPlotData = d, d, d, d
+        hist_data = update_hist(station_table, gps_week, second)
+        end_hour = "None"
+        for i in range(1, 25):
+            if hist_data[-i] > 0:
+                end_hour = hist_data[-i]
+            break
 
+        if end_hour == "None":
+            xPlotData, yPlotData ,zPlotData, tempPlotData = d, d, d, d
+        else:
+            if end_time == "Now":
+                from_time = datetime(end_time_p.year, end_time_p.month, end_time_p.day, end_hour, 0, 0)
+                to_time = from_time + timedelta(hours=1)
+                from_week, from_second = cleander_to_gps(from_time.year, from_time.month, from_time.day, from_time.hour, 0, 0)
+                to_week, to_second = cleander_to_gps(to_time.year, to_time.month, to_time.day, to_time.hour, 0, 0)
+            else:
+                from_time = datetime(end_time.year, end_time.month, end_time.day, end_hour, 0, 0)
+                to_time = from_time + timedelta(hours=1)
+                from_week, from_second = cleander_to_gps(from_time.year, from_time.month, from_time.day, from_time.hour, 0, 0)
+                to_week, to_second = cleander_to_gps(to_time.year, to_time.month, to_time.day, to_time.hour, 0, 0)
+            data = get_data(station_table, from_week, from_second, to_week, to_second)
+            print('data:', data)
+            xPlotData, yPlotData ,zPlotData, tempPlotData = d, d, d, d
         return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=xPlotData, yPlotData=yPlotData, zPlotData=zPlotData,
                                                  tempPlotData=tempPlotData, StationName=station_name, hist_data = hist_data, start_time=start_time, end_time=end_time))
     else :
@@ -174,20 +212,43 @@ def plot(request, stationID):
             station = stations[0]
             station_name = station.station_name
             station_status = station.status
+            station_table = station.table_name
             if station_status:
                 start_time = [station.date.year, station.date.month, station.date.day]
                 end_time = "Now"
+                end_time_p = datetime.now()
+                gps_week, second = cleander_to_gps(end_time_p.year, end_time_p.month, end_time_p.day, 0, 0, 0)
             else:
                 start_time = [station.date.year, station.date.month, station.date.day]
                 end_time = Deactivate.objects.get(station_name_id = station.pk).date
                 end_time = [end_time.year, end_time.month, end_time.day]
+                gps_week, second = cleander_to_gps(end_time.year, end_time.month, end_time.day, 0, 0, 0)
 
-            # ax, ay, az = JSON.GetPoltData(get from api)
-            # hist = JSON.GetHistData(get from api)
             d = '''`t, value
                     0,0`'''
-            hist_data = [100, 100, 100, 70, 50, 100, 100, 100, 20, 100, 40, 10, 100, 100, 100, 0, 50, 100, 100, 100, 20, 100, 40, 10]
-            xPlotData, yPlotData ,zPlotData, tempPlotData = d, d, d, d
+            hist_data = update_hist(station_table, gps_week, second)
+            end_hour = "None"
+            for i in range(1, 25):
+                if hist_data[-i] > 0:
+                    end_hour = hist_data[-i]
+                break
+
+            if end_hour == "None":
+                xPlotData, yPlotData ,zPlotData, tempPlotData = d, d, d, d
+            else:
+                if end_time == "Now":
+                    from_time = datetime(end_time_p.year, end_time_p.month, end_time_p.day, end_hour, 0, 0)
+                    to_time = from_time + timedelta(hours=1)
+                    from_week, from_second = cleander_to_gps(from_time.year, from_time.month, from_time.day, from_time.hour, 0, 0)
+                    to_week, to_second = cleander_to_gps(to_time.year, to_time.month, to_time.day, to_time.hour, 0, 0)
+                else:
+                    from_time = datetime(end_time.year, end_time.month, end_time.day, end_hour, 0, 0)
+                    to_time = from_time + timedelta(hours=1)
+                    from_week, from_second = cleander_to_gps(from_time.year, from_time.month, from_time.day, from_time.hour, 0, 0)
+                    to_week, to_second = cleander_to_gps(to_time.year, to_time.month, to_time.day, to_time.hour, 0, 0)
+                data = get_data(station_table, from_week, from_second, to_week, to_second)
+                print('data: ', data)
+                xPlotData, yPlotData ,zPlotData, tempPlotData = d, d, d, d
             return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=xPlotData, yPlotData=yPlotData, zPlotData=zPlotData,
                                                      tempPlotData=tempPlotData, StationName=station_name, hist_data = hist_data, start_time=start_time, end_time=end_time))
         else:
@@ -224,50 +285,3 @@ def map(request):
     
 # def my_handler404(request, exception):
 #     return render(request, '404.html', status=404)
-
-@login_required(login_url='signpage')
-def download(request, pk):
-    if request.method == "GET" and request.GET['method'] == "give station name":
-        obj = request.user
-        if obj.userType == "is_admin":
-            stations = Setup.objects.all().order_by('date').reverse()
-        else:
-            station_access = Access.objects.filter(user_id = obj.id)
-            user_access = []
-            for station_q in station_access:
-                user_access.append(station_q.station_id)
-            stations = Setup.objects.filter(id__in = user_access).order_by('date').reverse()
-        station_list = []
-        for station in stations:
-            station_list.append(station.station_name)
-        return JsonResponse({'stations_list': station_list}, status=200)
-
-    elif request.method == "GET" and request.GET['method'] == "download":
-        stations_name = request.GET.getlist('StaionsName[]')
-        hours = request.GET.getlist('Hours[]')
-        from_date = request.GET['StartTime']
-        to_date = request.GET['EndTime']
-        from_date = from_date.split("/")
-        to_date = to_date.split("/")
-        from_time = (datetime(int(from_date[0]), int(from_date[1]), int(from_date[2]))) 
-        to_time = (datetime(int(to_date[0]), int(to_date[1]), int(to_date[2]))) 
-        if (to_time - from_time).total_seconds() < 0:
-            return JsonResponse({}, status=400)
-        else:
-            delta = to_time - from_time
-            stations = []
-            for station in stations_name:
-                stations.append(Setup.objects.get(station_name=station))
-            for d_station in stations:
-                station_id = d_station.pk
-                for i in range(delta.days + 1):
-                    date = from_time + timedelta(days=i)
-                    for j in hours:
-                        from_week, from_second = cleander_to_gps(date.strftime("%Y"), date.strftime("%m"), date.strftime("%d"), (int(j)-1), 0, 0)
-                        to_week, to_second = from_week, from_second + 3600
-                        print("station_id : ", station_id)
-                        print("from_week : ", from_week)
-                        print("from_second : ", from_second)
-                        print("to_week : ", to_week)
-                        print("to_second : ", to_second)
-            return JsonResponse({}, status=200)
