@@ -265,7 +265,7 @@
                         axisLineWidth: 2,
                         // axisLabelWidth: 10,
                         ylabel: "<b>`a_x`</b>",
-                        title: "{{StationName}}",
+                        title: "{{StationName}}({{StationCharacterID}})",
                         axes:{
                             'x':{
                                 axisLabelFontSize: 0
@@ -490,13 +490,13 @@
                 var st_id = feature.get('ID');
                 var  url = "{%url 'plot' '0' %}".replace('0', st_id);
                 if (health == 0){
-                    name = "<span style='color:orange'> <a href="+ url +" style='color:orange;'> " + feature.get('Name')+ "</a></span>";
+                    name = "<span style='color:orange'> <a href="+ url +" style='color:orange;'> " + feature.get('Name') + " (" + feature.get('ForCharacterId') + ")" + "</a></span>";
                 }
                 else if (health == 1){
-                    name = "<span style='color:green'> <a href="+ url +" style='color:green;'> " + feature.get('Name')+ "</a></span>";
+                    name = "<span style='color:green'> <a href="+ url +" style='color:green;'> " + feature.get('Name')+ " (" + feature.get('ForCharacterId') + ")" + "</a></span>";
                 }
                 else{ 
-                    name = "<span style='color:red'><a href="+ url +" style='color:red;'> " + feature.get('Name')+ "</a></span>";
+                    name = "<span style='color:red'><a href="+ url +" style='color:red;'> " + feature.get('Name')+ " (" + feature.get('ForCharacterId') + ")" + "</a></span>";
                 }
                 json = json + "{"
                             + '"text": "' + name + '", '
@@ -568,16 +568,16 @@
                 {{ xPlotData | safe }},
                 {
                     // legend: "follow",
-                    animatedZooms: true,
+                    // animatedZooms: true,
                     drawPoints: true,
                     pointSize: 3,
                     // showRangeSelector: true,
-                    // rangeSelectorPlotFillColor: "#FFF",
+                    rangeSelectorPlotFillColor: "#FFF",
                     // highlightCircleSize: 3,
                     axisLineWidth: 2,
                     // axisLabelWidth: 10,
                     ylabel: "<b>`a_x`</b>",
-                    title: "{{StationName}}",
+                    title: "{{StationName}}({{StationCharacterID}})",
                     axes:{
                         'x':{
                             axisLabelFontSize: 0
@@ -646,7 +646,7 @@
         g.push(
             new Dygraph(
                 document.getElementById("myChart4"),
-                {{ zPlotData | safe }},
+                {{ tempPlotData | safe }},
                 {
                     // legend: "follow",
                     animatedZooms: true,
@@ -666,7 +666,13 @@
                 }
             )
         );
-        var sync = Dygraph.synchronize(g);
+        // var sync = Dygraph.synchronize(g[0]);
+
+        // var sync = Dygraph.synchronize(g[1]);
+
+        // var sync = Dygraph.synchronize(g[2]);
+
+        // var sync = Dygraph.synchronize(g[3]);
 </script>   
 
 <script>

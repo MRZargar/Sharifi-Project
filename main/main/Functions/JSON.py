@@ -27,8 +27,9 @@ def GetGeoJsonStations(stations, *args):
                     'Start Time': '{5}',
                     'End Time': '{6}',
                     'Longitude': '{7}',
-                    'Latitude': '{8}'
-                    'Health': '{9}'
+                    'Latitude': '{8}',
+                    'Health': '{9}',
+                    'ForCharacterId' : '{10}'
                 }},
                 'geometry': {{
                 'type': 'Point',
@@ -43,7 +44,8 @@ def GetGeoJsonStations(stations, *args):
                     '' if station.status == True else Deactivate.objects.get(station_name_id = station.pk),
                     station.longitude,
                     station.latitude,
-                    health)
+                    health,
+                    station.for_character_id)
         features = features[:-1]
     else:
         for station in stations: 
@@ -69,7 +71,8 @@ def GetGeoJsonStations(stations, *args):
                     'End Time': '{7}',
                     'Longitude': '{8}',
                     'Latitude': '{9}',
-                    'Health' : {10}
+                    'Health' : {10},
+                    'ForCharacterId' : '{11}'
                 }},
                 'geometry': {{
                 'type': 'Point',
@@ -85,7 +88,8 @@ def GetGeoJsonStations(stations, *args):
                     '' if station.status == True else Deactivate.objects.get(station_name_id = station.pk),
                     station.longitude,
                     station.latitude,
-                    health)
+                    health,
+                    station.for_character_id)
         features = features[:-1]
 
     geojson = """{

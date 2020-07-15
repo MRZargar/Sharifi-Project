@@ -22,7 +22,7 @@
             {% for station in station_list %} {% if station.status == True %}
             <tr class="table-success" data-station="{{station.station_name}}">
                 <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
-                <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
+                <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}({{station.for_character_id}})</a></td>
                 <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
                 <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
                 <td id="station_deactive_button" data-station="{{station.station_name}}"><button type="button" class="btn btn-secondary"><a>active</a></td>
@@ -30,7 +30,7 @@
   		{% else %}
   			<tr class="table-danger" data-station="{{station.station_name}}">
   		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
-  		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}}</a></td>
+  		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_name}} ({{station.for_character_id}})</a></td>
   		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
   		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
             {% if request.user.userType == 'is_admin' %}
