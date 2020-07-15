@@ -9,6 +9,18 @@
 <!-- Page Name -->
 {% block pageName %} plot and download {% endblock %}{% block content %}
 
-<h3 style="text-align: center;">No station has been registered yet</h3>
+
+{% if request.user.userType == 'is_user' %}
+	<h3 style="text-align: center;">Sorry, you do not have access to any stations yet</h3>
+{% endif %}
+
+{% if request.user.userType == 'is_operator' %}
+	<h3 style="text-align: center;">Sorry, you do not have access to any stations yet</h3>
+{% endif %}
+
+{% if request.user.userType == 'is_admin' %}
+	<h3 style="text-align: center;">No station has been registered yet</h3>
+{% endif %}
+
 
 {% endblock %}
