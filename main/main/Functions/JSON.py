@@ -4,15 +4,17 @@ import datetime
 sys.path.append("...")
 from stations.models import Deactivate
 def GetGeoJsonStations(stations, *args):
+    UTC_time = datetime.timedelta(hours=4, minutes=30, seconds=0)
     features = ""
     if args == ('user',):
         for station in stations:
-            db_time = datetime.datetime(station.health_time.year, station.health_time.month, station.health_time.day, station.health_time.hour, station.health_time.minute, station.health_time.second)      
+            db_time = datetime.datetime(station.health_time.year, station.health_time.month, station.health_time.day, station.health_time.hour, station.health_time.minute, station.health_time.second)
+            db_time += UTC_time
             time = datetime.datetime.now() - db_time
-            if time.total_seconds() > 10:
-                helath = 2
+            if time.total_seconds() > 15:
+                health = 2
             else:
-                helath = station.helath
+                health = station.health
             features += """
             {{
                 'type': 'Feature',
@@ -41,18 +43,18 @@ def GetGeoJsonStations(stations, *args):
                     '' if station.status == True else Deactivate.objects.get(station_name_id = station.pk),
                     station.longitude,
                     station.latitude,
-                    helath)
+                    health)
         features = features[:-1]
     else:
         for station in stations: 
-            db_time = datetime.datetime(station.health_time.year, station.health_time.month, station.health_time.day, station.health_time.hour, station.health_time.minute, station.health_time.second)      
+            db_time = datetime.datetime(station.health_time.year, station.health_time.month, station.health_time.day, station.health_time.hour, station.health_time.minute, station.health_time.second)
+            db_time += UTC_time
             time = datetime.datetime.now() - db_time
-            if time.total_seconds() > 10:
-                helath = 2
+            if time.total_seconds() > 15:
+                health = 2
             else:
-                helath = station.helath
+                health = station.health
 
-            print(helath)
             features += """
             {{
                 'type': 'Feature',
@@ -83,7 +85,7 @@ def GetGeoJsonStations(stations, *args):
                     '' if station.status == True else Deactivate.objects.get(station_name_id = station.pk),
                     station.longitude,
                     station.latitude,
-                    helath)
+                    health)
         features = features[:-1]
 
     geojson = """{
