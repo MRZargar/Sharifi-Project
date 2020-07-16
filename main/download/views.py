@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from stations.models import Setup, Access
 from datetime import datetime, timedelta
@@ -7,7 +7,6 @@ import os
 import shutil 
 import zipfile
 from .models import DownloadLink
-
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
@@ -28,6 +27,13 @@ def write_to_text(file_name, data):
             fp.write('%.2f\n' % float(row[4]))
         fp.close()
 
+
+def get_data(table_name, from_week, from_second, to_week, to_second):
+    url = 'http://84.241.62.31:8080/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
+    r = requests.get(url, verify=False)
+    if r.status_code not in range(200,300):
+        raise Exception(r.status_code)
+    return r.text
 
 
 
@@ -89,6 +95,7 @@ def download(request, pk):
                 stations.append(station_db.table_name)
                 main_file_name += station_db.for_character_id 
             main_file_name += from_date[0] + from_date[1] + from_date[2]  + to_date[0] + to_date[1] + to_date[2]
+            HttpResponse("ok")
             os.chdir(download_path)
             os.mkdir(str(number_of_downloaded))
             os.chdir(str(number_of_downloaded))
@@ -115,6 +122,7 @@ def download(request, pk):
                                 hour = '0' + str(int(hour)-1)
                                 
                             file_name = station_dir + "/" +  str(station_char) + str(from_week) + str(date.strftime("%Y")) + date.strftime("%m") + date.strftime("%d") + hour +"0000" + ".txt"
+
                             write_to_text(file_name, data)
                 zipf = zipfile.ZipFile(station_dir + '.zip', 'w', zipfile.ZIP_DEFLATED)
                 zipdir(station_dir + '/', zipf)
