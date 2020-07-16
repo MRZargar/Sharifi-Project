@@ -7,7 +7,7 @@ import os
 import shutil 
 import zipfile
 from .models import DownloadLink
-
+import requests
 def zipdir(path, ziph):
     # ziph is zipfile handle
     for root, dirs, files in os.walk(path):
@@ -95,7 +95,6 @@ def download(request, pk):
                 stations.append(station_db.table_name)
                 main_file_name += station_db.for_character_id 
             main_file_name += from_date[0] + from_date[1] + from_date[2]  + to_date[0] + to_date[1] + to_date[2]
-            HttpResponse("ok")
             os.chdir(download_path)
             if not os.path.exists(str(number_of_downloaded)):
                 os.mkdir(str(number_of_downloaded))
@@ -125,7 +124,6 @@ def download(request, pk):
                                 hour = '0' + str(int(hour)-1)
                                 
                             file_name = station_dir + "/" +  str(station_char) + str(from_week) + str(date.strftime("%Y")) + date.strftime("%m") + date.strftime("%d") + hour +"0000" + ".txt"
-
                             write_to_text(file_name, data)
                 zipf = zipfile.ZipFile(station_dir + '.zip', 'w', zipfile.ZIP_DEFLATED)
                 zipdir(station_dir + '/', zipf)
