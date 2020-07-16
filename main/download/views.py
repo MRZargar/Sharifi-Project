@@ -97,22 +97,26 @@ def download(request, pk):
             main_file_name += from_date[0] + from_date[1] + from_date[2]  + to_date[0] + to_date[1] + to_date[2]
             HttpResponse("ok")
             os.chdir(download_path)
-            os.mkdir(str(number_of_downloaded))
+            if not os.path.exists(str(number_of_downloaded)):
+                os.mkdir(str(number_of_downloaded))
             os.chdir(str(number_of_downloaded))
             main_dir = main_file_name
-            os.mkdir(main_dir)
+            if not os.path.exists(main_dir):
+                os.mkdir(main_dir)
             os.chdir(main_dir)
             for i in range(len(stations)):
                 station_table = stations[i]
                 station_char = station_char_id[i]
                 station_dir = str(station_char)
-                os.mkdir(station_dir)
+                if not os.path.exists(station_dir):
+                    os.mkdir(station_dir)
                 for day in range(delta.days + 1):
                     date = from_time + timedelta(days=day)
                     for hour in hours:
                         from_week, from_second = cleander_to_gps(date.strftime("%Y"), date.strftime("%m"), date.strftime("%d"), (int(hour)-1), 0, 0)
                         to_week, to_second = from_week, from_second + 3600
-                        data = get_data(station_table, from_week, from_second, to_week, to_second)
+                        # data = get_data(station_table, from_week, from_second, to_week, to_second)
+                        data = "tesst"
                         if len(data) == 2:
                             pass
                         else:
@@ -123,7 +127,7 @@ def download(request, pk):
                                 
                             file_name = station_dir + "/" +  str(station_char) + str(from_week) + str(date.strftime("%Y")) + date.strftime("%m") + date.strftime("%d") + hour +"0000" + ".txt"
 
-                            write_to_text(file_name, data)
+                            # write_to_text(file_name, data)
                 zipf = zipfile.ZipFile(station_dir + '.zip', 'w', zipfile.ZIP_DEFLATED)
                 zipdir(station_dir + '/', zipf)
                 zipf.close()
