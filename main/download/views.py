@@ -115,8 +115,7 @@ def download(request, pk):
                     for hour in hours:
                         from_week, from_second = cleander_to_gps(date.strftime("%Y"), date.strftime("%m"), date.strftime("%d"), (int(hour)-1), 0, 0)
                         to_week, to_second = from_week, from_second + 3600
-                        # data = get_data(station_table, from_week, from_second, to_week, to_second)
-                        data = "tesst"
+                        data = get_data(station_table, from_week, from_second, to_week, to_second)
                         if len(data) == 2:
                             pass
                         else:
@@ -127,7 +126,7 @@ def download(request, pk):
                                 
                             file_name = station_dir + "/" +  str(station_char) + str(from_week) + str(date.strftime("%Y")) + date.strftime("%m") + date.strftime("%d") + hour +"0000" + ".txt"
 
-                            # write_to_text(file_name, data)
+                            write_to_text(file_name, data)
                 zipf = zipfile.ZipFile(station_dir + '.zip', 'w', zipfile.ZIP_DEFLATED)
                 zipdir(station_dir + '/', zipf)
                 zipf.close()
