@@ -146,6 +146,8 @@
             if (feature) {
                 var coordinates = feature.getGeometry().getCoordinates();
                 overlay.setPosition(coordinates);
+                var st_id = feature.get('ID');
+                var  url = "{%url 'plot' '0' %}".replace('0', st_id);
                 health = feature.get('Health');
                 if (health == 0){
                     circle_id = "circle_orange";
@@ -210,8 +212,8 @@
                                             +'</tr>'
                                         +'</table>'
                                     +'</font>'
-                                    +'<form action="\\plot" method="GET" target="_blank" >'
-                                        +'<input type="hidden" id="siteID" name="siteID" value=' + feature.get('ID') + '>'
+                                    +'<form action="'+ url +'" method="GET" target="_blank" >'
+                                        +'<input type="hidden" id="siteID" value=' + feature.get('ID') + '>'
                                         +'<input class="btn" type="submit" value="Show Data" style="font-size:13px;">'
                                     +'</form>';
             }
