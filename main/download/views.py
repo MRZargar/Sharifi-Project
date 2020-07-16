@@ -16,6 +16,20 @@ def zipdir(path, ziph):
             ziph.write(os.path.join(root, file))
 
 
+def write_to_text(file_name, data):
+    data = data[2:-2].split('],[')
+    with open(file_name, 'w') as fp:
+        for row in data:
+            row = row.split(",")[1:]
+            fp.write('%.3f ' % float(row[0]))
+            fp.write('%.4f ' % float(row[1]))
+            fp.write('%.4f ' % float(row[2]))
+            fp.write('%.4f ' % float(row[3]))
+            fp.write('%.2f\n' % float(row[4]))
+        fp.close()
+
+
+
 
 # Convet time to gps week and seconds
 def cleander_to_gps(year, month, day, hour, minute, second):
@@ -91,18 +105,17 @@ def download(request, pk):
                     for hour in hours:
                         from_week, from_second = cleander_to_gps(date.strftime("%Y"), date.strftime("%m"), date.strftime("%d"), (int(hour)-1), 0, 0)
                         to_week, to_second = from_week, from_second + 3600
-                        #data = .....
-                        data = '125'
-                        if len(str(int(hour)-1)) == 2:
-                            hour = str(int(hour)-1)
+                        data = get_data(station_table, from_week, from_second, to_week, to_second)
+                        if len(data) == 2:
+                            pass
                         else:
-                            hour = '0' + str(int(hour)-1)
-                            
-                        file_name = station_dir + "/" +  str(station_char) + str(from_week) + str(date.strftime("%Y")) + date.strftime("%m") + date.strftime("%d") + hour +"0000" + ".txt"
-                        
-                        with open(file_name, 'w') as fp: 
-                            fp.write(data)
-                            fp.close()
+                            if len(str(int(hour)-1)) == 2:
+                                hour = str(int(hour)-1)
+                            else:
+                                hour = '0' + str(int(hour)-1)
+                                
+                            file_name = station_dir + "/" +  str(station_char) + str(from_week) + str(date.strftime("%Y")) + date.strftime("%m") + date.strftime("%d") + hour +"0000" + ".txt"
+                            write_to_text(file_name, data)
                 zipf = zipfile.ZipFile(station_dir + '.zip', 'w', zipfile.ZIP_DEFLATED)
                 zipdir(station_dir + '/', zipf)
                 zipf.close()
