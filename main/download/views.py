@@ -73,7 +73,7 @@ def download(request, pk):
 
     elif request.method == "GET" and request.GET['method'] == "download":
         number_of_downloaded = DownloadLink.objects.all().count()
-        download_path = '/home/mohammad/Desktop/Server_projec/final/Sharifi-Project/main/media/download_link'
+        download_path = '/home/geolab/site/main/media/download_link'
         stations_character_id = request.GET.getlist('StaionsName[]')
         hours = request.GET.getlist('Hours[]')
         from_date = request.GET['StartTime']
