@@ -22,7 +22,6 @@ import requests
 User = get_user_model()
 
 def update_hist(table_name, gps_week, second):
-    table_name ="STATION15"
     url = 'http://84.241.62.31:8080/api/Data/Histogram/{}?week={}&t={}'.format(table_name, gps_week, second)
     r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
@@ -45,7 +44,20 @@ def preparation_plot_data(data):
         ay.append([float(row.split(',')[1]), float(row.split(',')[3])])
         az.append([float(row.split(',')[1]), float(row.split(',')[4])])
         temp.append([float(row.split(',')[1]), float(row.split(',')[5])])
-    return ax, ay, az, temp
+    ax_str = '`t, value\n'
+    ay_str = '`t, value\n'
+    az_str = '`t, value\n'
+    temp_str = '`t, value\n'
+    for i in range(len(ax)):
+        ax_str += str(ax[i][0]) + ',' + str(ax[i][1]) + '\n'
+        ay_str += str(ay[i][0]) + ',' + str(ay[i][1]) + '\n'
+        az_str += str(az[i][0]) + ',' + str(az[i][1]) + '\n'
+        temp_str += str(temp[i][0]) + ',' + str(temp[i][1]) + '\n'
+    ax_str += '`'
+    ay_str += '`'
+    az_str += '`'
+    temp_str += '`'
+    return ax_str, ay_str, az_str, temp_str
 
 
 
@@ -134,7 +146,7 @@ def plot_update(request):
         date = date.split("/")
         from_week, from_second = cleander_to_gps(date[0], date[1], date[2], from_date, 0, 0)
         to_week, to_second = from_week ,from_second + 3600
-        data = get_data(station_table, from_week, from_second, to_week, to_second)
+        data = get_data(table_name,from_week, from_second, to_week, to_second)
         xPlotData, yPlotData ,zPlotData, tempPlotData = preparation_plot_data(data)
         return JsonResponse({'xPlotData':xPlotData, 'yPlotData':yPlotData, 'zPlotData':zPlotData, 'tempPlotData':tempPlotData}, status=200)
 
