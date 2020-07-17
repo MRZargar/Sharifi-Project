@@ -400,7 +400,10 @@
                 $('#error_2_id_description').css('display', 'none')
                 $("#download_all").css("opacity", 1)
                 window.open(data.link)
-                alert(200)
+            },
+            400: function(){
+                alert("Error")
+                $("#download_all").css("opacity", 1)
             }
 
           }

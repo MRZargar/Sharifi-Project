@@ -73,7 +73,7 @@ def download(request, pk):
 
     elif request.method == "GET" and request.GET['method'] == "download":
         number_of_downloaded = DownloadLink.objects.all().count()
-        download_path = '/home/geolab/site/main/media/download_link'
+        download_path = '/home/mohammad/Desktop/Server_projec/final/Sharifi-Project/main/media/download_link'
         stations_character_id = request.GET.getlist('StaionsName[]')
         hours = request.GET.getlist('Hours[]')
         from_date = request.GET['StartTime']
@@ -114,7 +114,8 @@ def download(request, pk):
                     for hour in hours:
                         from_week, from_second = cleander_to_gps(date.strftime("%Y"), date.strftime("%m"), date.strftime("%d"), (int(hour)-1), 0, 0)
                         to_week, to_second = from_week, from_second + 3600
-                        data = get_data(station_table, from_week, from_second, to_week, to_second)
+                        # data = get_data(station_table, 2114, 277200, 2114, 277381)
+                        data = '[[2114,277380.96,-0.0219,-0.0907,9.93,55.28],[2114,277380.97,-0.0226,-0.0905,9.9299,55.28],[2114,277380.98,-0.0228,-0.0895,9.9283,55.17]]'
                         if len(data) == 2:
                             pass
                         else:
@@ -125,10 +126,6 @@ def download(request, pk):
                                 
                             file_name = station_dir + "/" +  str(station_char) + str(from_week) + str(date.strftime("%Y")) + date.strftime("%m") + date.strftime("%d") + hour +"0000" + ".txt"
                             write_to_text(file_name, data)
-                zipf = zipfile.ZipFile(station_dir + '.zip', 'w', zipfile.ZIP_DEFLATED)
-                zipdir(station_dir + '/', zipf)
-                zipf.close()
-                shutil.rmtree(station_dir)
             os.chdir(download_path + '/' + str(number_of_downloaded))
             zipf = zipfile.ZipFile(main_file_name + '.zip', 'w', zipfile.ZIP_DEFLATED)
             zipdir(main_dir , zipf)
