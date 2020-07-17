@@ -146,7 +146,7 @@ def plot_update(request):
         date = date.split("/")
         from_week, from_second = cleander_to_gps(date[0], date[1], date[2], from_date, 0, 0)
         to_week, to_second = from_week ,from_second + 3600
-        data = get_data(table_name,from_week, from_second, to_week, to_second)
+        data = get_data(station_table,from_week, from_second, to_week, to_second)
         xPlotData, yPlotData ,zPlotData, tempPlotData = preparation_plot_data(data)
         return JsonResponse({'xPlotData':xPlotData, 'yPlotData':yPlotData, 'zPlotData':zPlotData, 'tempPlotData':tempPlotData}, status=200)
 
