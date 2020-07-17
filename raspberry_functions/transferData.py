@@ -74,8 +74,6 @@ def import_to_db(query, cnt, file_name):
             DB.setQuery(query)
             break
         except Exception as ex:
-            log.log("(E5) %d. The %d row from [%s] don't saved on local database.\n%s" % (i+1, cnt, file_name, ex), messageType.ERROR)
-            
             queries = query.split(';')
             for q in queries:
                 try:
