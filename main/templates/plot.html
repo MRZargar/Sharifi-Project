@@ -368,6 +368,7 @@
     $(document).on('click', "#download_end", function(event){
         event.preventDefault();
         $("#download_all").css("opacity", 0.5)
+        $('#error_2_id_description').css('display', 'none')
         var stations = [];
         var hours = [];
         var start_time = $('#inputDate3').val()
@@ -389,15 +390,30 @@
             'method' : "download"
           },
           url: "{% url 'downloads_files' request.user.pk %}",
-          success: function(data) {
-              $('#error_2_id_description').css('display', 'none')
-              $("#download_all").css("opacity", 1)
-              window.open(data.link)
-          },
-          error: function(data) {
-              $("#download_all").css("opacity", 1)
-              $('#error_2_id_description').css('display', 'block')
+          statusCode:{
+            325: function(){
+                alert(325)
+                $("#download_all").css("opacity", 1)
+                $('#error_2_id_description').css('display', 'block')
+            },
+            200: function(){
+                $('#error_2_id_description').css('display', 'none')
+                $("#download_all").css("opacity", 1)
+                window.open(data.link)
+                alert(200)
+            }
+
           }
+          // success: function(data) {
+          //     $('#error_2_id_description').css('display', 'none')
+          //     $("#download_all").css("opacity", 1)
+          //     window.open(data.link)
+          // },
+          // error: function(data) {
+              
+          //     $("#download_all").css("opacity", 1)
+          //     $('#error_2_id_description').css('display', 'block')
+          // }
 
         })
         
