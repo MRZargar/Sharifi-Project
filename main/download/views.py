@@ -32,7 +32,7 @@ def get_data(table_name, from_week, from_second, to_week, to_second):
     url = 'http://84.241.62.31:8080/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
     try:
         r = requests.get(url, verify=False)
-    except SocketError as e:
+    except:
         pass
     if r.status_code not in range(200,300):
         raise Exception(r.status_code)
@@ -86,7 +86,7 @@ def download(request, pk):
         from_time = (datetime(int(from_date[0]), int(from_date[1]), int(from_date[2]))) 
         to_time = (datetime(int(to_date[0]), int(to_date[1]), int(to_date[2]))) 
         if (to_time - from_time).total_seconds() < 0:
-            return JsonResponse({}, status=400)
+            return JsonResponse({}, status=325)
         else:
             delta = to_time - from_time
             stations = []
