@@ -26,7 +26,7 @@ def get_table_name(id):
         try:
             return API.get_table_name(id)
         except Exception as ex:
-            log.log("get table name faild", messageType.ERROR)
+            log.log("(E1) get table name faild", messageType.ERROR)
             time.sleep(0.5)
             continue
 
@@ -52,7 +52,7 @@ def zip_move(name):
         os.remove(obs_path + name + ".txt")
     except OSError:
         os.remove(str(name) + ".zip")
-        log.log("Can not create zip file or move or remove [%s] file" % (str(name) +'.txt'), messageType.ERROR)
+        log.log("(E7) Can not create zip file or move or remove [%s] file" % (str(name) +'.txt'), messageType.ERROR)
     else:
         log.log("created and moved zip file and then remove [%s] file" % (str(name) +'.txt'), messageType.INFO)
 
@@ -64,7 +64,7 @@ def create_sent_directory(path):
         try:
             os.mkdir(path)
         except OSError:
-            log.log("Creation of the directory [%s] failed" % path, messageType.ERROR)
+            log.log("(E2) Creation of the directory [%s] failed" % path, messageType.ERROR)
         else:
             log.log("Successfully created the directory [%s]" % path, messageType.INFO)
 
@@ -72,8 +72,9 @@ def import_to_db(query, cnt, file_name):
     for i in range(3):
         try:
             DB.setQuery(query)
+            break
         except Exception as ex:
-            log.log("%d. The %d row from %s don't saved on local database.\n%s" % (i+1, cnt, file_name, ex), messageType.ERROR)
+            log.log("(E5) %d. The %d row from [%s] don't saved on local database.\n%s" % (i+1, cnt, file_name, ex), messageType.ERROR)
             
             queries = query.split(';')
             for q in queries:
@@ -82,10 +83,7 @@ def import_to_db(query, cnt, file_name):
                 except psycopg2.IntegrityError:
                     continue
                 except Exception as ex:
-                    log.log("{{ %s }} from [%s] file don't saved.\n%s" % (q, file_name, ex), messageType.ERROR)
-        else:
-            log.log("%d. The %d row from [%s] saved on local database." % (i+1, cnt, file_name), messageType.INFO)
-            break
+                    log.log("(E6) {{ %s }} from [%s] file don't saved.\n%s" % (q, file_name, ex), messageType.ERROR)
 
 def save_data_on_db(file_name):
     query = ""
@@ -115,7 +113,7 @@ def save_data(files):
         try:
             save_data_on_db(file)
         except Exception as ex:
-            log.log("Can't read The [%s].\n%s" % (file, ex), messageType.ERROR)
+            log.log("(E4) Can't read The [%s].\n%s" % (file, ex), messageType.ERROR)
         else:
             log.log("The [%s] saved on local database" % file, messageType.INFO)
             zip_move(file)            
@@ -137,9 +135,9 @@ def submit_data(datas):
         try:
             DB.setQuery(query + where)
         except Exception as ex:
-            log.log("%d. Faild for submit %d row.\n%s" % (i+1, len(datas), ex), messageType.ERROR)
+            log.log("(E9) %d. Faild for submit %d row.\n%s" % (i+1, len(datas), ex), messageType.ERROR)
             if i == 2:
-                log.log("------------------------PLEASE-CHECK-ERROR------------------------",messageType.ERROR)
+                log.log("(E10)",messageType.ERROR)
         else:
             log.log("%d. submited %d row" % (i+1, len(datas)), messageType.INFO)
             break
@@ -148,12 +146,12 @@ def send_data(data):
     for i in range(3):
         try:                
             API.send_data(tableName, data)
-            submit_data(data)
-        except Exception as ex:
-            log.log("%d. %d from datas don't sent.\n%s" % (i+1, len(data), ex), messageType.ERROR)
-        else:
             log.log("%d. %d from datas sent" % (i+1, len(data)), messageType.INFO)
+            submit_data(data)
             break
+        except Exception as ex:
+            log.log("(E8) %d. %d from datas don't sent.\n%s" % (i+1, len(data), ex), messageType.ERROR)
+            
 
 # --------------------------------------------------------------------------
 tableName = get_table_name(12345678)
@@ -166,13 +164,13 @@ while True:
     try:
         save_data(files)
     except Exception as ex:
-        log.log("read files faild.\n%s" % ex, messageType.ERROR)
+        log.log("(E3) read files faild.\n%s" % ex, messageType.ERROR)
 
     t1 = time.time()
     dt = 0
     # ???
     while dt < 3 * one_min_to_sec: 
-        dontSentData = DB.getQuery("select * from data where not is_sent order by week desc, t desc limit " + str(one_min_data_count))
+        dontSentData = DB.getQuery("select * from data where not is_sent order by week asc, t asc limit " + str(one_min_data_count))
         if len(dontSentData) == 0 : break
 
         send_data(dontSentData)
