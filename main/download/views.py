@@ -29,7 +29,7 @@ def write_to_text(file_name, data):
 
 
 def get_data(table_name, from_week, from_second, to_week, to_second):
-    url = 'http://84.241.62.31:8080/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
+    url = 'http://127.0.0.1:5000/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
     r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
         raise Exception(r.status_code)
@@ -73,7 +73,7 @@ def download(request, pk):
 
     elif request.method == "GET" and request.GET['method'] == "download":
         number_of_downloaded = DownloadLink.objects.all().count()
-        download_path = '/home/geolab/site/main/media/download_link'
+        download_path = '/home/mohammad/Desktop/Server_projec/final/Sharifi-Project/main/media/download_link'
         stations_character_id = request.GET.getlist('StaionsName[]')
         hours = request.GET.getlist('Hours[]')
         from_date = request.GET['StartTime']
