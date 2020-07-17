@@ -368,6 +368,7 @@
     $(document).on('click', "#download_end", function(event){
         event.preventDefault();
         $("#download_all").css("opacity", 0.5)
+        $('#error_2_id_description').css('display', 'none')
         var stations = [];
         var hours = [];
         var start_time = $('#inputDate3').val()
@@ -390,13 +391,15 @@
           },
           url: "{% url 'downloads_files' request.user.pk %}",
           statusCode:{
-            400: function(){
-                alert(400)
-            },
             325: function(){
                 alert(325)
+                $("#download_all").css("opacity", 1)
+                $('#error_2_id_description').css('display', 'block')
             },
             200: function(){
+                $('#error_2_id_description').css('display', 'none')
+                $("#download_all").css("opacity", 1)
+                window.open(data.link)
                 alert(200)
             }
 
