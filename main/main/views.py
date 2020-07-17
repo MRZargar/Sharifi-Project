@@ -22,6 +22,7 @@ import requests
 User = get_user_model()
 
 def update_hist(table_name, gps_week, second):
+    table_name ="STATION15"
     url = 'http://84.241.62.31:8080/api/Data/Histogram/{}?week={}&t={}'.format(table_name, gps_week, second)
     r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
@@ -29,6 +30,7 @@ def update_hist(table_name, gps_week, second):
     return [float(i) for i in r.text[1:-1].split(',')]
 
 def get_data(table_name, from_week, from_second, to_week, to_second):
+    table_name ="STATION15"
     url = 'http://84.241.62.31:8080/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
     r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
@@ -128,7 +130,7 @@ def plot_update(request):
         station_table = station.table_name
         date = request.GET['Date']
         to_date = int(request.GET['Hour'])
-        from_date = to_date - 1
+        from_date = to_date
         date = date.split("/")
         from_week, from_second = cleander_to_gps(date[0], date[1], date[2], from_date, 0, 0)
         to_week, to_second = from_week ,from_second + 3600
