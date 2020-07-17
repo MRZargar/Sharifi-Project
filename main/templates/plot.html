@@ -396,7 +396,7 @@
                 $("#download_all").css("opacity", 1)
                 $('#error_2_id_description').css('display', 'block')
             },
-            200: function(){
+            200: function(data){
                 $('#error_2_id_description').css('display', 'none')
                 $("#download_all").css("opacity", 1)
                 window.open(data.link)
@@ -404,16 +404,6 @@
             }
 
           }
-          // success: function(data) {
-          //     $('#error_2_id_description').css('display', 'none')
-          //     $("#download_all").css("opacity", 1)
-          //     window.open(data.link)
-          // },
-          // error: function(data) {
-              
-          //     $("#download_all").css("opacity", 1)
-          //     $('#error_2_id_description').css('display', 'block')
-          // }
 
         })
         
