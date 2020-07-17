@@ -381,6 +381,7 @@
                 hours.push($(this).find("span").attr("title"));
         })
         $.ajax({
+          timeout: 1000,
           type: "GET",
           data: {
             'StaionsName': stations,
