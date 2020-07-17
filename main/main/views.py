@@ -19,7 +19,6 @@ from message.models import Message
 from datetime import datetime, timedelta
 from gwpy.time import tconvert, to_gps
 import requests
-import numpy as np
 User = get_user_model()
 
 def update_hist(table_name, gps_week, second):
@@ -27,7 +26,7 @@ def update_hist(table_name, gps_week, second):
     r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
         raise Exception(r.status_code)
-    return [int(i) for i in r.text[1:-1].split(',')]
+    return [float(i) for i in r.text[1:-1].split(',')]
 
 def get_data(table_name, from_week, from_second, to_week, to_second):
     url = 'http://84.241.62.31:8080/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
