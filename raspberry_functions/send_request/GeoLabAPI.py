@@ -29,14 +29,8 @@ class GeoLabAPI:
 
         json = "["
         for inx, data in datas.iterrows():
-            json = json + """{{
-                "t": {1},
-                "ax": {2},
-                "ay": {3},
-                "az": {4},
-                "temp": {5},
-                "week":{0}
-            }},""".format(data.week, data.t, data.a_x, data.a_y, data.a_z, 'null' if np.isnan(data.temp) else data.temp)
+            json = json + "[{},{},{},{},{},{}],"
+                .format(data.week, data.t, data.a_x, data.a_y, data.a_z, 'null' if np.isnan(data.temp) else data.temp)
 
         json = json[:-1] + "]" 
 
