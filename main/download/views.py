@@ -29,7 +29,7 @@ def write_to_text(file_name, data):
 
 
 def get_data(table_name, from_week, from_second, to_week, to_second):
-    url = 'http://84.241.62.31:8080/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
+    url = 'http://127.0.0.1:5000/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
     r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
         raise Exception(r.status_code)
@@ -76,8 +76,11 @@ def download(request, pk):
         download_path = '/home/geolab/site/main/media/download_link'
         stations_character_id = request.GET.getlist('StaionsName[]')
         hours = request.GET.getlist('Hours[]')
+        print(hours)
         from_date = request.GET['StartTime']
+        print(from_date)
         to_date = request.GET['EndTime']
+        print(to_date)
         from_date = from_date.split("/")
         to_date = to_date.split("/")
         from_time = (datetime(int(from_date[0]), int(from_date[1]), int(from_date[2]))) 
@@ -114,11 +117,7 @@ def download(request, pk):
                     for hour in hours:
                         from_week, from_second = cleander_to_gps(date.strftime("%Y"), date.strftime("%m"), date.strftime("%d"), (int(hour)-1), 0, 0)
                         to_week, to_second = from_week, from_second + 3600
-                        try:
-                            data = get_data(station_table, from_week, from_second, to_week, to_second)
-                        except:
-                            data = '[]'
-                            pass
+                        data = get_data(station_table, from_week, from_second, to_week, to_second)
                         if len(data) == 2:
                             pass
                         else:
