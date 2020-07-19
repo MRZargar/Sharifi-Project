@@ -29,11 +29,8 @@ def write_to_text(file_name, data):
 
 
 def get_data(table_name, from_week, from_second, to_week, to_second):
-    url = 'http://84.241.62.31:8080/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
-    try:
-        r = requests.get(url, verify=False)
-    except:
-        pass
+    url = 'http://127.0.0.1:5000/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
+    r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
         raise Exception(r.status_code)
     return r.text
@@ -79,8 +76,11 @@ def download(request, pk):
         download_path = '/home/geolab/site/main/media/download_link'
         stations_character_id = request.GET.getlist('StaionsName[]')
         hours = request.GET.getlist('Hours[]')
+        print(hours)
         from_date = request.GET['StartTime']
+        print(from_date)
         to_date = request.GET['EndTime']
+        print(to_date)
         from_date = from_date.split("/")
         to_date = to_date.split("/")
         from_time = (datetime(int(from_date[0]), int(from_date[1]), int(from_date[2]))) 
@@ -128,10 +128,6 @@ def download(request, pk):
                                 
                             file_name = station_dir + "/" +  str(station_char) + str(from_week) + str(date.strftime("%Y")) + date.strftime("%m") + date.strftime("%d") + hour +"0000" + ".txt"
                             write_to_text(file_name, data)
-                zipf = zipfile.ZipFile(station_dir + '.zip', 'w', zipfile.ZIP_DEFLATED)
-                zipdir(station_dir + '/', zipf)
-                zipf.close()
-                shutil.rmtree(station_dir)
             os.chdir(download_path + '/' + str(number_of_downloaded))
             zipf = zipfile.ZipFile(main_file_name + '.zip', 'w', zipfile.ZIP_DEFLATED)
             zipdir(main_dir , zipf)

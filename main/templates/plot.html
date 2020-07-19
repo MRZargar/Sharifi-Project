@@ -232,6 +232,7 @@
     $(document).on('click', '.bar_value', function(event) {
     event.preventDefault();
     $(".line_graph_main").css("opacity", 0.5)
+    $("#myHistogram").css("opacity", 0.5)
     var station_name = "{{StationName}}";
     var hour = $(this).find("span").attr("title");
     if (window.value !== undefined)
@@ -338,7 +339,7 @@
                     {
                         // legend: "follow",
                         animatedZooms: true,
-                        showRangeSelector: true,
+                        // showRangeSelector: true,
                         rangeSelectorPlotFillColor: "#FFF",
                         drawPoints: true,
                         pointSize: 3,
@@ -354,11 +355,20 @@
                     }
                 )
             );
-            var sync = Dygraph.synchronize(g);
+            // var sync = Dygraph.synchronize(g);
             $(".line_graph_main").css("opacity", 1)
+            $("#myHistogram").css("opacity", 1)
+            var sync = Dygraph.synchronize(g[0]);
+
+            var sync = Dygraph.synchronize(g[1]);
+
+            var sync = Dygraph.synchronize(g[2]);
+
+            var sync = Dygraph.synchronize(g[3]);
             },
             error: function(){
               $(".line_graph_main").css("opacity", 1)
+              $("#myHistogram").css("opacity", 1)
               alert("Error")
             }
           })
@@ -396,24 +406,17 @@
                 $("#download_all").css("opacity", 1)
                 $('#error_2_id_description').css('display', 'block')
             },
-            200: function(){
+            200: function(data){
                 $('#error_2_id_description').css('display', 'none')
                 $("#download_all").css("opacity", 1)
                 window.open(data.link)
-                alert(200)
+            },
+            400: function(){
+                alert("Error")
+                $("#download_all").css("opacity", 1)
             }
 
           }
-          // success: function(data) {
-          //     $('#error_2_id_description').css('display', 'none')
-          //     $("#download_all").css("opacity", 1)
-          //     window.open(data.link)
-          // },
-          // error: function(data) {
-              
-          //     $("#download_all").css("opacity", 1)
-          //     $('#error_2_id_description').css('display', 'block')
-          // }
 
         })
         
@@ -666,7 +669,7 @@
                 {
                     // legend: "follow",
                     animatedZooms: true,
-                    showRangeSelector: true,
+                    // showRangeSelector: true,
                     rangeSelectorPlotFillColor: "#FFF",
                     drawPoints: true,
                     pointSize: 3,
@@ -682,13 +685,14 @@
                 }
             )
         );
-        // var sync = Dygraph.synchronize(g[0]);
+        // var sync = Dygraph.synchronize(g);
+        var sync = Dygraph.synchronize(g[0]);
 
-        // var sync = Dygraph.synchronize(g[1]);
+        var sync = Dygraph.synchronize(g[1]);
 
-        // var sync = Dygraph.synchronize(g[2]);
+        var sync = Dygraph.synchronize(g[2]);
 
-        // var sync = Dygraph.synchronize(g[3]);
+        var sync = Dygraph.synchronize(g[3]);
 </script>   
 
 <script>
