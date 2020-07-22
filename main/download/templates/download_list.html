@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %}
+<!--  Title  -->
+{% block title %}requests{% endblock %} {% block css %}
+<script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
+<link href="{% static 'dist/css/stationList.css' %}" rel="stylesheet"> {% endblock %}
+
+
+<!-- Page Name -->
+{% block pageName %}requests{% endblock %} {% block content %}
+<div class="table_scroll_bar">
+    <table class="table table-hover" id="station-table-list">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">number</th>
+                <th scope="col">stations</th>
+                <th scope="col">date</th>
+                <th scope="col">size</th>
+                <th scope="col">link</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for download_link in download_links %}
+             {% if download_link.status == True and download_link.dic_delete == False %}
+            <tr class="table-success" data-station="{{download_link.user.username}}">
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ download_link.stations_id|slice:"1:"}}</td>
+                <td>{{ download_link.from_date}}-{{ download_link.to_date}}</td>
+                <td>{{ download_link.size}}</td>
+                <td id="station_deactive_button"><button type="button" class="btn btn-secondary" style="color:#fff"><a href="{{ download_link.download_link}}" style="color:#fff">download</a></td>
+  		    </tr>
+  		    {% elif download_link.status == True and download_link.dic_delete == True %}
+  			<tr class="table-danger" data-station="{{download_link.user.username}}">
+  		        <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ download_link.stations_id|slice:"1:"}}</td>
+                <td>{{ download_link.from_date}}-{{ download_link.to_date}}</td>
+                <td>{{ download_link.size}}</td>
+                <td>expired</td>
+            {% else %}
+            <tr style="background-color: #fffb71" data-station="{{download_link.user.username}}">
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ download_link.stations_id|slice:"1:"}}</td>
+                <td>{{ download_link.from_date}}-{{ download_link.to_date}}</td>
+                <td>{{ download_link.size}}</td>
+                <td>preparing</td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

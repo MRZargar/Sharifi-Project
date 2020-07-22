@@ -362,6 +362,18 @@ tr{
   display: none;
   font-size: 16px;
 }
+#correct_2_id_description{
+  display: none;
+  font-size: 16px;
+}
+#error_3_id_description{
+  display: none;
+  font-size: 16px;
+  margin-left: -1rem;
+  margin-bottom: -20px;
+  margin-top: 20px; 
+
+}
 .time_error{
     position: relative;
     margin-left: 25px;

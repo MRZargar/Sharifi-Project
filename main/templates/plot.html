@@ -5,9 +5,6 @@
 <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
 <script src="{% static 'assets/libs/bootstrap/dist-v3/js/bootstrap.js' %}"></script>
 
-<!-- <link rel="stylesheet" href="{% static 'assets/libs/clockpicker/dist/jquery-clockpicker.css' %}">
-<script src="{% static 'assets/libs/clockpicker/dist/jquery-clockpicker.js' %}"></script> -->
-
 <link rel="stylesheet" href="{% static 'assets/libs/calendar/dist/jquery.md.bootstrap.datetimepicker.style.css' %}">
 <script src="{% static 'assets/libs/calendar/dist/jquery.md.bootstrap.datetimepicker.js' %}"></script>
 
@@ -160,6 +157,7 @@
                 </div>
                 <div class = "time_error">
                     <p id="error_2_id_description" class="invalid-feedback"><strong>The start time could not be greater than the end time</strong></p>
+                    <p id="correct_2_id_description" class="valid-feedback"><strong>Please check your inbox</strong></p>
                 </div>
                 <hr>
                 <div id="download_this_day">
@@ -378,7 +376,9 @@
     $(document).on('click', "#download_end", function(event){
         event.preventDefault();
         $("#download_all").css("opacity", 0.5)
+        $('#error_3_id_description').css('display', 'none')
         $('#error_2_id_description').css('display', 'none')
+        $('#correct_2_id_description').css('display', 'none')
         var stations = [];
         var hours = [];
         var start_time = $('#inputDate3').val()
@@ -390,38 +390,33 @@
             if ($(this).find("span").css("background")[4]==4)
                 hours.push($(this).find("span").attr("title"));
         })
-        $.ajax({
-          type: "GET",
-          data: {
-            'StaionsName': stations,
-            'Hours' : hours,
-            'StartTime' : start_time,
-            'EndTime': end_time,
-            'method' : "download"
-          },
-          url: "{% url 'downloads_files' request.user.pk %}",
-          statusCode:{
-            325: function(){
-                alert(325)
+        if (stations.length == 0){
+            $("#download_all").css("opacity", 1)
+            $('#error_3_id_description').css('display', 'block')
+        }else{
+            $.ajax({
+              type: "GET",
+              data: {
+                'StaionsName': stations,
+                'Hours' : hours,
+                'StartTime' : start_time,
+                'EndTime': end_time,
+                'method' : "download"
+              },
+              url: "{% url 'downloads_files' request.user.pk %}",
+            success: function() {
                 $("#download_all").css("opacity", 1)
-                $('#error_2_id_description').css('display', 'block')
-            },
-            200: function(data){
+                $('#error_3_id_description').css('display', 'none')
                 $('#error_2_id_description').css('display', 'none')
-                $("#download_all").css("opacity", 1)
-                window.open(data.link)
+                $('#correct_2_id_description').css('display', 'block')
             },
-            400: function(){
-                alert("Error")
+            error: function(){
+                $('#error_2_id_description').css('display', 'block')
                 $("#download_all").css("opacity", 1)
-            }
+            },
 
-          }
-
-        })
-        
-
-
+            });
+        }
     });
 
     $(document).on('click', '.bar_value2', function(event) {
@@ -438,6 +433,9 @@
 
 
     $(document).on('click', "#download_button", function(event){
+        $('#error_3_id_description').css('display', 'none')
+        $('#error_2_id_description').css('display', 'none')
+        $('#correct_2_id_description').css('display', 'none')
       var station_name = "{{StationName}}";
         $(".bar_value2").find('span').css("background", "#2d8180");
         event.preventDefault();
@@ -489,6 +487,7 @@
                     };
                 };
                 final = '<div class="container">' + '<div class="row">' + main + '</div>'
+                 +'<p id="error_3_id_description" class="invalid-feedback"><strong>Please select at least one station</strong></p>'
                 $('.modal-body').prepend(final);
             }
         });
