@@ -117,17 +117,9 @@ def save_data(files):
             zip_move(file)            
 
 def submit_data(datas):
-    query = "update data set is_sent = TRUE "
-
-    where = "where "
-    weeks = datas['week'].unique()
-    for week in weeks:
-        tWhere = '' 
-        for _, data in datas[datas.week == week].iterrows():
-            tWhere += '{}, '.format(data.t)
-        tWhere = tWhere[:-2]
-        where += '(week = {} AND t IN ({})) OR '.format(week, tWhere)
-    where = where[:-3] + ';'
+    query = ""
+    for _, data in datas.iterrows():
+        query += "update data set is_sent = TRUE where week = {} AND t = {};\n".format(data.week, data.t)
 
     for i in range(3):
         try:
@@ -160,7 +152,7 @@ while True:
     files = glob.glob(obs_path + "*.txt")
 
     try:
-        save_data(files)
+        # save_data(files)
     except Exception as ex:
         log.log("(E3) read files faild.\n%s" % ex, messageType.ERROR)
 
@@ -168,7 +160,7 @@ while True:
     dt = 0
     # ???
     while dt < 3 * one_min_to_sec: 
-        dontSentData = DB.getQuery("select * from data where not is_sent order by week asc, t asc limit " + str(one_min_data_count))
+        dontSentData = DB.getQuery("select * from data where not is_sent order by week asc, t asc limit " + str(2 * one_min_data_count))
         if len(dontSentData) == 0 : break
 
         send_data(dontSentData)
