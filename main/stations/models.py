@@ -9,16 +9,16 @@ from django.core.validators import MinLengthValidator
 def station_directory_path(instance, filename):
 	base_name = os.path.basename(filename)
 	name,ext = os.path.splitext(base_name)
-	return "images/stations/" + str(instance.setup.station_name)+ "/" + str(instance.setup.id) + "/"+"IMG_" + str(instance.setup.id)+ext
+	return "images/stations/" + str(instance.setup.station_id)+ "/" + str(instance.setup.id) + "/"+"IMG_" + str(instance.setup.id)+ext
 
 
 class Setup(models.Model):
 	operator = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
 	table_name = models.CharField(max_length=50, null=True)
-	station_name = models.CharField(max_length=150, unique=True)
-	for_character_id = models.CharField(max_length=4, validators=[MinLengthValidator(4)], unique=True)
-	address = models.CharField(max_length=300, blank=False)
-	description = models.TextField(blank=True, null=True)
+	city = models.CharField(max_length=150)
+	station_id  = models.CharField(max_length=8, validators=[MinLengthValidator(8)], unique=True)
+	address = models.CharField(max_length=300, blank=True, null=True)
+	owner = models.CharField(max_length=200)
 	date = models.DateTimeField(default=datetime.datetime.now())
 	status = models.BooleanField(default=False)
 	sensorTypes = (('type1', 'TYPE1'), ('type2', 'TYPE2'),)
@@ -30,7 +30,7 @@ class Setup(models.Model):
 	health_time = models.DateTimeField(default=datetime.datetime.now())
 
 	def __str__(self):
-		return self.station_name
+		return self.station_id
 
 	def get_absolute_url(self):
 		return reverse('station_detail', args=[str(self.id)])
@@ -42,14 +42,14 @@ class Image(models.Model):
 
 
 	def __str__(self):
-		return self.setup.station_name + "Img"
+		return self.setup.station_id + "Img"
 
 
 class Deactivate(models.Model):
 	operator = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
 
 
-	station_name = models.ForeignKey(Setup,
+	station_id = models.ForeignKey(Setup,
 				 	on_delete=models.CASCADE,
 				 	related_name='deactivates',
 				 	)
@@ -58,7 +58,7 @@ class Deactivate(models.Model):
 
 
 	def __str__(self):
-		return str(self.station_name) if self.station_name else ""
+		return str(self.station_id) if self.station_id else ""
 
 
 class Access(models.Model):
@@ -67,7 +67,7 @@ class Access(models.Model):
 
 
 	def __str__(self):
-		return self.station.station_name + "_Access"
+		return self.station.station_id + "_Access"
 
 
 class Raspberry(models.Model):

@@ -5,7 +5,7 @@ class StationSetup(forms.ModelForm):
 
 	class Meta:
 		model =  Setup
-		fields = ['station_name', 'address', 'sensor_type', 'latitude', 'longitude', 'description']
+		fields = ['city', 'address', 'sensor_type', 'latitude', 'longitude', 'owner']
 
 
 
@@ -13,7 +13,7 @@ class StationSetup2(forms.ModelForm):
 
 	class Meta:
 		model =  Setup
-		fields = ['station_name', 'for_character_id', 'raspberryID', 'address', 'sensor_type', 'latitude', 'longitude', 'description',]
+		fields = ['city', 'station_id', 'raspberryID', 'address', 'sensor_type', 'latitude', 'longitude', 'owner',]
 		widgets = {'raspberryID': forms.Select()}
 
 	def __init__(self, *args, **kwargs):
@@ -22,6 +22,7 @@ class StationSetup2(forms.ModelForm):
 		self.fields['raspberryID'] = forms.ChoiceField(choices=new_choices)
 		self.fields['latitude'].widget.attrs['placeholder'] = " number must be six decimal places '0.123456'"
 		self.fields['longitude'].widget.attrs['placeholder'] = " number must be six decimal places '0.123456' " 
+		self.fields['station_id'].widget.attrs['placeholder'] = " for example abcd1234 " 
 
 
 

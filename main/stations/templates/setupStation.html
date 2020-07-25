@@ -16,10 +16,15 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="fieldWrapper">
-            {{ form.station_name|as_crispy_field}}
+            {{ form.city|as_crispy_field}}
         </div>
         <div class="fieldWrapper">
-            {{ form.for_character_id|as_crispy_field}}
+            {{ form.station_id|as_crispy_field}}
+            {% if messages %} {% for message in messages %}
+                {%if "station_id_error" in message.tags %}
+                    <p id="error_1_id_latitude" class="invalid-feedback" style="display: block;"><strong>{{ message }}.</strong></p>
+                {% endif %}
+            {% endfor %} {% endif %}
         </div>
         <div class="fieldWrapper">
             {{ form.raspberryID|as_crispy_field }}
@@ -47,7 +52,7 @@
             {% endfor %} {% endif %}
         </div>
         <div class="fieldWrapper">
-            {{ form.description|as_crispy_field}}
+            {{ form.owner|as_crispy_field}}
         </div>
         <div class="form-group">
 	        <label for="note-image">Images</label><span class="asteriskField">*</span>
@@ -70,17 +75,3 @@
 
 
 {% endblock %}
-
-<!-- <p id="error_1_id_latitude" class="invalid-feedback"><strong>Ensure that there are no more than 20 digits in total.</strong></p>  -->
-
-<!--         {% if messages %} {% for message in messages %}
-
-            {%if "lat" in message.tags %}
-            <div id="div_id_latitude" class="form-group">
-                <p id="error_1_id_latitude" class="invalid-feedback" style="display: block;"><strong>{{ message }}.</strong></p>
-            </div>
-            {% endif %}
-        {% endfor %} {% endif %} -->
-
-
-<!--         fields = ['station_name', 'raspberryID', 'address', 'sensor_type', 'latitude', 'longitude', 'description',] -->

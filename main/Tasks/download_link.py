@@ -126,4 +126,3 @@ def delete_download_link():
             shutil.rmtree(str(download.number))
             download.dic_delete = True
             download.save()
-            break

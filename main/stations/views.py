@@ -40,12 +40,23 @@ def station_setup(request):
 			return render(request, 'setupStation.html', {'form':form})
 		else:
 			if form.is_valid():
-				station_name = form.cleaned_data['station_name']
-				for_character_id = form.cleaned_data['for_character_id']
+				city = form.cleaned_data['city']
+				station_id = form.cleaned_data['station_id']
+				split_first_station_id = station_id[0:4]
+				split_second_station_id = station_id[4:8]
+				if not station_id.isascii():
+					messages.error(request, "Please use English letters", extra_tags='station_id_error')
+					return render(request, 'setupStation.html', {'form':form})
+				elif not split_first_station_id.isalpha():
+					messages.error(request, "The first four words must be alphanumeric characters", extra_tags='station_id_error')
+					return render(request, 'setupStation.html', {'form':form})
+				elif not split_second_station_id.isdigit():
+					messages.error(request, "The second four words must be numbers", extra_tags='station_id_error')
+					return render(request, 'setupStation.html', {'form':form})
 				address = form.cleaned_data['address']
 				latitude = form.cleaned_data['latitude']
 				longitude = form.cleaned_data['longitude']
-				description = form.cleaned_data['description']
+				owner = form.cleaned_data['owner']
 				raspberryID = form.cleaned_data['raspberryID']
 				operator = request.user
 				lat = Decimal(str(latitude))
@@ -60,10 +71,10 @@ def station_setup(request):
 				elif abs(lon.as_tuple().exponent) < 6:
 					messages.error(request, "Your number must be six decimal places", extra_tags='lon')
 					return render(request, 'setupStation.html', {'form':form})
-				station_obj = Setup.objects.create(station_name=station_name,
-							for_character_id=for_character_id,
+				station_obj = Setup.objects.create(city=city,
+							 station_id=station_id,
 							 address=address,
-							 description=description,
+							 owner=owner,
 							 operator=operator,
 							 latitude = latitude,
 							 longitude = longitude,
@@ -122,15 +133,15 @@ def station_deactive(request, pk):
 		raise PermissionDenied
 	if request.method == "POST":
 		form = StationDeactivate(request.POST)
-		station_name = request.POST['StationName']
+		station_id = request.POST['StationId']
 		operator = request.user
 		description = request.POST['Discribtion']
 		if len(description) == 0 and obj.userType =='is_operator':
 			return JsonResponse({}, status=400)
 		else:
-			this_station = Setup.objects.get(station_name=station_name)
+			this_station = Setup.objects.get(station_id=station_id)
 			Deactivate.objects.create(operator=operator, 
-					                  station_name=this_station,
+					                  station_id=this_station,
 					                   description=description)
 			this_station.status = False
 			Raspberry.objects.get(raspberryID=this_station.raspberryID).delete()
@@ -163,8 +174,8 @@ def delete_station(request, pk):
 		raise PermissionDenied
 
 	if request.method == "POST":
-		station_name = request.POST["StationName"]
-		Setup.objects.get(station_name=station_name).delete()
+		station_id = request.POST["StationId"]
+		Setup.objects.get(station_id=station_id).delete()
 		return JsonResponse({}, status=200)
 
 

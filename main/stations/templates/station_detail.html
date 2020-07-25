@@ -15,7 +15,7 @@
 		{% if deactive == Null %}
 			<div id= "card-detail-active" class="card text-center">
 				  <div id="detail-header" class="card-header">
-				    <h4>{{ station.station_name }}</h4>
+				    <h4>{{ station.station_id }}</h4>
 				  </div>
 			  <div class="card-body">
 			    <dl id="details-content" class="row">
@@ -27,15 +27,11 @@
 				  <dd class="col-sm-9">{{station.date}}</dd>
 				</dl>
 			  </div>
-			  <dl id="description-detail" class="row">
-			  	<dt class="col-sum-3">Description:</dt>
-				    <p class="lead" dir="auto" id="first-discription">{{station.description}}.</p>
-			  <dl>
 			</div>
 		{% else %}
 			<div id= "card-detail-active" class="card text-center">
 				  <div id="detail-header" class="card-header">
-				    <h4>{{ station.station_name }}</h4>
+				    <h4>{{ station.station_id }}</h4>
 				  </div>
 			  <div class="card-body">
 			    <dl id="details-content" class="row">
@@ -47,10 +43,6 @@
 				  <dd class="col-sm-9">{{station.date}}</dd>
 				</dl>
 			  </div>
-			  <dl id="description-detail" class="row">
-			  	<dt class="col-sum-3">Description:</dt>
-				    <p class="lead" dir="auto" id="second-discription">{{station.description}}.</p>
-			  <dl>
 			</div>
 			<div id= "card-detail-deactive" class="card text-center">
 				  <div id="detail-header" class="card-header">
@@ -126,12 +118,6 @@
 			}
 		}
 	}
-	var string2 = $("#first-discription").text();
-	isStringPersian2(string2, "#first-discription")
-
-	var string2 = $("#second-discription").text();
-	isStringPersian2(string2, "#second-discription")
-
 
 	var string2 = $("#third-discription").text();
 	isStringPersian2(string2, "#third-discription")
@@ -154,18 +140,6 @@
 	isStringPersian3(string2, "#station_address_2")
 
 
-
-
-	document.getElementById('id_description').addEventListener('keypress',function(e){
-     if (isEnglish(e.charCode))
-       $("#id_description").css("direction", 'ltr');
-     else if(isPersian(e.key))
-       $("#id_description").css("direction", 'rtl');
-	});
-	$("#id_description").bind("paste", function(e){
-	    var pastedData = e.originalEvent.clipboardData.getData('text');
-	    	isStringPersian(pastedData);
-	} );id_description
 
 	function isEnglish(charCode){
 			return (charCode >= 97 && charCode <= 122) || (charCode>=65 && charCode<=90);
