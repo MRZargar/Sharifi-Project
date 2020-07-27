@@ -208,7 +208,7 @@
 
         </div>
     </div>
-    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{% static 'assets/libs/popper.js/dist/umd/popper.min.js' %}"></script>
     <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
@@ -219,8 +219,8 @@
     <script src="{% static 'dist/js/sidebarmenu.js' %}"></script>
     <!--Custom JavaScript -->
     <script src="{% static 'dist/js/custom.js' %}"></script>
-    <script src="{% static 'dist/js/pages/sidebar-mobile.js' %}">
-    </script>
+    <script src="{% static 'dist/js/pages/sidebar-mobile.js' %}"></script>
+    <script src="{% static 'dist/js/password_strength_meter.js' %}"></script>
 
     <script>
     $(document).ready(function() {
@@ -228,7 +228,6 @@
             type: "GET",
             url: "{% url 'inbox_message_count' request.user.pk %}",
             success: function(data){
-                console.log(data.count)
                 $("#message_inbox_count").text('(' + data.count +')');
             }
         })

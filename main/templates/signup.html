@@ -25,13 +25,17 @@
     </ul>
 
     <h2 style="padding-left: 15px;">Sign Up</h2>
-    <div class='card-body'>
-        <form method="post" data-url="{%url 'signup' request.user.pk %}">
-            {% csrf_token %} {{ form|crispy }}
-            <button class="btn btn-success" type="submit">Sign Up</button>
-        </form>
+    <div class='card-body' id="pwd-container">
+        <section class="login-form">
+            <form method="post" data-url="{%url 'signup' request.user.pk %}">
+                {% csrf_token %} {{ form|crispy }}
+                <div class="pwstrength_viewport_progress"></div>
+                <button class="btn btn-success" type="submit">Sign Up</button>
+            </form>
+        </section>
     </div>
 </div>
+
 <div class="active-user-content">
 </div>
 <div class="modal fade" id="compose-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -195,6 +199,8 @@
     });
 
     $(document).ready(function() {
+        $("#hint_id_password1").css('display', 'none')
+        $("#hint_id_password2").css('display', 'none')
         $("#id_phone_number").attr('type', 'text');
     });
     $("#btn-Add").click(function(event) {
