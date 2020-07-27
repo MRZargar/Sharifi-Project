@@ -36,16 +36,14 @@ def download(request, pk):
                 user_access.append(station_q.station_id)
             stations = Setup.objects.filter(id__in = user_access).order_by('date').reverse()
         station_list = []
-        station_names = []
         for station in stations:
-            station_list.append(station.for_character_id)
-            station_names.append(station.station_name)
-        return JsonResponse({'stations_list': station_list, 'station_name':station_names}, status=200)
+            station_list.append(station.id)
+        return JsonResponse({'stations_list': station_list}, status=200)
 
     elif request.method == "GET" and request.GET['method'] == "download":
         number_of_downloaded = DownloadLink.objects.all().count()
         download_path = '/home/geolab/site/main/media/download_link'
-        stations_id = request.GET.getlist('StaionsName[]')
+        stations_id = request.GET.getlist('StaionsId[]')
         all_stations_id = ""
         for station_id in stations_id:
             all_stations_id += "-" + station_id

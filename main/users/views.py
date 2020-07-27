@@ -129,7 +129,7 @@ def access_station(request, pk):
         if user_access.count() == 0:
             for i in range(int(count_of_access/2)):
                 if user_access_list[i*2 + 1] == 'true':
-                    my_station = all_staions.Setup.objects.get(station_name=user_access_list[i*2])
+                    my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
                     all_staions.Access.objects.create(user=my_user, station=my_station)
                 elif user_access_list[i*2 + 1] == 'false':
                     continue
@@ -137,7 +137,7 @@ def access_station(request, pk):
             user_accessed = all_staions.Access.objects.all()
             for i in range(int(count_of_access/2)):
                 if user_access_list[i*2 + 1] == 'true':
-                    my_station = all_staions.Setup.objects.get(station_name=user_access_list[i*2])
+                    my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
                     temp = True
                     for userAccess in user_accessed:
                         if userAccess.station == my_station:
@@ -146,7 +146,7 @@ def access_station(request, pk):
                     if temp:
                         all_staions.Access.objects.create(user=my_user, station=my_station)
                 elif user_access_list[i*2 + 1] == 'false':
-                    my_station = all_staions.Setup.objects.get(station_name=user_access_list[i*2])
+                    my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
                     temp = False
                     for userAccess in user_accessed:
                         if userAccess.station == my_station:
@@ -162,10 +162,10 @@ def access_station(request, pk):
         stations = all_staions.Setup.objects.all().order_by('date').reverse()
         user_access = all_staions.Access.objects.filter(user = this_user)
         all_access = []
-        stations_names = []
+        stations_id = []
         for station in stations:
             temp = False
-            stations_names.append(station.station_name)
+            stations_id.append(station.station_id)
             for access in user_access:
                 if station == access.station:
                     temp = True
@@ -173,8 +173,8 @@ def access_station(request, pk):
                 all_access.append(True)
             else:
                 all_access.append(False)
-        count_of_station = len(stations_names)
-        return JsonResponse({'stations_name': stations_names, 'access':all_access, 'count': count_of_station}, status=200)
+        count_of_station = len(stations_id)
+        return JsonResponse({'stations_id': stations_id, 'access':all_access, 'count': count_of_station}, status=200)
 
 
 @login_required(login_url='signpage')

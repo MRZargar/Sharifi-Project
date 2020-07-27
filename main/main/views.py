@@ -29,7 +29,6 @@ def update_hist(table_name, gps_week, second):
     return [float(i) for i in r.text[1:-1].split(',')]
 
 def get_data(table_name, from_week, from_second, to_week, to_second):
-    table_name ="STATION15"
     url = 'http://127.0.0.1:5000/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
     r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
@@ -137,8 +136,8 @@ def signout(request):
 
 @login_required(login_url='signpage')
 def plot_update(request):
-        station_name = request.GET['StationName']
-        station = Setup.objects.get(station_name=station_name)
+        station_id = request.GET['StationId']
+        station = Setup.objects.get(station_id=station_id)
         station_table = station.table_name
         date = request.GET['Date']
         to_date = int(request.GET['Hour'])
@@ -153,9 +152,9 @@ def plot_update(request):
 @login_required(login_url='signpage')
 def histogram_update(request):
     if request.method == "GET":
-        station_name = request.GET['StationName']
+        station_id = request.GET['StationId']
         from_date = request.GET['Date']
-        station = Setup.objects.get(station_name=station_name)
+        station = Setup.objects.get(station_id=station_id)
         station_table = station.table_name
         from_date = from_date.split("/")
         gps_week, second = cleander_to_gps(int(from_date[0]), int(from_date[1]), int(from_date[2]), 0, 0, 0)
@@ -190,8 +189,8 @@ def plot(request, stationID):
 
     if stationID != 12345698722222222222254654879874102587932:
         station = Setup.objects.get(pk=stationID)
-        station_name = station.station_name
-        station_character_id = station.for_character_id
+        station_id = station.station_id
+        station_city = station.city
         station_status = station.status
         station_table = station.table_name
         if station_status:
@@ -230,12 +229,12 @@ def plot(request, stationID):
             data = get_data(station_table, from_week, from_second, to_week, to_second)
             xPlotData, yPlotData ,zPlotData, tempPlotData = preparation_plot_data(data)
         return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=xPlotData, yPlotData=yPlotData, zPlotData=zPlotData,
-                                                 tempPlotData=tempPlotData, StationName=station_name, StationCharacterID=station_character_id, hist_data = hist_data, start_time=start_time, end_time=end_time))
+                                                 tempPlotData=tempPlotData, StationId=station_id, StationCity=station_city, hist_data = hist_data, start_time=start_time, end_time=end_time))
     else :
         if len(stations) >= 1:
             station = stations[0]
-            station_name = station.station_name
-            station_character_id = station.for_character_id
+            station_id = station.station_id
+            station_city = station.city
             station_status = station.status
             station_table = station.table_name
             if station_status:
@@ -274,7 +273,7 @@ def plot(request, stationID):
                 data = get_data(station_table, from_week, from_second, to_week, to_second)
                 xPlotData, yPlotData ,zPlotData, tempPlotData = preparation_plot_data(data)
             return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=xPlotData, yPlotData=yPlotData, zPlotData=zPlotData,
-                                                     tempPlotData=tempPlotData, StationName=station_name, StationCharacterID=station_character_id, hist_data = hist_data, start_time=start_time, end_time=end_time))
+                                                     tempPlotData=tempPlotData, StationId=station_id, StationCity=station_city, hist_data = hist_data, start_time=start_time, end_time=end_time))
         else:
             return render(request, 'no_station_plot.html')
 

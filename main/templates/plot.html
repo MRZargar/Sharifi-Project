@@ -196,12 +196,12 @@
         event.preventDefault();
         if (hist_bar_update){
             var date = $('#inputDate2').val()
-            var station_name = "{{StationName}}";
+            var station_id = "{{StationId}}";
             $("#myHistogram").css("opacity", 0.5)
             $.ajax({
                 type: "GET",
                 data: {
-                    'StationName' : station_name,
+                    'StationId' : station_id,
                     'Date' : date
                 },
                 url : "{% url 'update_histogram' %}",
@@ -231,7 +231,7 @@
     event.preventDefault();
     $(".line_graph_main").css("opacity", 0.5)
     $("#myHistogram").css("opacity", 0.5)
-    var station_name = "{{StationName}}";
+    var station_id = "{{StationId}}";
     var hour = $(this).find("span").attr("title");
     if (window.value !== undefined)
         window.value.css("background", "#2d8180")
@@ -242,7 +242,7 @@
     $.ajax({
         type: "GET",
         data: {
-            'StationName' : station_name,
+            'StationId' : station_id,
             'Date' : date,
             'Hour' : hour,
         },
@@ -264,7 +264,7 @@
                         axisLineWidth: 2,
                         // axisLabelWidth: 10,
                         ylabel: "<b>`a_x`</b>",
-                        title: "{{StationName}}({{StationCharacterID}})",
+                        title: "{{StationId}}({{StationCity}})",
                         axes:{
                             'x':{
                                 axisLabelFontSize: 0
@@ -397,7 +397,7 @@
             $.ajax({
               type: "GET",
               data: {
-                'StaionsName': stations,
+                'StaionsId': stations,
                 'Hours' : hours,
                 'StartTime' : start_time,
                 'EndTime': end_time,
@@ -436,7 +436,7 @@
         $('#error_3_id_description').css('display', 'none')
         $('#error_2_id_description').css('display', 'none')
         $('#correct_2_id_description').css('display', 'none')
-      var station_name = "{{StationName}}";
+        var station_id = "{{StationId}}";
         $(".bar_value2").find('span').css("background", "#2d8180");
         event.preventDefault();
         $(".modal-body").empty()
@@ -453,20 +453,19 @@
                     temp = "No station has been registered yet";
                 } else {
                     for (i in data.stations_list) {
-                        this_station_char = data.stations_list[i];
-                        this_station_name = data.station_name[i];
+                        this_station_id = data.stations_list[i];
                         if (i % 2 == 0 && i != 0) {
                             column = '<div class="w-100" style="height:15px;"></div>';
                         } else {
                             column = "";
                         }
-                        if (this_station_name == station_name) {
+                        if (this_station_id == station_id) {
                             temp =
                                 '<div class="col" style="flex-grow:0.3">' +
                                 '<div class="form-check">' +
-                                '<input class="form-check-input" type="checkbox" value="'+ this_station_char +'" id="defaultCheck1" checked="true" name="station" style="margin-left:-18px">' +
+                                '<input class="form-check-input" type="checkbox" value="'+ this_station_id +'" id="defaultCheck1" checked="true" name="station" style="margin-left:-18px">' +
                                 '<label class="form-check-label" for="defaultCheck1">' +
-                                this_station_char +
+                                this_station_id +
                                 '</label>' +
                                 '</div>' +
                                 '</div>' +
@@ -475,9 +474,9 @@
                             temp =
                                 '<div class="col" style="flex-grow:0.3">' +
                                 '<div class="form-check">' +
-                                '<input class="form-check-input" type="checkbox" value="'+ this_station_char +'" id="defaultCheck1" name="station" style="margin-left:-18px">' +
+                                '<input class="form-check-input" type="checkbox" value="'+ this_station_id +'" id="defaultCheck1" name="station" style="margin-left:-18px">' +
                                 '<label class="form-check-label" for="defaultCheck1">' +
-                                this_station_char +
+                                this_station_id +
                                 '</label>' +
                                 '</div>' +
                                 '</div>' +
@@ -508,13 +507,15 @@
                 var st_id = feature.get('ID');
                 var  url = "{%url 'plot' '0' %}".replace('0', st_id);
                 if (health == 0){
-                    name = "<span style='color:orange'> <a href="+ url +" style='color:orange;'> " + feature.get('Name') + " (" + feature.get('ForCharacterId') + ")" + "</a></span>";
+                    name = "<span style='color:orange'> <a href="+ url +" style='color:orange;'> " + feature.get('StationId') + " (" + feature.get('City') + ")" + "</a></span>";
                 }
                 else if (health == 1){
-                    name = "<span style='color:green'> <a href="+ url +" style='color:green;'> " + feature.get('Name')+ " (" + feature.get('ForCharacterId') + ")" + "</a></span>";
+                    name = "<span style='color:green'> <a href="+ url +" style='color:green;'> " + feature.get('StationId')+ " (" + feature.get('City') + ")" + "</a></span>";
                 }
-                else{ 
-                    name = "<span style='color:red'><a href="+ url +" style='color:red;'> " + feature.get('Name')+ " (" + feature.get('ForCharacterId') + ")" + "</a></span>";
+                else if (health == 2) { 
+                    name = "<span style='color:red'><a href="+ url +" style='color:red;'> " + feature.get('StationId')+ " (" + feature.get('City') + ")" + "</a></span>";
+                }else{
+                    name = "<span style='color:black'><a href="+ url +" style='color:black;'> " + feature.get('StationId')+ " (" + feature.get('City') + ")" + "</a></span>";
                 }
                 json = json + "{"
                             + '"text": "' + name + '", '
@@ -595,7 +596,7 @@
                     axisLineWidth: 2,
                     // axisLabelWidth: 10,
                     ylabel: "<b>`a_x`</b>",
-                    title: "{{StationName}}({{StationCharacterID}})",
+                    title: "{{StationId}}({{StationCity}})",
                     axes:{
                         'x':{
                             axisLabelFontSize: 0

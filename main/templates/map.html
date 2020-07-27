@@ -157,16 +157,23 @@
                     circle_id = "circle_green";
                     health_status = "<span style='color:green'> ONLINE </span>";
                 }
-                else{
+                else if (health == 1){
                     circle_id = "circle_red";
                     health_status = "<span style='color:red'> OFFLINE </span>";
+                }else{
+                    circle_id = "circle_black";
+                    health_status = "<span style='color:black'> Deactive </span>";
                 }
                 content.innerHTML = '<h5><div id='+circle_id+'></div><b>' + health_status + '</b></h5>'
                                     +'<font size="2">'
                                         +'<table>'
                                             +'<tr>'
-                                                +'<td style="width: 35%;">Station name:</td>'
-                                                +'<td style="padding-left: 5px;">' + feature.get('Name') + '</td>'
+                                                +'<td style="width: 35%;">Station id:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('StationId') + '</td>'
+                                            +'</tr>'
+                                            +'<tr>'
+                                                +'<td style="width: 35%;">City:</td>'
+                                                +'<td style="padding-left: 5px;">' + feature.get('City') + '</td>'
                                             +'</tr>'
                                         {% if request.user.userType != 'is_user' %}
                                             +'<tr>'
@@ -174,10 +181,6 @@
                                                 +'<td style="padding-left: 5px;">' + feature.get('Operator') + '</td>'
                                             +'</tr>'
                                         {%endif %}
-                                            +'<tr>'
-                                                +'<td style="width: 35%">Character Id:</td>'
-                                                +'<td style="padding-left: 5px;">' + feature.get('ForCharacterId') + '</td>'
-                                            +'</tr>'
                                             +'<tr>'
                                                 +'<td style="width: 35%">Sensor Type:</td>'
                                                 +'<td style="padding-left: 5px;">' + feature.get('Sensor Type') + '</td>'
@@ -236,14 +239,16 @@
             var json = '[';
             vectorS.forEachFeature(function (feature) {
                 health = feature.get('Health');
-                if (health == 0){
-                    name = "<span style='color:orange'> " + feature.get('Name')+ " (" + feature.get('ForCharacterId') + ")" + "</span>";
+                if(health == 0){
+                    name = "<span style='color:orange'> " + feature.get('StationId')+ " (" + feature.get('City') + ")" + "</span>";
                 }
-                else if (health == 1){
-                    name = "<span style='color:green'>" + feature.get('Name')+ " (" + feature.get('ForCharacterId') + ")" + "</span>";
+                else if(health == 1){
+                    name = "<span style='color:green'>" + feature.get('StationId')+ " (" + feature.get('City') + ")" + "</span>";
                 }
-                else{
-                    name = "<span style='color:red'> " + feature.get('Name')+ " (" + feature.get('ForCharacterId') + ")" +  "</span>";
+                else if(health == 2){
+                    name = "<span style='color:red'> " + feature.get('StationId')+ " (" + feature.get('City') + ")" +  "</span>";
+                }else{
+                    name = "<span style='color:black'><a href="+ url +" style='color:black;'> " + feature.get('StationId')+ " (" + feature.get('City') + ")" + "</a></span>";
                 }
                 json = json + "{"
                             + '"text": "' + name + '", '

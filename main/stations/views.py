@@ -42,6 +42,7 @@ def station_setup(request):
 			if form.is_valid():
 				city = form.cleaned_data['city']
 				station_id = form.cleaned_data['station_id']
+				station_id = station_id.lower()
 				split_first_station_id = station_id[0:4]
 				split_second_station_id = station_id[4:8]
 				if not station_id.isascii():
