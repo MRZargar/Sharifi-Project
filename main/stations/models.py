@@ -14,7 +14,7 @@ def station_directory_path(instance, filename):
 
 class Setup(models.Model):
 	operator = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
-	table_name = models.CharField(max_length=50, null=True)
+	table_name = models.CharField(max_length=50, null=True, blank=True)
 	city = models.CharField(max_length=150)
 	station_id  = models.CharField(max_length=8, validators=[MinLengthValidator(8)], unique=True)
 	address = models.CharField(max_length=300, blank=True, null=True)
