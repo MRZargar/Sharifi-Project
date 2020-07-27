@@ -17,6 +17,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
     <script src="https://unpkg.com/lz-string@1.4.4/libs/lz-string.min.js"></script>
 {% endblock %}
+
 {% block pageName %} Map {% endblock %}
 {% block content %}
         <div class="row-map-main">
@@ -66,7 +67,7 @@
                 // textAlign: 'center',
                 // textBaseline: 'middle',
                 // font: ,
-                text: feature.get('Name').trunc(10),
+                text: feature.get('StationId').trunc(10),
                 fill: new Style.Fill({color: '#000000'}),
                 stroke: new Style.Stroke({color: '#ffffff', width: 3}),
                 offsetX: 0,
