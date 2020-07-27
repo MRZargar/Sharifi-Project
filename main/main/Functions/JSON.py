@@ -22,7 +22,7 @@ def GetGeoJsonStations(stations, *args):
                 'type': 'Feature',
                 'properties': {{
                     'ID' : '{0}',
-                    'StationId' : '{1}'
+                    'StationId' : '{1}',
                     'City': '{2}',
                     'Sensor Type': '{3}',
                     'Address': '{4}',
@@ -66,7 +66,7 @@ def GetGeoJsonStations(stations, *args):
                 'type': 'Feature',
                 'properties': {{
                     'ID': '{0}',
-                    'StationId' : '{1}'
+                    'StationId' : '{1}',
                     'City': '{2}',
                     'Operator': '{3}',
                     'Sensor Type': '{4}',
