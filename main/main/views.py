@@ -187,7 +187,7 @@ def plot(request, stationID):
         stations = Setup.objects.filter(id__in = user_access).order_by('date').reverse()
         geojson = JSON.GetGeoJsonStations(stations, 'user')
 
-    if stationID != 12345698722222222222254654879874102587932:
+    if stationID != 0:
         station = Setup.objects.get(pk=stationID)
         station_id = station.station_id
         station_city = station.city

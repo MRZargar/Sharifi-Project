@@ -12489,6 +12489,12 @@ ul.messagelist li.error {
     border-radius: 3px;
 }
 
+
+#confirm_box_resetPass{
+    width: 450px;
+}
+
+
 .card-body small ul {
     position: relative;
     left: -20px;
