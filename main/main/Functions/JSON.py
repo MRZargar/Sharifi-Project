@@ -25,26 +25,24 @@ def GetGeoJsonStations(stations, *args):
                     'StationId' : '{1}',
                     'City': '{2}',
                     'Sensor Type': '{3}',
-                    'Address': '{4}',
-                    'Status': '{5}',
-                    'Start Time': '{6}',
-                    'End Time': '{7}',
-                    'Longitude': '{8}',
-                    'Latitude': '{9}',
-                    'Health': '{10}'
+                    'Status': '{4}',
+                    'Start Time': '{5}',
+                    'End Time': '{6}',
+                    'Longitude': '{7}',
+                    'Latitude': '{8}',
+                    'Health': '{9}'
                 }},
                 'geometry': {{
                 'type': 'Point',
-                'coordinates': [{8}, {9}]
+                'coordinates': [{7}, {8}]
                 }}
             }},""".format(station.id,
                     station.station_id,
                     station.city,
                     station.sensor_type,
-                    station.address,
                     'Active' if station.status == True else 'Inactive',
                     station.date,
-                    '' if station.status == True else Deactivate.objects.get(station_name_id = station.pk),
+                    '' if station.status == True else Deactivate.objects.get(station_id_id = station.pk),
                     station.longitude,
                     station.latitude,
                     health)
@@ -70,27 +68,25 @@ def GetGeoJsonStations(stations, *args):
                     'City': '{2}',
                     'Operator': '{3}',
                     'Sensor Type': '{4}',
-                    'Address': '{5}',
-                    'Status': '{6}',
-                    'Start Time': '{7}',
-                    'End Time': '{8}',
-                    'Longitude': '{9}',
-                    'Latitude': '{10}',
-                    'Health' : {11}
+                    'Status': '{5}',
+                    'Start Time': '{6}',
+                    'End Time': '{7}',
+                    'Longitude': '{8}',
+                    'Latitude': '{9}',
+                    'Health' : {10}
                 }},
                 'geometry': {{
                 'type': 'Point',
-                'coordinates': [{9}, {10}]
+                'coordinates': [{8}, {9}]
                 }}
             }},""".format(station.id,
                     station.station_id,
                     station.city,
                     station.operator.username,
                     station.sensor_type,
-                    station.address,
                     'Active' if station.status == True else 'Inactive',
                     station.date,
-                    '' if station.status == True else Deactivate.objects.get(station_name_id = station.pk),
+                    '' if station.status == True else Deactivate.objects.get(station_id_id = station.pk),
                     station.longitude,
                     station.latitude,
                     health)

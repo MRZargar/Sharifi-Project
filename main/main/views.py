@@ -200,8 +200,7 @@ def plot(request, stationID):
             gps_week, second = cleander_to_gps(end_time_p.year, end_time_p.month, end_time_p.day, 0, 0, 0)
         else:
             start_time = [station.date.year, station.date.month, station.date.day]
-            end_time = Deactivate.objects.get(station_name_id = station.pk).date
-            end_time = [end_time.year, end_time.month, end_time.day]
+            end_time = Deactivate.objects.get(station_id_id = station.pk).date
             gps_week, second = cleander_to_gps(end_time.year, end_time.month, end_time.day, 0, 0, 0)
 
         d = '''`t, value
@@ -244,8 +243,7 @@ def plot(request, stationID):
                 gps_week, second = cleander_to_gps(end_time_p.year, end_time_p.month, end_time_p.day, 0, 0, 0)
             else:
                 start_time = [station.date.year, station.date.month, station.date.day]
-                end_time = Deactivate.objects.get(station_name_id = station.pk).date
-                end_time = [end_time.year, end_time.month, end_time.day]
+                end_time = Deactivate.objects.get(station_id_id = station.pk).date
                 gps_week, second = cleander_to_gps(end_time.year, end_time.month, end_time.day, 0, 0, 0)
 
             d = '''`t, value

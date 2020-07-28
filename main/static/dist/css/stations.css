@@ -190,15 +190,25 @@ html {
 
 tr td>a {
     display: block;
-    color: black;
+    color: #fff;
 }
 
 tr th>a {
     display: block;
-    color: black;
+    color: #fff;
 }
 
 
+.table-dark td,
+.table-dark th,
+.table-dark thead th {
+    border-color: #ffffffa3;
+}
+
+a:hover {
+    color: gray;
+    text-decoration: underline
+}
 
 /* ######################### */
 

@@ -8,7 +8,7 @@
 <!-- Page Name -->
 {% block pageName %} Stations{% endblock %} {% block content %}
 <div class="table_scroll_bar">
-    <table class="table table-hover" id="station-table-list">
+    <table class="table table-bordered table-dark" id="station-table-list">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">number</th>
@@ -19,28 +19,30 @@
             </tr>
         </thead>
         <tbody>
-            {% for station in station_list %} {% if station.status == True %}
-            <tr class="table-success" data-station="{{station.station_id}}">
-                <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
-                <td><a href="{{ station.get_absolute_url }}">{{ station.station_id}}({{station.city}})</a></td>
-                <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
-                <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
-                <td id="station_deactive_button" data-station="{{station.station_id}}"><button type="button" class="btn btn-secondary"><a>active</a></td>
-  		    </tr>
-  		{% else %}
-  			<tr class="table-danger" data-station="{{station.station_id}}">
-  		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
-  		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_id}} ({{station.city}})</a></td>
-  		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
-  		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
-            {% if request.user.userType == 'is_admin' %}
-                <td id="user_delete_button" data-station="{{station.station_id}}"><button type="button" class="btn btn-secondary"><a>DELETE</a></button></td>
-                {% else %}
-                <td><button type="button" class="btn btn-secondary" disabled ><a>deactive</a></button></td>
-                {% endif %}
+            {% for station in station_list %}
+                {% if station.status == True %}
+                    <tr id = "active_station" class={{station.station_id}} data-station="{{station.station_id}}">
+                        <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter}}</a></th>
+                        <td><a href="{{ station.get_absolute_url }}">{{ station.station_id}}({{station.city}})</a></td>
+                        <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
+                        <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
+                        <td id="station_deactive_button" data-station="{{station.station_id}}"><button type="button" class="btn btn-secondary"><a>active</a></td>
+          		    </tr>
+          		{% else %}
+          			<tr data-station="{{station.station_id}}">
+          		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
+          		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_id}} ({{station.city}})</a></td>
+          		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
+          		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
+                    {% if request.user.userType == 'is_admin' %}
+                        <td id="user_delete_button" data-station="{{station.station_id}}"><button type="button" class="btn btn-secondary"><a>DELETE</a></button></td>
+                        {% else %}
+                        <td><button type="button" class="btn btn-secondary" disabled ><a>deactive</a></button></td>
+                        {% endif %}
 
-            </tr>
-            {% endif %} {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
         </tbody>
         </a>
     </table>
@@ -92,6 +94,22 @@
         </div>
     </div>
     <script>
+
+        $(document).ready(function() {
+            var health_list = {{health|safe}};
+            for (health in health_list){
+                if (health_list[health][1] == 0){
+                    $( '.' +health_list[health][0]).attr('class', 'bg-warning');
+                }
+                else if (health_list[health][1] == 1){
+                    $('.' + health_list[health][0]).attr('class', 'bg-success');
+                }else{
+
+                    $('.' + health_list[health][0]).attr('class', 'bg-danger'); 
+                };
+            };
+        }); 
+
         $(document).on('click', '#station_deactive_button', function(event) {
             event.preventDefault();
             var data_station = $(this).data("station");
@@ -116,8 +134,8 @@
                 success: function(data) {
                     user_mode = data.user_type
                     $("#exampleModal2").modal('hide');
-                    var changed_station = $('.table-success[data-station="' + data_station_deactive + '"]');
-                    changed_station.attr('class', 'table-danger')
+                    var changed_station = $('#active_station[data-station="' + data_station_deactive + '"]');
+                    changed_station.attr('class', '')
                     changed_station.children('#station_deactive_button').empty()
                     if (user_mode == 'is_admin') {
                         changed_station.children('#station_deactive_button').append('<button type="button" class="btn btn-secondary"><a>DELETE</a></button>')

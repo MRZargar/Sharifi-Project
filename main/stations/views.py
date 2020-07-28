@@ -8,6 +8,8 @@ from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from users.models import CustomUser
 from decimal import Decimal
+import datetime
+from json import dumps
 
 ### Setup station view ###
 @login_required(login_url='signpage')
@@ -112,6 +114,7 @@ new_choices=(('is_user', 'user'),('is_operator', 'operator'),)
 ### station list view ###
 @login_required(login_url='signpage')
 def station_list(request):
+	UTC_time = datetime.timedelta(hours=4, minutes=30, seconds=0)
 	obj = request.user
 	if obj.userType == 'is_user':
 		raise PermissionDenied
@@ -123,8 +126,20 @@ def station_list(request):
 		station_list = Setup.objects.filter(id__in = user_access).order_by('date').reverse()
 	elif obj.userType == 'is_admin':
 		station_list = Setup.objects.all().order_by('date').reverse()
+	healths = []
+	for station in station_list:
+		if station.status == True:
+		    db_time = datetime.datetime(station.health_time.year, station.health_time.month, station.health_time.day, station.health_time.hour, station.health_time.minute, station.health_time.second)
+		    db_time += UTC_time
+		    time = datetime.datetime.now() - db_time
+		    if time.total_seconds() > 15:
+		        health = 2
+		    else:
+		        health = station.health
+		    healths.append([station.station_id, health])
+	healths = dumps(healths)
 	form = StationDeactivate()
-	return render(request, 'station_list.html', {'station_list':station_list, 'form':form})
+	return render(request, 'station_list.html', {'station_list':station_list, 'form':form, 'health':healths})
 
 
 @login_required(login_url='signpage')
