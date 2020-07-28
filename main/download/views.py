@@ -37,7 +37,7 @@ def download(request, pk):
             stations = Setup.objects.filter(id__in = user_access).order_by('date').reverse()
         station_list = []
         for station in stations:
-            station_list.append(station.id)
+            station_list.append(station.station_id)
         return JsonResponse({'stations_list': station_list}, status=200)
 
     elif request.method == "GET" and request.GET['method'] == "download":
