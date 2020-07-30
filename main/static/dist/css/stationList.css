@@ -49,3 +49,21 @@ tr{
   overflow-x : auto;
   overflow-y : auto;
 }
+
+tr td>a {
+    display: block;
+    color: #fff;
+}
+
+tr th>a {
+    display: block;
+    color: #fff;
+}
+
+.table .thead-dark th{
+    border-color: #546e7a;
+    color: #ffffff;
+    background: #546e7a;
+    box-shadow: none;
+    text-transform: uppercase;
+}

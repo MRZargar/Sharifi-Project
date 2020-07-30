@@ -1,14 +1,16 @@
 {% extends "base.html" %} {% load static %} {% load crispy_forms_tags %}
 <!--  Title  -->
-{% block title %}requests{% endblock %} {% block css %}
-<script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
-<link href="{% static 'dist/css/stationList.css' %}" rel="stylesheet"> {% endblock %}
+{% block title %}requests{% endblock %}
+{% block css %}
+    <link href="{% static 'dist/css/stationList.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/css/dataTable.css' %}" rel="stylesheet"> 
+{% endblock %}
 
 
 <!-- Page Name -->
 {% block pageName %}requests{% endblock %} {% block content %}
 <div class="table_scroll_bar">
-    <table class="table table-hover" id="station-table-list">
+    <table class="table table-bordered" id="station-table-list">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">number</th>
@@ -48,4 +50,11 @@
         </tbody>
     </table>
 </div>
+
+<script src="{% static 'dist/js/dataTable.js' %}"></script>
+<script>
+    $('#station-table-list').DataTable( {
+        "pagingType": "full_numbers"
+    } );
+</script>
 {% endblock %}

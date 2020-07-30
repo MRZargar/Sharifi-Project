@@ -1,8 +1,10 @@
 {% extends "base.html" %} {% load static %} {% load crispy_forms_tags %}
 <!--  Title  -->
-{% block title %}Stations{% endblock %} {% block css %}
-<script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
-<link href="{% static 'dist/css/stationList.css' %}" rel="stylesheet"> {% endblock %}
+{% block title %}Stations{% endblock %}
+{% block css %}
+<link href="{% static 'dist/css/stationList.css' %}" rel="stylesheet"> 
+<link href="{% static 'dist/css/dataTable.css' %}" rel="stylesheet"> 
+{% endblock %}
 
 
 <!-- Page Name -->
@@ -21,19 +23,19 @@
         <tbody>
             {% for station in station_list %}
                 {% if station.status == True %}
-                    <tr id = "active_station" class={{station.station_id}} data-station="{{station.station_id}}">
-                        <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter}}</a></th>
+                    <tr id = "active_station" class="" data-station="{{station.station_id}}">
+                        <th scope="row">{{ forloop.counter}}</th>
                         <td><a href="{{ station.get_absolute_url }}">{{ station.station_id}}({{station.city}})</a></td>
-                        <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
-                        <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
+                        <td>{{station.operator.username}}</td>
+                        <td>{{station.date}}</td>
                         <td id="station_deactive_button" data-station="{{station.station_id}}"><button type="button" class="btn btn-secondary"><a>active</a></td>
           		    </tr>
           		{% else %}
           			<tr data-station="{{station.station_id}}">
-          		      <th scope="row"><a href="{{ station.get_absolute_url }}">{{ forloop.counter }}</a></th>
+          		      <th scope="row">{{ forloop.counter }}</th>
           		      <td><a href="{{ station.get_absolute_url }}">{{ station.station_id}} ({{station.city}})</a></td>
-          		      <td><a href="{{ station.get_absolute_url }}">{{station.operator.username}}</a></td>
-          		      <td><a href="{{ station.get_absolute_url }}">{{station.date}}</a></td>
+          		      <td>{{station.operator.username}}</td>
+          		      <td>{{station.date}}</td>
                     {% if request.user.userType == 'is_admin' %}
                         <td id="user_delete_button" data-station="{{station.station_id}}"><button type="button" class="btn btn-secondary"><a>DELETE</a></button></td>
                         {% else %}
@@ -93,21 +95,25 @@
             </div>
         </div>
     </div>
-    <script>
 
+<script src="{% static 'dist/js/dataTable.js' %}"></script>
+    <script>
         $(document).ready(function() {
             var health_list = {{health|safe}};
             for (health in health_list){
                 if (health_list[health][1] == 0){
-                    $( '.' +health_list[health][0]).attr('class', 'bg-warning');
+                    $('#active_station[data-station="' + health_list[health][0] + '"]').attr('class', 'bg-warning');
                 }
                 else if (health_list[health][1] == 1){
-                    $('.' + health_list[health][0]).attr('class', 'bg-success');
+                    $('#active_station[data-station="' + health_list[health][0] + '"]').attr('class', 'bg-success');
                 }else{
 
-                    $('.' + health_list[health][0]).attr('class', 'bg-danger'); 
+                    $('#active_station[data-station="' + health_list[health][0] + '"]').attr('class', 'bg-danger'); 
                 };
             };
+            $('#station-table-list').DataTable( {
+                "pagingType": "full_numbers"
+            } );
         }); 
 
         $(document).on('click', '#station_deactive_button', function(event) {

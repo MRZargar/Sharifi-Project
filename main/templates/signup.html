@@ -3,9 +3,10 @@
 {% block title %}Sign Up{% endblock %}
 <!-- Load css if need -->
 {% block css %}
-<script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<link href="{% static 'dist/css/Admin_panel.css' %}" rel="stylesheet"> {% endblock %}
+<link href="{% static 'dist/css/Admin_panel.css' %}" rel="stylesheet"> 
+<link href="{% static 'dist/css/dataTable.css' %}" rel="stylesheet"> 
+{% endblock %}
 <!-- Page Name -->
 {% block users %}
 <div class="topnav">
@@ -85,7 +86,7 @@
   </div>
 </div>
 
-
+<script src="{% static 'dist/js/dataTable.js' %}"></script>
 <script>
 
     $(document).on('click', '#user_delete_button', function(event) {
@@ -214,14 +215,16 @@
 
     $("#btn-Active").click(function(event) {
         $(".active-user-content").empty()
+        $(".messagelist").empty()
         event.preventDefault();
         $.ajax({
             type: "GET",
             url: "{% url 'active_user_page' request.user.pk %}",
             success: function(data) {
+                var table_data = data;
                 count = data.count;
                 if (count == 0) {
-                    main_table = '<tr class="table">' +
+                    main_table = '<tr class="table ">' +
                         '<th scope="row"><a href="#">0</a></th>' +
                         '<td><a href="#"></a></td>' +
                         '<td><a href="#"></a></td>' +
@@ -265,7 +268,7 @@
                 $(".add-user-content").css("display", "none");
                 $(".active-user-content").css("display", "inherit");
                 $(".active-user-content").prepend('<div class="table_scroll_bar">'+
-                    '<table class="table table-hover" id="station-table-list">' +
+                    '<table class="table table-bordered" id="station-table-list">' +
                     '<thead class="thead-dark">' +
                     '<th scope="col">number</th>' +
                     '<th scope="col">user name</th>' +
@@ -282,10 +285,12 @@
                     '</table>' +
                     '</div>'
                 );
+                $('#station-table-list').DataTable( {
+                    "ajax": window.table_data
+                } );
             }
         });
     });
-
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {

@@ -11,9 +11,13 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/uni.png' %}">
     <title>{% block title %}
-        <!--   -->{% endblock %} </title>
+        <!--   -->{% endblock %}
+     </title>
     <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
-    <link href="{% static 'dist/css/stations.css' %}" rel="stylesheet"> {% block css %}
+    <link href="{% static 'dist/css/stations.css' %}" rel="stylesheet">
+    <script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+     {% block css %}
     <!-- -->{% endblock %}
 </head>
 
@@ -101,6 +105,9 @@
                             <li class="sidebar-item" style="width: 155px;">
                                 <a href="{% url 'messages' request.user.pk %}" aria-expanded="false" class="sidebar-link waves-effect waves-dark sidebar-link" style="display: block;"><i class="ti-email m-r-5 m-l-5"></i><span class="hide-menu" style="margin-bottom: -5px;margin-left: 5px; position: absolute;">Inbox<span id = "message_inbox_count" style="font-size: 16px" class="hide-menu"></span></span></a>   
                             </li>
+                            <li class="sidebar-item" style="width: 155px;">
+                                <a href="{% url 'request_list' request.user.pk %}" aria-expanded="false" class="sidebar-link waves-effect waves-dark sidebar-link" style="display: block;"><i class=" mdi mdi-folder-download"></i><span class="hide-menu" style="margin-bottom: -5px; margin-left: 5px; position: absolute;">Requests<span style="font-size: 16px" class="hide-menu"></span></span></a>
+                            </li>
                             {% endif %} {% if request.user.userType == 'is_operator' %}
                             <div class="sidebar-menu-Admins">
                                 <ul id="sidebarnav">
@@ -124,6 +131,11 @@
                                         <ul style="margin-top:60px;">
                                             <li style="width: 155px;">
                                                 <a href="{% url 'messages' request.user.pk %}" aria-expanded="false" style="display: block;"><i class="ti-email m-r-5 m-l-5"></i><span class="hide-menu" style="margin-top: 1px;margin-left: 5px; position: absolute;">Inbox<span id = "message_inbox_count" style="font-size: 16px" class="hide-menu"></span></span></a>                                            
+                                            </li>
+                                        </ul>
+                                        <ul style="margin-top:60px;">
+                                            <li style="width: 155px; margin:auto;">
+                                                <a href="{% url 'request_list' request.user.pk %}" aria-expanded="false" style="display: block;"><i class=" mdi mdi-folder-download"></i><span class="hide-menu" style="margin-top: -1px;margin-left: 5px; position: absolute;">Requests<span style="font-size: 16px" class="hide-menu"></span></span></a>
                                             </li>
                                         </ul>
                                     </li>
@@ -208,10 +220,8 @@
 
         </div>
     </div>
-    <script src="{% static 'dist/vendor/jquery/ajax-jquery-3.4.1.min.js' %}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{% static 'assets/libs/popper.js/dist/umd/popper.min.js' %}"></script>
-    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'dist/js/app-style-switcher.js' %}"></script>
     <!--Wave Effects -->
     <script src="{% static 'dist/js/waves.js' %}"></script>

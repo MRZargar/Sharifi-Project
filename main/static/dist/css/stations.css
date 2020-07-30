@@ -190,12 +190,12 @@ html {
 
 tr td>a {
     display: block;
-    color: #fff;
+    color: black;
 }
 
 tr th>a {
     display: block;
-    color: #fff;
+    color: black;
 }
 
 
@@ -206,7 +206,7 @@ tr th>a {
 }
 
 a:hover {
-    color: gray;
+    color: #565656;
     text-decoration: underline
 }
 
