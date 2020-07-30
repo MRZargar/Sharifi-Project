@@ -7,6 +7,7 @@ import pandas as pd
 import psycopg2
 import glob
 import time
+import multiprocessing
 from send_request.GeoLabAPI import GeoLabAPI
 from send_request.pgDB import pgDB
 from send_request.log import log, messageType
@@ -123,7 +124,7 @@ def submit_data(datas):
 
     for i in range(3):
         try:
-            DB.setQuery(query + where)
+            DB.setQuery(query)
         except Exception as ex:
             log.log("(E9) %d. Faild for submit %d row.\n%s" % (i+1, len(datas), ex), messageType.ERROR)
             if i == 2:
@@ -134,7 +135,7 @@ def submit_data(datas):
 
 def send_data(data):
     for i in range(3):
-        try:                
+        try:   
             API.send_data(tableName, data)
             log.log("%d. %d from datas sent" % (i+1, len(data)), messageType.INFO)
             submit_data(data)
@@ -163,7 +164,17 @@ while True:
         dontSentData = DB.getQuery("select * from data where not is_sent order by week asc, t asc limit " + str(2 * one_min_data_count))
         if len(dontSentData) == 0 : break
 
-        send_data(dontSentData)
+        count = len(dontSentData)
+        step = count / 3
+        threads = []
+        for i in range(3):
+            start = i * step
+            end = start + step
+            thread = multiprocessing.Process(target=send_data, args=(dontSentData[start:end]))
+            threads.append(thread)
+
+        [thread.start() for thread in threads]
+        [thread.join() for thread in threads]
         
         t2 = time.time()
         dt = t2 - t1
