@@ -76,18 +76,45 @@
             });
         };
 
-        var iconStyle = function(){
+        var iconStyle = function(feature){
+            var health = feature.get('Health');
+            var type = feature.get('Sensor Type');
+            var icon = '';
+            if (type == 'type1') {
+                if (health == 0) {
+                    icon = '10.png';
+                } else if (health == 1) {
+                    icon = '11.png';
+                } else if (health == 2) {
+                    icon = '12.png';
+                } else {
+                    icon = '1.png';
+                }
+            } else if (type == 'type2') {
+                if (health == 0) {
+                    icon = '20.png';
+                } else if (health == 1) {
+                    icon = '21.png';
+                } else if (health == 2) {
+                    icon = '22.png';
+                } else {
+                    icon = '2.png';
+                }
+            } else {
+                icon = '0.png'
+            }
             return new Style.Icon({
                 anchor: [0.5, 1],
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
-                src: "{% static 'assets/images/sensorIcon.png' %}"
+                //src: "{% static 'assets/images/sensoricon/" + icon + "' %}"
+                src: "{% static 'assets/images/sensoricon/1.png' %}"
             });
         };
 
         function pointStyle(feature) {
             return new Style.Style({
-                image: iconStyle(),
+                image: iconStyle(feature),
                 text: lableStyle(feature)
             });
         }
