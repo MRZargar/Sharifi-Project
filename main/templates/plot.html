@@ -260,7 +260,7 @@
                         // highlightCircleSize: 3,
                         axisLineWidth: 2,
                         // axisLabelWidth: 10,
-                        ylabel: "<b>`a_x`</b>",
+                        ylabel: "<b>`a_x [m/s^2]`</b>",
                         title: "{{StationId}}({{StationCity}})",
                         axes:{
                             'x':{
@@ -289,7 +289,7 @@
                         // rangeSelectorPlotFillColor: "#FFF",
                         axisLineWidth: 2,
                         // axisLabelWidth: 10,
-                        ylabel: "<b>`a_y`</b>",
+                        ylabel: "<b>`a_y [m/s^2]`</b>",
                         axes:{
                             'x':{
                                 axisLabelFontSize: 0
@@ -317,7 +317,7 @@
                         pointSize: 3,
                         axisLineWidth: 2,
                         // axisLabelWidth: 10,
-                        ylabel: "<b>`a_z`</b>",
+                        ylabel: "<b>`a_z [m/s^2]`</b>",
                         interactionModel: {                    
                             'mousedown' : downV3,
                             'mousemove' : moveV3,
@@ -334,13 +334,14 @@
                     {
                         // legend: "follow",
                         animatedZooms: true,
-                        // showRangeSelector: true,
+                        showRangeSelector: true,
                         rangeSelectorPlotFillColor: "#FFF",
                         drawPoints: true,
                         pointSize: 3,
                         axisLineWidth: 2,
                         // axisLabelWidth: 10,
-                        ylabel: "<b>`temp`</b>",
+                        ylabel: "<b>`temp [C]`</b>",
+                        xlabel: "<b>GPS Time [sec]</b>",
                         interactionModel: {                    
                             'mousedown' : downV3,
                             'mousemove' : moveV3,
@@ -350,9 +351,12 @@
                     }
                 )
             );
-            // var sync = Dygraph.synchronize(g);
-            $(".line_graph_main").css("opacity", 1)
-            $("#myHistogram").css("opacity", 1)
+            var sync = Dygraph.synchronize(g, {
+                zoom: true,
+                selection: true,
+                range: false
+            });
+            /*
             var sync = Dygraph.synchronize(g[0]);
 
             var sync = Dygraph.synchronize(g[1]);
@@ -360,6 +364,10 @@
             var sync = Dygraph.synchronize(g[2]);
 
             var sync = Dygraph.synchronize(g[3]);
+            */
+            $(".line_graph_main").css("opacity", 1)
+            $("#myHistogram").css("opacity", 1)
+
             },
             error: function(){
               $(".line_graph_main").css("opacity", 1)
@@ -662,7 +670,7 @@
                 {
                     // legend: "follow",
                     animatedZooms: true,
-                    // showRangeSelector: true,
+                    showRangeSelector: true,
                     rangeSelectorPlotFillColor: "#FFF",
                     drawPoints: true,
                     pointSize: 3,
@@ -679,7 +687,12 @@
                 }
             )
         );
-        // var sync = Dygraph.synchronize(g);
+        var sync = Dygraph.synchronize(g, {
+            zoom: true,
+            selection: true,
+            range: false
+        });
+        /*
         var sync = Dygraph.synchronize(g[0]);
 
         var sync = Dygraph.synchronize(g[1]);
@@ -687,6 +700,7 @@
         var sync = Dygraph.synchronize(g[2]);
 
         var sync = Dygraph.synchronize(g[3]);
+        */
 </script>   
 
 <script>
