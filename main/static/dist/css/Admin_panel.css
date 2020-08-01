@@ -140,8 +140,3 @@ tr{
   position: relative;
   left: 30px;
 }
-
-.table-bordered td,
-.table-bordered th {
-    border: 1px solid #a3a4a5;
-}

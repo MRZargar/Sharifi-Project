@@ -1,16 +1,16 @@
 table.dataTable {
-    width: 100%;
-    margin: 0 auto;
-    clear: both;
-    border-collapse: separate;
-    border-spacing: 0
+  clear: both;
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+  max-width: none !important;
+  border-collapse: separate !important;
+  border-spacing: 0;
 }
-
-table.dataTable thead th,
-table.dataTable tfoot th {
-    font-weight: bold
+table.dataTable td,
+table.dataTable th {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
 }
-
 
 table.dataTable thead th,
 table.dataTable thead td {
@@ -59,6 +59,62 @@ table.dataTable.display tbody tr:first-child th,
 table.dataTable.display tbody tr:first-child td {
     border-top: none
 }
+
+div.dataTables_wrapper div.dataTables_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+    width: auto;
+    display: inline-block;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: right;
+}
+
+div.dataTables_wrapper div.dataTables_filter label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: left;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0.5em;
+    display: inline-block;
+    width: auto;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    padding-top: 0.85em;
+    white-space: nowrap;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    margin: 0;
+    white-space: nowrap;
+    text-align: right;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    margin: 2px 0;
+    white-space: nowrap;
+    justify-content: flex-end;
+}
+
+div.dataTables_wrapper div.dataTables_processing {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    margin-left: -100px;
+    margin-top: -26px;
+    text-align: center;
+    padding: 1em 0;
+}
+
 
 
 
@@ -271,6 +327,10 @@ table.dataTable td.dataTables_empty {
     text-align: center
 }
 
+table.dataTable th.dataTables_empty {
+    text-align: center;
+}
+
 table.dataTable th.dt-right,
 table.dataTable td.dt-right {
     text-align: right
@@ -394,7 +454,7 @@ table.dataTable td {
     text-decoration: none !important;
     cursor: pointer;
     *cursor: hand;
-    color: #ffffff !important;
+    color: black !important;
     border: 1px solid transparent;
     border-radius: 2px
 }
@@ -608,7 +668,7 @@ table.dataTable td {
 }
 #multiple_change{
     top: 0;
-    margin-left: 150px;
+    margin-left: 20px;
     height: calc(1.5625rem);
     padding: 0;
     padding-top: 2px;
@@ -619,3 +679,7 @@ table.dataTable td {
 }
 
 
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #a3a4a5;
+}
