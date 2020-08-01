@@ -361,17 +361,10 @@
                 selection: true,
                 range: false
             });
-            /*
-            var sync = Dygraph.synchronize(g[0]);
-
-            var sync = Dygraph.synchronize(g[1]);
-
-            var sync = Dygraph.synchronize(g[2]);
-
-            var sync = Dygraph.synchronize(g[3]);
-            */
             $(".line_graph_main").css("opacity", 1)
             $("#myHistogram").css("opacity", 1)
+            document.querySelectorAll('.dygraph-label.dygraph-ylabel')[3].style.marginTop = "5px";
+
 
             },
             error: function(){
@@ -697,15 +690,7 @@
             selection: true,
             range: false
         });
-        /*
-        var sync = Dygraph.synchronize(g[0]);
-
-        var sync = Dygraph.synchronize(g[1]);
-
-        var sync = Dygraph.synchronize(g[2]);
-
-        var sync = Dygraph.synchronize(g[3]);
-        */
+        document.querySelectorAll('.dygraph-label.dygraph-ylabel')[3].style.marginTop = "5px";
 </script>   
 
 <script>

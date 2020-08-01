@@ -379,3 +379,8 @@ tr{
     margin-left: 25px;
     margin-top: 10px;
 }
+
+
+.dygraph-label.dygraph-ylabel{
+    margin-top: -10px;
+}
