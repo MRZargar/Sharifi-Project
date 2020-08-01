@@ -47,12 +47,17 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title" style="position: absolute;"><i class="mdi mdi-raspberrypi"></i> Stations Access</h4>
                 </div>
+                <div class="all_check_box">
+                    <input name="select_all-model_single" value="1" id="select_all_model_single" class ="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="select_all_model_single">ALL</label>
+                </div>
                 <div class="overflow-auto">
-                    <div class="modal-body">
+                    <div class="modal-body1">
 
                     </div>
                 </div>
                 <div class="modal-footer">
+
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
                                  CLOSE
                                 </button>
@@ -64,6 +69,37 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="compose-modal-multiple" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-wrapper">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-blue">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" style="position: absolute;"><i class="mdi mdi-raspberrypi"></i> Stations Access</h4>
+                </div>
+                <div class="all_check_box">
+                    <input name="select_all-model" value="1" id="select_all_model" class ="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="select_all_model">ALL</label>
+                </div>
+                <div class="overflow-auto">
+                    <div class="modal-body-multiple">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
+                                 CLOSE
+                                </button>
+                    <button id="user_access_change_multiple" type="submit" class="btn btn-success pull-right">
+                                    <i class="fa fa-envelope"></i> SAVE CHANGES
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -77,6 +113,7 @@
       </div>
       <div class="modal-body2">
         Are you sure you want to delete this user?
+        <p id="error_2_id_description" class="invalid-feedback"><strong>The user has one or more stations</strong></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger"data-dismiss="modal">Close</button>
@@ -89,38 +126,288 @@
 <script src="{% static 'dist/js/dataTable.js' %}"></script>
 <script>
 
-    $(document).on('click', '#user_delete_button', function(event) {
-        event.preventDefault();
-        var data_user = $(this).data("user");
-        window.value = data_user;
-        $("#exampleModal").modal('show');
+    function request(){
+        $.ajax({
+            type: "GET",
+            url: "{% url 'active_user_page' request.user.pk %}",
+            success: function(data) {
+                var table_data = data;
+                count = data.count;
+                if (count == 0) {
+                    main_table = '<tr class="table ">' +
+                        '<th scope="row"><a href="#">0</a></th>' +
+                        '<td><a href="#"></a></td>' +
+                        '<td><a href="#"></a></td>' +
+                        '<td><a href="#"></a></td>' +
+                        '<td><a href="#"></a></td>' +
+                        '</tr>';
+                } else {
+                    main_table = "";
+                    number = 0
+                    for (i in data.user_list) {
+                        this_data = data.user_list[i];
+                        status = this_data.status;
+                        number += 1;
+                        class_name = "";
+                        status_id = "";
+                        if (status == 'false') {
+                            class_name = "table-danger";
+                            status_id = "status_deactive";
+                            var user_status = "Deactive";
+                        } else {
+                            class_name = "table-success";
+                            status_id = "status_active";
+                            var user_status = "Active";
+                        }
+                        table = '<tr class= ' + class_name + ' data-user = "' + this_data.username + '">' +
+                            '<th scope="row" class="user_access"><input name="this_user" value="'+this_data.username+'" type="checkbox" class ="au-checkmark"></th>' +
+                            '<td>' + this_data.username + '<span class="userTypeIn_list">(<b>' + this_data.user_type + '</b>)</span> </td>' +
+                            '<td>' + this_data.email + '</td>' +
+                            '<td>' + this_data.phone_number + '</td>' +
+                            '<td class="user-status-TF">' + user_status + '</td>' +
+                            '<td id="user_access_model" data-user = ' + this_data.username + '><button type="button" class="btn btn-secondary"><a href="#" class="button_text">station</a></button></td>' +
+                            '</tr>'
+                        main_table += table
+                    }
+                }
+                $("#btn-Active").attr('class', 'active');
+                $("#btn-Add").removeClass('active');
+                $(".add-user-content").css("display", "none");
+                $(".active-user-content").css("display", "inherit");
+                $(".active-user-content").prepend('<div class="table_scroll_bar">'+
+                    '<table class="table table-bordered" id="station-table-list">' +
+                    '<thead class="thead-dark">' +
+                    '<th><input name="select_all" value="1" id="select-all" class ="au-checkmark" type="checkbox"></th>' +
+                    '<th scope="col">user name</th>' +
+                    '<th scope="col">email</th>' +
+                    '<th scope="col">phone number</th>' +
+                    '<th scope="col">status</th>' +
+                    '<th scope="col">access</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    main_table +
+                    '</tbody>' +
+                    '</table>' +
+                    '</div>'
+                );
+                $('#station-table-list').DataTable( {
+                    'ajax': window.table_data,
+                    'columnDefs': [{
+                        'targets': 0,
+                        'searchable': false,
+                        'orderable': false,
+                        'className': 'dt-body-center'
+                    }],
+                    'select': {
+                        'style':    'os',
+                        'selector': 'td:first-child'
+                    },
+                    'order': [[1, 'asc']]
+                } );
+                $(".table.dataTable thead .sorting_asc").css("background-image", "none")
+                $('#station-table-list_length').append('<div id="table-header-select" class="form-group col-md-4">'
+                                                   +'<select id="inputState" class="form-control"><option selected>Choose...</option>'
+                                                   +'<option>active</option>'
+                                                   +'<option>access</option>'
+                                                   +'<option>deactive</option>'
+                                                   +'<option>delete</option></select>'
+                                                   +'<button id="multiple_change" type="submit" class="btn btn-success pull-right">'
+                                                   +'SAVE</button>'
+                                                   +'</div>')
+                $('#select-all').on('click', function(){
+                    if ($(this).is(':checked')) {
+                        $('div input[class="au-checkmark"]').prop('checked', true);
+                    } else {
+                        $('div input[class="au-checkmark"]').prop('checked', false);
+                    }
+                });
+
+                $('.au-checkmark').click(function() {
+                    if ($(this).is(':checked')) {
+                        $(this).attr('checked', true);
+                    } else {
+                        $(this).attr('checked', false);
+                    }
+                });
+            }
+        });
+    }
+
+
+    $('#select_all_model').on('click', function(){
+        if ($(this).is(':checked')) {
+            $('div input[class="form-check-input"]').prop('checked', true);
+        } else {
+            $('div input[class="form-check-input"]').prop('checked', false);
+        }
     });
+
+    $('#select_all_model_single').on('click', function(){
+        if ($(this).is(':checked')) {
+            $('div input[class="form-check-input"]').prop('checked', true);
+        } else {
+            $('div input[class="form-check-input"]').prop('checked', false);
+        }
+    });
+
+    $(document).on('click', '#multiple_change', function(event) {
+        event.preventDefault();
+        var selected = $("#inputState").children("option:selected").val();
+        var selected_user = [];
+        $.each($("input[name='this_user']:checked"), function(){            
+            selected_user.push($(this).val());
+        });
+        if (selected_user.length > 0){
+            if (selected == "active"){
+                var csrftoken = getCookie('csrftoken');
+                var method = "Active"
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'active_user_page' request.user.pk %}",
+                    data: {
+                        csrfmiddlewaretoken: csrftoken,
+                        'UserNames': selected_user,
+                        "Method": method
+                    },
+                    success: function() {
+                        $(".active-user-content").empty()
+                        $(".messagelist").empty()
+                        request()
+
+                    },
+                });
+            }
+            else if(selected == "access"){
+                window.value = selected_user;
+                $(".modal-body-multiple").empty();
+                $('div input[class="form-check-input"]').prop('checked', false);
+                var data_user = selected_user[0];
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'access_station' request.user.pk %}",
+                    data: {
+                        'UserName': data_user
+                    },
+                    success: function(data) {
+                        count = data.count;
+                        main = "";
+                        if (count == 0) {
+                            temp = "No station has been registered yet";
+                        } else {
+                            for (i in data.stations_id) {
+                                this_station_id = data.stations_id[i];
+                                if (i % 2 != 0) {
+                                    column = '<div class="w-100"></div>';
+                                } else {
+                                    column = "";
+                                }
+                                temp =
+                                    '<div class="col">' +
+                                    '<div class="form-check">' +
+                                    '<input class="form-check-input" type="checkbox" value="'+ this_station_id +'" id="defaultCheck1" name="station_multiple">' +
+                                    '<label class="form-check-label" for="defaultCheck1">' +
+                                    this_station_id +
+                                    '</label>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    column 
+                                main += temp;
+                            };
+                        };
+                        final = '<div class="container">' + '<div class="row">' + main + '</div>'
+                        $('.modal-body-multiple').prepend(final);
+                        $("#compose-modal-multiple").modal('show');
+                    }
+                });
+            }
+            else if(selected == "deactive"){
+                var csrftoken = getCookie('csrftoken');
+                var method = "Deactive"
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'active_user_page' request.user.pk %}",
+                    data: {
+                        csrfmiddlewaretoken: csrftoken,
+                        'UserNames': selected_user,
+                        "Method": method
+                    },
+                    success: function(data) {
+                        $(".active-user-content").empty()
+                        $(".messagelist").empty()
+                        request()
+                    }
+                });
+
+            }
+            else if(selected == "delete"){
+                window.value = selected_user;
+                $("#exampleModal").modal('show');
+            }
+         };
+     });
 
     $(document).on('click', '#delete_user', function(event) {
         event.preventDefault();
-        var data_user_delete = window.value;
+        var data_users_delete = window.value;
         var csrftoken = getCookie('csrftoken');
         $.ajax({
             type: "POST",
             url: "{% url 'user_delete' request.user.pk %}",
             data: {
                 csrfmiddlewaretoken: csrftoken,
-                'UserName': data_user_delete
+                'UserNames': data_users_delete
             },
             success: function() {
                 $("#exampleModal").modal('hide');
-                $('tr[data-user="' + data_user_delete + '"]').remove();
+                $(".active-user-content").empty()
+                $(".messagelist").empty()
+                request();
+            },
+            error: function(){
+                $('#error_2_id_description').css("display", 'block')
+
             }
         });
     });
 
 
+    $(document).on('click', '#user_access_change_multiple', function(event) {
+        event.preventDefault();
+        var my_data_users = window.value;
+        var csrftoken = getCookie('csrftoken');
+        var user_access_all = [];
+        var method = "multiple_access";
+        $.each($("input[name='station_multiple']:checked"), function(){            
+            user_access_all.push($(this).val(), true);
+        });
+        $.each($("input[name='station_multiple']:not(:checked"), function(){          
+            user_access_all.push($(this).val(), false);
+        });
+        $.ajax({
+            type: "POST",
+            url: "{% url 'access_station' request.user.pk %}",
+            data: {
+                csrfmiddlewaretoken: csrftoken,
+                'UserNames' : my_data_users,
+                "UserAcessList" : user_access_all,
+                "Method" : method
+            },
+            success: function(){
+                $("#compose-modal-multiple").modal('hide');
+                $(".active-user-content").empty()
+                $(".messagelist").empty()
+                request();
+            }
+        })
+    });
 
     $(document).on('click', '#user_access_change', function(event) {
         event.preventDefault();
         var my_data_user = window.value;
         var csrftoken = getCookie('csrftoken');
         var user_access_all = [];
+        var method = "single_access";
         $.each($("input[name='station']:checked"), function(){            
             user_access_all.push($(this).val(), true);
         });
@@ -133,7 +420,8 @@
             data: {
                 csrfmiddlewaretoken: csrftoken,
                 'UserName' : my_data_user,
-                "UserAcessList" : user_access_all
+                "UserAcessList" : user_access_all,
+                "Method" : method
             },
             success: function(){
                 $("#compose-modal").modal('hide');
@@ -142,7 +430,8 @@
     });
     $(document).on('click', '#user_access_model', function(event) {
         event.preventDefault();
-        $(".modal-body").empty()
+        $('div input[class="form-check-input"]').prop('checked', false);
+        $(".modal-body1").empty()
         var data_user = $(this).data("user");
         window.value = data_user;
         $.ajax({
@@ -193,7 +482,7 @@
                     };
                 };
                 final = '<div class="container">' + '<div class="row">' + main + '</div>'
-                $('.modal-body').prepend(final);
+                $('.modal-body1').prepend(final);
                 $("#compose-modal").modal('show');
             }
         });
@@ -217,80 +506,10 @@
         $(".active-user-content").empty()
         $(".messagelist").empty()
         event.preventDefault();
-        $.ajax({
-            type: "GET",
-            url: "{% url 'active_user_page' request.user.pk %}",
-            success: function(data) {
-                var table_data = data;
-                count = data.count;
-                if (count == 0) {
-                    main_table = '<tr class="table ">' +
-                        '<th scope="row"><a href="#">0</a></th>' +
-                        '<td><a href="#"></a></td>' +
-                        '<td><a href="#"></a></td>' +
-                        '<td><a href="#"></a></td>' +
-                        '<td><a href="#"></a></td>' +
-                        '<td><a href="#"></a></td>' +
-                        '<td><a href="#"></a></td>' +
-                        '</tr>';
-                } else {
-                    main_table = "";
-                    number = 0
-                    for (i in data.user_list) {
-                        this_data = data.user_list[i];
-                        status = this_data.status;
-                        number += 1;
-                        class_name = "";
-                        status_id = "";
-                        if (status == 'false') {
-                            class_name = "table-danger";
-                            status_id = "status_deactive";
-                            var user_status = "Deactive";
-                        } else {
-                            class_name = "table-success";
-                            status_id = "status_active";
-                            var user_status = "Active";
-                        }
-                        table = '<tr class= ' + class_name + ' data-user = "' + this_data.username + '">' +
-                            '<th scope="row" class="user_access">' + number + '</th>' +
-                            '<td>' + this_data.username + '<span class="userTypeIn_list">(<b>' + this_data.user_type + '</b>)</span> </td>' +
-                            '<td>' + this_data.email + '</td>' +
-                            '<td>' + this_data.phone_number + '</td>' +
-                            '<td class="user-status-TF" id=' + status_id + ' data-user = ' + this_data.username + '><button type="button" class="btn btn-secondary" id ="change_st"><a href="#" class="button_text">' + user_status + '</a></button></td>' +
-                            '<td id="user_access_model" data-user = ' + this_data.username + '><button type="button" class="btn btn-secondary"><a href="#" class="button_text">station</a></button></td>' +
-                            '<td id="user_delete_button" data-user = ' + this_data.username + '><button type="button" class="btn btn-secondary"><a href="#" class="button_text">delete</a></button></td>' +
-                            '</tr>'
-                        main_table += table
-                    }
-                }
-                $("#btn-Active").attr('class', 'active');
-                $("#btn-Add").removeClass('active');
-                $(".add-user-content").css("display", "none");
-                $(".active-user-content").css("display", "inherit");
-                $(".active-user-content").prepend('<div class="table_scroll_bar">'+
-                    '<table class="table table-bordered" id="station-table-list">' +
-                    '<thead class="thead-dark">' +
-                    '<th scope="col">number</th>' +
-                    '<th scope="col">user name</th>' +
-                    '<th scope="col">email</th>' +
-                    '<th scope="col">phone number</th>' +
-                    '<th scope="col">status</th>' +
-                    '<th scope="col">access</th>' +
-                    '<th scope="col">delete</th>' +
-                    '</tr>' +
-                    '</thead>' +
-                    '<tbody>' +
-                    main_table +
-                    '</tbody>' +
-                    '</table>' +
-                    '</div>'
-                );
-                $('#station-table-list').DataTable( {
-                    "ajax": window.table_data
-                } );
-            }
-        });
+        request();
     });
+
+
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -305,50 +524,7 @@
         }
         return cookieValue;
     }
-    $(document).on('click', '#status_deactive', function(event) {
-        event.preventDefault();
-        var data_user = $(this).data("user");
-        var csrftoken = getCookie('csrftoken');
-        var method = "Active"
-        $.ajax({
-            type: "POST",
-            url: "{% url 'active_user_page' request.user.pk %}",
-            data: {
-                csrfmiddlewaretoken: csrftoken,
-                'UserName': data_user,
-                "Method": method
-            },
-            success: function() {
-                var changed_user = $('.table-danger[data-user="' + data_user + '"]');
-                changed_user.attr('class', 'table-success')
-                changed_user.children(".user-status-TF").children('#change_st').text("Active")
-                changed_user.children(".user-status-TF").attr('id', 'status_active')
 
-            },
-        });
-    });
-
-    $(document).on('click', '#status_active', function(event) {
-        event.preventDefault();
-        var data_user = $(this).data("user");
-        var csrftoken = getCookie('csrftoken');
-        var method = "Deactive"
-        $.ajax({
-            type: "POST",
-            url: "{% url 'active_user_page' request.user.pk %}",
-            data: {
-                csrfmiddlewaretoken: csrftoken,
-                'UserName': data_user,
-                "Method": method
-            },
-            success: function(data) {
-                var changed_user = $('.table-success[data-user="' + data_user + '"]');
-                changed_user.attr('class', 'table-danger');
-                changed_user.children(".user-status-TF").children('#change_st').text("Deactive")
-                changed_user.children(".user-status-TF").attr('id', 'status_deactive')
-            }
-        });
-    });
 </script>
 
 {% endblock %}

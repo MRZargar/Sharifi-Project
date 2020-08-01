@@ -127,3 +127,21 @@ tr{
     box-shadow: none;
     text-transform: uppercase;
 }
+
+#error_2_id_description{
+  display: none;
+  font-size: 16px;
+}
+
+.user-status-TF{
+  text-transform: lowercase;
+}
+.all_check_box{
+  position: relative;
+  left: 30px;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #a3a4a5;
+}

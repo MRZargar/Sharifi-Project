@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     email_confirmed = models.BooleanField(default=False)
     admin_confirmed = models.BooleanField(default=False)
+    active_email_send = models.BooleanField(default=False)
     UsersTypes = (
         ('is_user', 'user'),
         ('is_operator', 'operator'),

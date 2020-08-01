@@ -57,6 +57,7 @@ def station_setup(request):
 					messages.error(request, "The second four words must be numbers", extra_tags='station_id_error')
 					return render(request, 'setupStation.html', {'form':form})
 				address = form.cleaned_data['address']
+				sensor_type = form.cleaned_data['sensor_type']
 				latitude = form.cleaned_data['latitude']
 				longitude = form.cleaned_data['longitude']
 				owner = form.cleaned_data['owner']
@@ -77,6 +78,7 @@ def station_setup(request):
 				station_obj = Setup.objects.create(city=city,
 							 station_id=station_id,
 							 address=address,
+							 sensor_type=sensor_type,
 							 owner=owner,
 							 operator=operator,
 							 latitude = latitude,
@@ -149,21 +151,22 @@ def station_deactive(request, pk):
 		raise PermissionDenied
 	if request.method == "POST":
 		form = StationDeactivate(request.POST)
-		station_id = request.POST['StationId']
+		stations_id = request.POST.getlist('StationIds[]')
+		print(stations_id)
 		operator = request.user
 		description = request.POST['Discribtion']
 		if len(description) == 0 and obj.userType =='is_operator':
 			return JsonResponse({}, status=400)
 		else:
-			this_station = Setup.objects.get(station_id=station_id)
-			Deactivate.objects.create(operator=operator, 
-					                  station_id=this_station,
-					                   description=description)
-			this_station.status = False
-			Raspberry.objects.get(raspberryID=this_station.raspberryID).delete()
-			this_station.save()
-			MyUserType = obj.userType
-			return JsonResponse({"user_type": MyUserType}, status=200)
+			for station_id in stations_id:
+				this_station = Setup.objects.get(station_id=station_id)
+				Deactivate.objects.create(operator=operator, 
+						                  station_id=this_station,
+						                   description=description)
+				this_station.status = False
+				Raspberry.objects.get(raspberryID=this_station.raspberryID).delete()
+				this_station.save()
+			return JsonResponse({}, status=200)
 
 
 ### station detail view ###
@@ -188,10 +191,10 @@ def delete_station(request, pk):
 	obj = request.user
 	if obj.userType != 'is_admin':
 		raise PermissionDenied
-
 	if request.method == "POST":
-		station_id = request.POST["StationId"]
-		Setup.objects.get(station_id=station_id).delete()
+		station_ids= request.POST.getlist("StationIds[]")
+		for station_id in station_ids:
+			Setup.objects.get(station_id=station_id).delete()
 		return JsonResponse({}, status=200)
 
 

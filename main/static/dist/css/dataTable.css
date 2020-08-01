@@ -394,7 +394,7 @@ table.dataTable td {
     text-decoration: none !important;
     cursor: pointer;
     *cursor: hand;
-    color: #333 !important;
+    color: #ffffff !important;
     border: 1px solid transparent;
     border-radius: 2px
 }
@@ -402,11 +402,12 @@ table.dataTable td {
 .dataTables_wrapper .dataTables_paginate .paginate_button.current,
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
     border-color: #78909c;
-    background: linear-gradient(to bottom, #b0bec5 0%, #90a4ae 100%);
+    background: #546e7a;
     box-shadow: inset 0 1px #eceff1, 0 2px 3px rgba(0, 0, 0, 0.2);
     padding: 0.25rem 0 0 0;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    border-radius: 4px;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
@@ -543,3 +544,78 @@ table.dataTable td {
         margin-top: 0.5em
     }
 }
+
+.au-checkmark {
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #fff;
+    border: 2px solid #e5e5e5;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.au-checkbox:hover input ~ .au-checkmark {
+    background-color: transparent;
+}
+
+.au-checkbox input:checked ~ .au-checkmark {
+    background-color: transparent;
+}
+
+.au-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.au-checkbox input:checked ~ .au-checkmark:after {
+    display: block;
+}
+
+.au-checkbox .au-checkmark:after {
+    left: 5px;
+    top: -1px;
+    width: 9px;
+    height: 15px;
+    border: solid #00ad5f;
+    border-width: 0 4px 4px 0;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+#table-header-select{
+    position: absolute;
+    display: inline;
+    padding-left: 20px;
+}
+
+#inputState{
+    height: calc(1.5625rem);
+    font-size: 16px;
+    width: 125px;
+    padding: 0;
+    padding-left: 0.5rem;
+}
+#multiple_change{
+    top: 0;
+    margin-left: 150px;
+    height: calc(1.5625rem);
+    padding: 0;
+    padding-top: 2px;
+    width: 80px;
+    padding-bottom: 5px;
+    position: absolute;
+
+}
+
+

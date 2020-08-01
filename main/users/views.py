@@ -22,6 +22,7 @@ from main.settings import EMAIL_HOST_USER
 from django.utils.html import strip_tags
 from django.http import JsonResponse
 import stations.models as all_staions
+
 User = get_user_model()
 
 
@@ -69,27 +70,28 @@ def SignUpView(request, pk):
         form = CustomUserCreationForm3(new_choices=(('is_user', 'user'),('is_operator', 'operator'),))
     return render(request, 'signup.html', {'form': form})
 
+
+
+
 @login_required(login_url='signpage')
 def active_user_page(request, pk):
     obj = request.user
     if obj.userType != 'is_admin':
         raise PermissionDenied
     if request.method == 'POST':
-        username = request.POST['UserName']
+        usernames = request.POST.getlist('UserNames[]')
         method = request.POST['Method']
-        user = User.objects.get(username=username)
         if method == "Active":
-            subject = 'Your geolab account has been verified'
-            from_email = EMAIL_HOST_USER
-            message = render_to_string('account_acitvated.html', {'user': user,})
-            text_message = strip_tags(message)
-            msg = EmailMultiAlternatives(subject, text_message, from_email, [str(user.email)])
-            msg.attach_alternative(message, "text/html")
-            msg.send() 
-            user.admin_confirmed = True
+            for username in usernames:
+                user = User.objects.get(username=username)
+                user.admin_confirmed = True
+                user.save()
         elif method == "Deactive":
-            user.admin_confirmed = False
-        user.save()
+            for username in usernames:
+                user = User.objects.get(username=username)
+                user.admin_confirmed = False
+                user.active_email_send = False
+                user.save()
         return JsonResponse({},status=200)
     else:
         users1 = User.objects.filter(userType='is_user').order_by('date_joined').reverse()
@@ -105,15 +107,20 @@ def active_user_page(request, pk):
             user_list.append({'username': user.username, 'email': user.email, 'phone_number':user.phone_number, 'status' :user.admin_confirmed, 'user_type' : user_type})
         return JsonResponse({'user_list':user_list, 'count': count_of_user}, status=200)
 
+
+
 @login_required(login_url='signpage')
 def user_delete(request, pk):
     obj = request.user
     if obj.userType != 'is_admin':
         raise PermissionDenied
     if request.method == 'POST':
-        username = request.POST['UserName']
-        User.objects.get(username=username).delete()
+        usernames = request.POST.getlist('UserNames[]')
+        for username in usernames:
+            User.objects.get(username=username).delete()
         return JsonResponse({}, status=200)
+
+
 
 @login_required(login_url='signpage')
 def access_station(request, pk):
@@ -121,41 +128,81 @@ def access_station(request, pk):
     if obj.userType != 'is_admin':
         raise PermissionDenied
     if request.method == 'POST':
-        username = request.POST['UserName']
-        user_access_list = request.POST.getlist('UserAcessList[]')
-        count_of_access = len(user_access_list)
-        my_user = User.objects.get(username=username)
-        user_access = all_staions.Access.objects.filter(user = my_user)
-        if user_access.count() == 0:
-            for i in range(int(count_of_access/2)):
-                if user_access_list[i*2 + 1] == 'true':
-                    my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
-                    all_staions.Access.objects.create(user=my_user, station=my_station)
-                elif user_access_list[i*2 + 1] == 'false':
-                    continue
-        else:
-            user_accessed = all_staions.Access.objects.all()
-            for i in range(int(count_of_access/2)):
-                if user_access_list[i*2 + 1] == 'true':
-                    my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
-                    temp = True
-                    for userAccess in user_accessed:
-                        if userAccess.station == my_station:
-                            if userAccess.user == my_user:
-                                temp = False
-                    if temp:
+        method = request.POST['Method']
+        if method == "single_access":
+            username = request.POST['UserName']
+            user_access_list = request.POST.getlist('UserAcessList[]')
+            count_of_access = len(user_access_list)
+            my_user = User.objects.get(username=username)
+            user_access = all_staions.Access.objects.filter(user = my_user)
+            if user_access.count() == 0:
+                for i in range(int(count_of_access/2)):
+                    if user_access_list[i*2 + 1] == 'true':
+                        my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
                         all_staions.Access.objects.create(user=my_user, station=my_station)
-                elif user_access_list[i*2 + 1] == 'false':
-                    my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
-                    temp = False
-                    for userAccess in user_accessed:
-                        if userAccess.station == my_station:
-                            if userAccess.user == my_user:
-                                temp = True
-                    if temp:
-                        all_staions.Access.objects.get(user=my_user, station=my_station).delete()
+                    elif user_access_list[i*2 + 1] == 'false':
+                        continue
+            else:
+                user_accessed = all_staions.Access.objects.all()
+                for i in range(int(count_of_access/2)):
+                    if user_access_list[i*2 + 1] == 'true':
+                        my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
+                        temp = True
+                        for userAccess in user_accessed:
+                            if userAccess.station == my_station:
+                                if userAccess.user == my_user:
+                                    temp = False
+                        if temp:
+                            all_staions.Access.objects.create(user=my_user, station=my_station)
+                    elif user_access_list[i*2 + 1] == 'false':
+                        my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
+                        temp = False
+                        for userAccess in user_accessed:
+                            if userAccess.station == my_station:
+                                if userAccess.user == my_user:
+                                    temp = True
+                        if temp:
+                            all_staions.Access.objects.get(user=my_user, station=my_station).delete()
 
-        return JsonResponse({}, status=200)
+            return JsonResponse({}, status=200)
+        elif method == "multiple_access":
+            usernames = request.POST.getlist('UserNames[]')
+            user_access_list = request.POST.getlist('UserAcessList[]')
+            count_of_access = len(user_access_list)
+            for username in usernames:
+                my_user = User.objects.get(username=username)
+                user_access = all_staions.Access.objects.filter(user = my_user)
+                if user_access.count() == 0:
+                    for i in range(int(count_of_access/2)):
+                        if user_access_list[i*2 + 1] == 'true':
+                            my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
+                            all_staions.Access.objects.create(user=my_user, station=my_station)
+                        elif user_access_list[i*2 + 1] == 'false':
+                            continue
+                else:
+                    user_accessed = all_staions.Access.objects.all()
+                    for i in range(int(count_of_access/2)):
+                        if user_access_list[i*2 + 1] == 'true':
+                            my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
+                            temp = True
+                            for userAccess in user_accessed:
+                                if userAccess.station == my_station:
+                                    if userAccess.user == my_user:
+                                        temp = False
+                            if temp:
+                                all_staions.Access.objects.create(user=my_user, station=my_station)
+                        elif user_access_list[i*2 + 1] == 'false':
+                            my_station = all_staions.Setup.objects.get(station_id=user_access_list[i*2])
+                            temp = False
+                            for userAccess in user_accessed:
+                                if userAccess.station == my_station:
+                                    if userAccess.user == my_user:
+                                        temp = True
+                            if temp:
+                                all_staions.Access.objects.get(user=my_user, station=my_station).delete()
+
+            return JsonResponse({}, status=200)
+
     else:
         username = request.GET['UserName']
         this_user = User.objects.get(username=username)
