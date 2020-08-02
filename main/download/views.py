@@ -42,14 +42,12 @@ def download(request, pk):
 
     elif request.method == "GET" and request.GET['method'] == "download":
         number_of_downloaded = DownloadLink.objects.all().count()
-        download_path = '/home/geolab/site/main/media/download_link'
         stations_id = request.GET.getlist('StaionsId[]')
         all_stations_id = ""
         for station_id in stations_id:
             all_stations_id += "-" + station_id
-        hours = request.GET.getlist('Hours[]')
-        start_hour = hours[0]
-        end_hour = hours[-1]
+        start_hour = request.GET['StartHour']
+        end_hour = request.GET['EndHour']
         from_date_main = request.GET['StartTime']
         to_date_main = request.GET['EndTime']
         from_date = from_date_main.split("/")

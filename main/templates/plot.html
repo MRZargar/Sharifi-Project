@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{% static 'assets/libs/treeview/bootstrap-treeview.min.css' %}">
 <link rel="stylesheet" href="{% static 'dist/css/plot_style.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'dist/css/ol.css' %}" type="text/css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+
 <style>
     .ul-plot-toolbar {
         list-style-type: none;
@@ -113,7 +115,8 @@
                  <div class="container">
                     <div class="row">
                         <div class="col" style="flex-grow:0.11">
-                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">START TIME</p>
+                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">START DATE</p>
+                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">START HOUR</p>
                         </div>
                         <div  id="right_cleander" class="col"  style="flex-grow:0.30">
                             <div class="calendar" style="width: 150px;">
@@ -123,10 +126,17 @@
                                         <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date3"></span>
                                     </span>
                                 </div>
+                                <div class='input-group date' id='datetimepicker_start' readonly>
+                                    <input type='text' class="form-control" id="start_hour">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="col" style="flex-grow:0.11">
-                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">END TIME</p>
+                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">END DATE</p>
+                            <p class="time_for_cleander" style="margin-top:7.5px; margin-left: 15px;">END HOUR</p>
                         </div>
                         <div  id="left_cleander" class="col" style="flex-grow:0.30; margin-left: -15px;">
                             <div class="calendar" style="width: 150px;">
@@ -136,6 +146,12 @@
                                         <span class="glyphicon glyphicon-calendar" style="cursor: pointer;" id="date4"></span>
                                     </span>
                                 </div>
+                                <div class='input-group date' id='datetimepicker_end' readonly>
+                                    <input type='text' class="form-control" id="end_hour">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,18 +159,6 @@
                 <div class = "time_error">
                     <p id="error_2_id_description" class="invalid-feedback"><strong>The start time could not be greater than the end time</strong></p>
                     <p id="correct_2_id_description" class="valid-feedback"><strong>Please check your inbox</strong></p>
-                </div>
-                <hr>
-                <div id="download_this_day">
-                     <div id='myHistogram' class="histogram_main" style="width: 100%;">
-                        <ul class="chart">
-                          {% for hist in hist_data %}
-                              <li class="bar_value2">
-                                <a href="#" ><span style="height:100%" title="{{ forloop.counter }}"></span></a>
-                              </li>
-                           {% endfor %}
-                        </ul>  
-                    </div>
                 </div>
                 <div id="download_all_day">
 
@@ -181,6 +185,8 @@
 <script src="{% static 'assets/libs/chart/interaction.js' %}"></script>
 <script src="{% static 'assets/libs/chart/synchronizer.js' %}"></script>
 <script src="{% static 'dist/js/ol.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
 <script>
     var hist_bar_update = false;
@@ -383,16 +389,13 @@
         $('#error_2_id_description').css('display', 'none')
         $('#correct_2_id_description').css('display', 'none')
         var stations = [];
-        var hours = [];
+        var start_hour = $("#start_hour").val();
+        var end_hour = $("#end_hour").val();
         var start_time = $('#inputDate3').val()
         var end_time = $('#inputDate4').val()
         $.each($("input[name='station']:checked"), function(){            
             stations.push($(this).val());
         });
-        $.each($(".bar_value2"), function(){
-            if ($(this).find("span").css("background")[4]==4)
-                hours.push($(this).find("span").attr("title"));
-        })
         if (stations.length == 0){
             $("#download_all").css("opacity", 1)
             $('#error_3_id_description').css('display', 'block')
@@ -401,7 +404,8 @@
               type: "GET",
               data: {
                 'StaionsId': stations,
-                'Hours' : hours,
+                'StartHour' : start_hour,
+                'EndHour' : end_hour,
                 'StartTime' : start_time,
                 'EndTime': end_time,
                 'method' : "download"
@@ -738,6 +742,12 @@
         placement: 'bottom',
         align: 'right',
         autoclose: true
+    });
+    $('#datetimepicker_start').datetimepicker({
+        format: 'HH',
+    });
+    $('#datetimepicker_end').datetimepicker({
+        format: 'HH',
     });
 </script>
 

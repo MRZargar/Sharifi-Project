@@ -5,7 +5,7 @@ import shutil
 import zipfile
 import requests
 from download.models import DownloadLink
-
+from stations.models import Setup
 
 def zipdir(path, ziph):
     for root, dirs, files in os.walk(path):
@@ -81,6 +81,8 @@ def create_download_link():
             for i in range(len(all_stations_id)):
                 station_char = all_stations_id[i]
                 station_dir = str(station_char)
+                station = Setup.objects.get(station_id=station_char)
+                station_table = station.table_name
                 if not os.path.exists(station_dir):
                     os.mkdir(station_dir)
                 for day in range(delta.days + 1):
