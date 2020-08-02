@@ -16,6 +16,5 @@ def send_email():
 			msg = EmailMultiAlternatives(subject, text_message, from_email, [str(user.email)])
 			msg.attach_alternative(message, "text/html")
 			msg.send()
-			print(user.username)
 			user.active_email_send = True 
 			user.save()
