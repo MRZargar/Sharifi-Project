@@ -1,25 +1,11 @@
-// $('form').on('submit', function(e) {
-//     e.preventDefault()
-//     $.ajax({
-//         type: "POST",
-//         url: $(this).attr('action'),
-//         data: $('#login_form').serialize(),
-//         beforeSend: function(xhr, settings) {
-//             var csrftoken = Cookies.get('csrf_token');
-
-//             function csrfSafeMethod(method) {
-//                 // these HTTP methods do not require CSRF protection
-//                 return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-//             }
-//             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-//                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
-//             }
-//         },
-//         success: function(response) {
-//             if (response['result'] == 'Success!')
-//                 window.location = '/';
-//             else
-//                 alert(response['message']);
-//         }
-//     });
-// });
+var showPass = 0;
+$('.btn-show-pass').on('click', function() {
+    if (showPass == 0) { $(this).next('input').attr('type', 'text');
+        console.log("ss")
+        $(this).find('i').removeClass('zmdi-eye');
+        $(this).find('i').addClass('zmdi-eye-off');
+        showPass = 1; } else { $(this).next('input').attr('type', 'password');
+        $(this).find('i').addClass('zmdi-eye');
+        $(this).find('i').removeClass('zmdi-eye-off');
+        showPass = 0; }
+});
