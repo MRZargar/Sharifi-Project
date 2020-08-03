@@ -83,13 +83,13 @@ def signpage(request):
             request.session['username'] = username
             if user.userType == 'is_user':
                 auth.login(request, user)
-                return redirect("UserProfile", pk=pk)
+                return redirect("map")
             elif user.userType == 'is_operator':
                     auth.login(request, user)
-                    return redirect("OperatorProfile", pk=pk)
+                    return redirect("map")
             elif user.userType == 'is_admin':
                     auth.login(request, user)
-                    return redirect("AdminProfile", pk=pk)
+                    return redirect("map")
         else:
             messages.error(request, "Wrong username or password")
             return redirect('signpage')
