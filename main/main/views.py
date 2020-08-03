@@ -227,6 +227,8 @@ def plot(request, stationID):
                 to_week, to_second = cleander_to_gps(to_time.year, to_time.month, to_time.day, to_time.hour, 0, 0)
             data = get_data(station_table, from_week, from_second, to_week, to_second)
             xPlotData, yPlotData ,zPlotData, tempPlotData = preparation_plot_data(data)
+        if end_time != "Now":
+            end_time = str(end_time.year) + ',' + str(end_time.month) + ',' + str(end_time.day)
         return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=xPlotData, yPlotData=yPlotData, zPlotData=zPlotData,
                                                  tempPlotData=tempPlotData, StationId=station_id, StationCity=station_city, hist_data = hist_data, start_time=start_time, end_time=end_time))
     else :
@@ -270,6 +272,8 @@ def plot(request, stationID):
                     to_week, to_second = cleander_to_gps(to_time.year, to_time.month, to_time.day, to_time.hour, 0, 0)
                 data = get_data(station_table, from_week, from_second, to_week, to_second)
                 xPlotData, yPlotData ,zPlotData, tempPlotData = preparation_plot_data(data)
+            if end_time != "Now":
+                end_time = str(end_time.year) + ',' + str(end_time.month) + ',' + str(end_time.day)
             return render(request, 'plot.html', dict(geojsonObject=geojson, xPlotData=xPlotData, yPlotData=yPlotData, zPlotData=zPlotData,
                                                      tempPlotData=tempPlotData, StationId=station_id, StationCity=station_city, hist_data = hist_data, start_time=start_time, end_time=end_time))
         else:

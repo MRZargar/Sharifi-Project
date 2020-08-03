@@ -44,10 +44,18 @@
 
 {% endblock %} {% block content %}
 <div class="line_graph_main">
-    <div id='myChart1' class="line_graph_1" ></div>
-    <div id='myChart2' class="line_graph_2" ></div>
-    <div id='myChart3' class="line_graph_3" ></div>
-    <div id='myChart4' class="line_graph_4" ></div>
+    <div id='myChart1' class="line_graph_1" >
+        <span class="tooltiptext">Tooltip text</span>
+    </div>
+    <div id='myChart2' class="line_graph_2" >
+        <span class="tooltiptext">Tooltip text</span>
+    </div>
+    <div id='myChart3' class="line_graph_3" >
+        <span class="tooltiptext">Tooltip text</span>
+    </div>
+    <div id='myChart4' class="line_graph_4" >
+        <span class="tooltiptext">Tooltip text</span>
+    </div>
 </div>
 <div class="histogram_and_treeView">
     <div class="treeView_main">
@@ -80,7 +88,13 @@
                     </div>
                 </li>
                 <li style="float: left;">
-                    <button type="button" class="btn btn-secondary" id = "download_button" data-toggle="modal" data-target=".bd-example-modal-lg">download</button>
+                    <button type="button" class="btn btn-secondary " id = "download_button" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        download
+                    </button>
+                    <a tabindex="0" class="btn btn-info" id="download_help_button" role="button" data-toggle="popover" data-trigger="focus" title="Download help" 
+                       data-content="Select the stations and time you want, after registering your request and processing the download link will be visible in the requests section.">
+                        Help
+                    </a>
                 </li>
                 <h3 style="text-align: center; margin: 0; padding: 0;"id="histogram-label"><b>Histogram</b></h3>
             </ul>
@@ -89,7 +103,7 @@
             <ul class="chart">
               {% for data in hist_data %}
                   <li class="bar_value">
-                    <a href="#" ><span style="height:{{data}}%" title="{{ forloop.counter }}"></span></a>
+                    <a href="#" ><span style="height:{{data}}%" title="{{ forloop.counter0 }}"></span></a>
                   </li>
               {% endfor %}
             </ul>  
@@ -189,6 +203,14 @@
 <script src="{% static 'dist/js/datetimepicker.min.js' %}"></script>
 
 <script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+    $(function () {
+      $('#download_button').tooltip({
+        template: '<div class="tooltip md-tooltip-main"><div class="tooltip-arrow md-arrow"></div><div class="tooltip-inner md-inner-main"></div></div>'
+      });
+    })
     var hist_bar_update = false;
     $(document).on('click', '#date2', function(event){
         event.preventDefault();
@@ -222,7 +244,6 @@
                     hist_bar_update = false;
                 },
                 error: function(date){
-                    console.log("error")
                     $("#myHistogram").css("opacity", 1)
                     hist_bar_update = false;
                 }
@@ -267,7 +288,9 @@
                         axisLineWidth: 2,
                         // axisLabelWidth: 10,
                         ylabel: "`a_x` <small>`[m/s^2]`</small>",
-                        title: "{{StationId}}({{StationCity}})",
+                        title: "{{StationId}}({{StationCity}}) <p id='plot_help'>"
+                             + "<span style='font-size:14px; padding-right:2px;' class='glyphicon glyphicon-search'></span>"
+                             + "Hold down the Shift key and drag the mouse</p>",
                         axes:{
                             'x':{
                                 axisLabelFontSize: 0
@@ -376,7 +399,6 @@
             error: function(){
               $(".line_graph_main").css("opacity", 1)
               $("#myHistogram").css("opacity", 1)
-              alert("Error")
             }
           })
         });
@@ -599,7 +621,9 @@
                     axisLineWidth: 2,
                     // axisLabelWidth: 10,
                     ylabel: "<b>`a_x [m/s^2]`</b>",
-                    title: "{{StationId}}({{StationCity}})",
+                    title: "{{StationId}}({{StationCity}}) <p id='plot_help'>"
+                         + "<span style='font-size:14px; padding-right:2px;' class='glyphicon glyphicon-search'></span>"
+                         + "Hold down the Shift key and drag the mouse</p>",
                     axes:{
                         'x':{
                             axisLabelFontSize: 0
@@ -714,6 +738,7 @@
     var start_time_d = {{start_time}}
     var end_time_d = "{{end_time}}"
     var start_time = new Date(start_time_d[0], start_time_d[1]-1, start_time_d[2])
+    end_time_d = end_time_d.split(",")
     if (end_time_d == "Now"){
         var end_time = new Date();
     }else{
