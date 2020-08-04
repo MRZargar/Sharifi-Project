@@ -87,7 +87,7 @@ def create_download_link():
                     os.mkdir(station_dir)
                 for day in range(delta.days + 1):
                     date = from_time + timedelta(days=day)       
-                    for hour in range(start_hour, end_hour):
+                    for hour in range(start_hour, end_hour+1):
                         from_week, from_second = cleander_to_gps(date.strftime("%Y"), date.strftime("%m"), date.strftime("%d"), hour, 0, 0)
                         to_week, to_second = from_week, from_second + 3600
                         data = get_data(station_table, from_week, from_second, to_week, to_second)
