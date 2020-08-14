@@ -530,7 +530,7 @@ h6 {
 #hero {
     width: 100%;
     height: 75vh;
-    background: url('../../../assets/images/firstPage/TabiatـBridge.jpg') top center;
+    background: url('../../../assets/images/firstPage/Tabiat.jpg') top center;
     background-size: cover;
     position: relative;
     padding: 0;
@@ -547,12 +547,12 @@ h6 {
 }
 
 #hero .container {
-    padding-top: 110px;
+    padding-top: 550px;
 }
 
 @media (max-width: 992px) {
     #hero .container {
-        padding-top: 98px;
+        padding-top: 330px;
     }
 }
 
@@ -860,7 +860,7 @@ section {
 }
 
 .about .about-img img {
-    max-width: 100%;
+    max-width: 80%;
     border: 4px solid rgba(255, 255, 255, 0.2);
     position: relative;
 }
@@ -880,7 +880,7 @@ section {
 
 .about .about-img::after {
     position: absolute;
-    right: 20px;
+    right: 150px;
     bottom: 20px;
     width: 60px;
     height: 60px;
@@ -889,6 +889,10 @@ section {
     border-right: 5px solid #599ac5;
     border-bottom: 5px solid #599ac5;
     transition: .5s;
+}
+.about_paragraph{
+    font-size: 1.2rem;
+    line-height: 2.4;
 }
 
 .about .about-img:hover {
@@ -901,7 +905,7 @@ section {
 }
 
 .about .about-img:hover::after {
-    right: 10px;
+    right: 140px;
     bottom: 10px;
 }
 
@@ -910,66 +914,47 @@ section {
     font-size: 26px;
 }
 
-#gallery ul {
+/*--------------------------------------------------------------
+# Gallery
+--------------------------------------------------------------*/
+.gallery .gallery-item {
+  overflow: hidden;
+}
+
+.gallery .gallery-item img {
+  transition: all ease-in-out 0.4s;
+  height: 35vh;
+}
+
+.gallery .gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.gallery .col{
+    padding-right: 0.1px;
+    padding-left: 0;
+}
+
+.gallery ul {
     list-style: none;
     padding: 0;
 }
 
-#gallery ul li {
+.gallery ul li {
     padding-bottom: 10px;
 }
 
-#gallery ul i {
+.gallery ul i {
     font-size: 20px;
     padding-right: 4px;
     color: #599ac5;
 }
 
-#gallery p:last-child {
-    margin-bottom: 0;
+#application-list{
+    position: absolute;
+    right: -35%;
+    top: 25%;
 }
-
-#image-gallery {
-    width: 100%;
-    height: 600px;
-}
-
-@media (min-width: 1024px) {
-    .about {
-        background-attachment: fixed;
-    }
-}
-
-@media (max-width: 992px) {
-    .specials .nav-link {
-        border: 0;
-        padding: 15px;
-    }
-}
-
-.gallery .gallery-item {
-    overflow: hidden;
-}
-
-.gallery .gallery-item img {
-    transition: all ease-in-out 0.4s;
-}
-
-.gallery .gallery-item:hover img {
-    transform: scale(1.1);
-}
-
-#gallery-image {
-    border-top: 1px solid #28251f4d;
-    padding-top: 100px;
-}
-
-@media (max-width: 600px) {
-    #image-gallery {
-        height: 400px;
-    }
-}
-
 
 /*--------------------------------------------------------------
 # Footer
