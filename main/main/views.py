@@ -59,8 +59,6 @@ def preparation_plot_data(data):
     return ax_str, ay_str, az_str, temp_str
 
 
-
-
 # Convet time to gps week and seconds
 def cleander_to_gps(year, month, day, hour, minute, second):
     time = datetime(int(year), int(month), int(day), int(hour), int(minute), int(second))
@@ -71,7 +69,7 @@ def cleander_to_gps(year, month, day, hour, minute, second):
 
 
 def home_page(request):
-    return render(request, "Signin.html")
+    return render(request, "geolab.html")
 
 def signpage(request):
     if request.method == 'POST':

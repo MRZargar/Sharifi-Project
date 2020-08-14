@@ -1,0 +1,169 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Geolab</title>
+    <meta content="" name="descriptison">
+    <meta content="" name="keywords">
+
+
+    <link href="{% static 'assets/images/uni.png' %}" rel="icon">
+
+    <link href="{% static 'dist/css/firstPage/fonts.css' %}" rel="stylesheet">
+
+    <link href="{% static 'dist/firstPageVendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/firstPageVendor/icofont/icofont.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/firstPageVendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/firstPageVendor/animate.css/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/firstPageVendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/firstPageVendor/venobox/venobox.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/firstPageVendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/css/firstPage/style.css' %}" rel="stylesheet">
+
+
+
+</head>
+
+<body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center">
+            <a href="index.html" class="logo mr-auto" id="left-logo"><img src="{% static 'assets/images/firstPage/logo_ut_left.png' %}" alt="" class="img-fluid"></a>
+            <a href="index.html" class="logo mr-auto" id="right-logo"><img src="{% static 'assets/images/firstPage/logo_ut_right.png' %}" alt="" class="img-fluid"></a>
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li class="book-a-table text-center"><a href="{%url 'signpage' %}" id="login-button">LOGIN</a></li>
+                    <li class="book-a-table text-center"><a href="{%url 'signup2' %}" id="signup-button">SIGN UP</a></li>
+                </ul>
+            </nav>
+            <!-- .nav-menu -->
+
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center">
+        <div class="container position-relative text-center text-lg-left" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1>Welcome to <span>Geolab</span></h1>
+                </div>
+            </div>
+    </section>
+    <!-- End Hero -->
+
+    <main id="main">
+
+        <!-- ======= About Section ======= -->
+        <section id="about" class="about">
+            <div class="container" data-aos="fade-up">
+
+                <div class="row">
+                    <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="about-img">
+                            <img src="{% static 'assets/images/firstPage/workFlow.jpg'  %}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+                        <div class="section-title">
+                            <p>Structural Health Monitoring</p>
+                        </div>
+                        <p style="line-height: 2.2;">
+                            Building and urban infrastructure could be monitor and track with natural vibration frequency. This method reducing the cost of maintenance and risk of a collision due to detecting damage in the early stage. MEMS accelerometer and IoT sensors could realize
+                            the idea of SHM using vibration monitoring. State-of-the-art low-cost SHM sensors lead to use in the future increasingly.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- End About Section -->
+        <!-- ======= Gallery Section ======= -->
+        <section id="gallery" class="gallery">
+
+            <div class="container" data-aos="fade-up">
+                <div class="section-title">
+                    <p>Product</p>
+                </div>
+                <ul>
+                    <li><i class="icofont-check-circled"></i> Urban infrastructure.</li>
+                    <li><i class="icofont-check-circled"></i> Antiquities preservation.</li>
+                    <li><i class="icofont-check-circled"></i> Building.</li>
+                </ul>
+            </div>
+            <div class="container-fluid" data-aos="fade-up" data-aos-delay="100" id="gallery-image">
+                <div class="row no-gutters">
+                    <div class="col-lg-6">
+                        <div class="gallery-item">
+                            <a href="{% static 'assets/images/firstPage/gallery1.jpg' %}" class="venobox" data-gall="gallery-item">
+                                <img src="{% static 'assets/images/firstPage/gallery1.jpg' %}" alt="" class="img-fluid" id="image-gallery">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="gallery-item">
+                            <a href="{% static 'assets/images/firstPage/gallery2.jpg' %}" class="venobox" data-gall="gallery-item">
+                                <img src="{% static 'assets/images/firstPage/gallery2.jpg' %}" alt="" class="img-fluid" id="image-gallery">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- End Gallery Section -->
+    </main>
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="footer-info" data-aos="fade-right">
+                            <h3>Contact Info</h3>
+                            <p>Address : 16th Azar St., Enghelab Sq., Tehran, Iran</p>
+                            <p>email : geolab@ut.ac.ir</p>
+                            <p>Phone Number: (+98 21) 61113411</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 footer-newsletter" data-aos="fade-left">
+                        <h3>About Us</h3>
+                        <p class="footer-about-us">School of Surveying and Geo-spatial Engineering of the University of Tehran designed the SHM system from scratch. Research and developments for a specific project are producing based on the affiliation of this group.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                &copy; 2020 <strong><span><a href="http://ut.ac.ir/" target="_blank">University of Tehran</a></span></strong>. All Rights Reserved
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top"><i class="bx bx-up-arrow-alt"></i></a>
+
+</body>
+    <script src="{% static 'dist/firstPageVendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'dist/firstPageVendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'dist/firstPageVendor/jquery.easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'dist/firstPageVendor/owl.carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'dist/firstPageVendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'dist/firstPageVendor/venobox/venobox.min.js' %}"></script>
+    <script src="{% static 'dist/firstPageVendor/aos/aos.js' %}"></script>
+
+    <script src="{% static 'dist/js/pages/firstPage.js' %}"></script>
+
+</html>

@@ -23,7 +23,8 @@ from .views import(
     histogram_update
 )
 urlpatterns = [
-    path('', signpage, name='signpage'),
+    path('', home_page, name='homePage'),
+    path('users/signin/', signpage, name='signpage'),
     path('admin/', admin.site.urls),
     path('users/1/<int:pk>', UserProfile, name='UserProfile'),
     path('users/2/<int:pk>', OperatorProfile, name='OperatorProfile'),
