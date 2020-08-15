@@ -546,19 +546,19 @@ h6 {
     right: 0;
 }
 
-#hero .container {
-    padding-top: 550px;
+#hero .row {
+    padding-top: 55vh;   
 }
 
-@media (max-width: 992px) {
-    #hero .container {
-        padding-top: 330px;
+/*@media (max-width: 992px) {
+    #hero .row {
+        padding-top: 30vh;
     }
-}
+}*/
 
 #hero h1 {
     margin: 0;
-    font-size: 48px;
+    font-size: 2.5rem;
     font-weight: 700;
     line-height: 56px;
     color: #fff;
@@ -699,7 +699,7 @@ h6 {
 
 @media (max-width: 768px) {
     #hero h1 {
-        font-size: 28px;
+        font-size: 24px;
         line-height: 36px;
     }
     #hero h2 {
@@ -915,6 +915,30 @@ section {
 }
 
 
+@media (max-width: 540px) and (min-width: 500px) {
+    .about-img{
+        margin-left: 30px;
+    }
+    .about .about-img::before{
+        left: 55px;
+        top:8px;
+    }
+    .about .about-img:hover::before{
+        left: 25px;
+        top: -15px;
+    }
+    .about .about-img::after{
+        right: 100px;
+        bottom: 15px;
+    }
+    .about .about-img:hover::after {
+        right: 68px;
+        bottom: 0px;
+
+    }
+}
+
+
 @media (max-width: 768px) {
     .about-img{
         margin-left: 30px;
@@ -928,15 +952,75 @@ section {
         top: -15px;
     }
     .about .about-img::after{
-        right: 102px;
-        bottom: 18px;
+        right: 100px;
+        bottom: 15px;
     }
     .about .about-img:hover::after {
-        right: 80px;
+        right: 68px;
         bottom: 0px;
 
     }
 }
+
+@media (max-width: 540px) and (min-width: 500px) {
+    .about-img{
+        margin-left: 30px;
+    }
+    .about .about-img::before{
+        left: 55px;
+        top:8px;
+    }
+    .about .about-img:hover::before{
+        left: 25px;
+        top: -15px;
+    }
+    .about .about-img::after{
+        right: 90px;
+        bottom: 15px;
+    }
+    .about .about-img:hover::after {
+        right: 68px;
+        bottom: 0px;
+
+    }
+}
+
+
+@media (max-width: 1200px) and (min-width: 992px){
+    .about .about-img::after{
+        right: 125px;
+        bottom: 15px;
+    }
+    .about .about-img:hover::after {
+        right: 100px;
+        bottom: 0px;
+    }
+
+}
+
+@media (max-width: 992px) and (min-width: 768px){
+    .about .about-img{
+        margin-left: 50px;
+    }
+    .about .about-img::after{
+        right: 127px;
+        bottom: 23px;
+    }
+    .about .about-img:hover::after {
+        right: 97px;
+        bottom: -5px;
+    }
+    .about .about-img::before{
+        left: 80px;
+    }
+    .about .about-img:hover::before{
+        left: 40px;
+        top: -20px;
+    }
+
+}
+
+
 
 /*--------------------------------------------------------------
 # Gallery
@@ -981,6 +1065,52 @@ section {
     right: -35%;
     top: 25%;
 }
+
+
+@media (max-width: 768px) {
+    .gallery .gallery-item img {
+        height: 30vh;
+    }
+    #application-list{
+        right: 0;
+        top: 25%;
+    }
+    #application-list .section-title p{
+        font-size: 24px;
+    }
+    #application-list ul li{
+        font-size: 11px;
+    }
+    .gallery ul i{
+        padding-right: 0;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 992px) and (min-width: 768px){
+    #application-list{
+        right: -20%;
+    }
+    #application-list .section-title p{
+        font-size: 32px;
+    }
+    #application-list ul li{
+        font-size: 16px;
+    }
+    .gallery ul i{
+        padding-right: 2px;
+        font-size: 18px;
+    }
+
+}
+
+.vbox-container img{
+    height: 75vh;
+    max-width: 80%;
+}
+
+
+
 
 /*--------------------------------------------------------------
 # Footer
