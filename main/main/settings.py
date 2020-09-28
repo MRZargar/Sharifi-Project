@@ -19,11 +19,7 @@ SECRET_KEY = 'uyxfa8h9op(y_$y_n@6x2at%+cfv-&@smt2c9j_*od@$-0cvg%'
 
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    '*',
-]
-
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
@@ -36,8 +32,8 @@ INSTALLED_APPS = [
     'crispy_forms', # new
     'users.apps.UsersConfig', # New
     'stations.apps.StationsConfig', #New
-    'message.apps.MessageConfig' #New
-
+    'message.apps.MessageConfig', #New
+    'download.apps.DownloadConfig', #new
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -51,6 +47,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', #new zargar
+    'django.middleware.common.CommonMiddleware', #new zargar
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -77,27 +75,16 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if DEBUG == True:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-
-if DEBUG == False:
-    DATABASES = {
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': db_name,
-        'USER': db_user,
-        'PASSWORD': db_pass,
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASS'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
-
-
 
 
 # Password validation
@@ -150,9 +137,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ut810395@gmail.com'
-EMAIL_HOST_PASSWORD = 'ABcd!@1234'
-EMAIL_PORT = 587
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
 
 LOGOUT_REDIRECT_URL = ''
+
+# set GeoLabApi address
+GEOLABAPI_HOST = os.environ.get('GEOLABAPI_HOST')
+GEOLABAPI_PORT = os.environ.get('GEOLABAPI_PORT')

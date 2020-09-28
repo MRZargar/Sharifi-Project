@@ -6,6 +6,7 @@ import zipfile
 import requests
 from download.models import DownloadLink
 from stations.models import Setup
+from django.conf import settings
 
 def zipdir(path, ziph):
     for root, dirs, files in os.walk(path):
@@ -27,7 +28,7 @@ def write_to_text(file_name, data):
 
 
 def get_data(table_name, from_week, from_second, to_week, to_second):
-    url = 'http://127.0.0.1:5000/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
+    url = settings.GEOLABAPI_HOST + ':' + settings.GEOLABAPI_PORT + '/api/Data/{}?fromWeek={}&fromT={}&toWeek={}&toT={}'.format(table_name, from_week, from_second, to_week, to_second)
     r = requests.get(url, verify=False)
     if r.status_code not in range(200,300):
         raise Exception(r.status_code)
