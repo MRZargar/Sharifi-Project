@@ -17,7 +17,7 @@ gwosc==0.5.3
 gwpy==1.0.1
 h5py==2.10.0
 idna==2.10
-Jinja2==2.11.1
+Jinja2==2.11.3
 kiwisolver==1.2.0
 ligo-segments==1.2.0
 ligotimegps==2.0.1
